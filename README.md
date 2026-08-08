@@ -1,5 +1,7 @@
 # 🚀 Raj Maheshwari | Developer Portfolio
 
+🔗 **Live Deployment:** [portfolio-lilac-delta-c1kxu40gza.vercel.app](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+
 Welcome to my personal developer portfolio! This project is a dynamic, high-performance web application built to showcase my skills, projects, and coding activity in real-time.
 
 ## ✨ Features
