@@ -621,3 +621,38 @@ html.lenis { height: auto; }
 .cyber-btn:hover::before {
     left: 0;
 }
+
+/* Mobile Responsiveness Fixes */
+@media (max-width: 768px) {
+    .more-repos-card {
+        padding: 2rem 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .more-repos-card .content-z {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .more-repos-card h2 {
+        font-size: 2.2rem !important;
+    }
+    
+    .cyber-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    
+    .massive-text {
+        font-size: clamp(2rem, 10vw, 3.5rem);
+        word-wrap: break-word;
+    }
+    
+    body, html {
+        overflow-x: hidden;
+    }
+}
