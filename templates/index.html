@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config.name }} | AI/ML Developer & Software Builder</title>
+    <meta name="description" content="Portfolio of Raj Maheshwari, an AI/ML developer building intelligent systems.">
+    <meta name="keywords" content="Raj Maheshwari, AI, ML, Machine Learning, Python, Developer, Portfolio, GLA University">
+    <meta name="author" content="Raj Maheshwari">
+    <meta property="og:title" content="{{ config.name }} | AI/ML Developer">
+    <meta property="og:description" content="Portfolio of Raj Maheshwari, an AI/ML developer building intelligent systems.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=12">
+    <!-- Preconnect for external resources -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Lenis for smooth scroll -->
+    <script defer src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="smooth-wrapper">
+    
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor"></div>
+    
+    <!-- Cinematic Loader -->
+    <div id="loader">
+        <div class="loader-text-container">
+            <h2 id="loader-typing"></h2>
+        </div>
+    </div>
+
+    <!-- 3D Canvas fixed in background -->
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Mobile Top Nav -->
+    <nav id="mobile-nav">
+        <div class="logo">RM<span>.</span></div>
+        <button id="mobile-menu-btn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div id="mobile-menu-overlay">
+        <ul>
+            <li><a href="#hero" class="nav-link">HOME</a></li>
+            <li><a href="#about" class="nav-link">ABOUT</a></li>
+            <li><a href="#projects" class="nav-link">WORK</a></li>
+            <li><a href="#skills" class="nav-link">SKILLS</a></li>
+            <li><a href="#activity" class="nav-link">ACTIVITY</a></li>
+            <li><a href="#journey" class="nav-link">JOURNEY</a></li>
+            <li><a href="#contact" class="nav-link">CONTACT</a></li>
+        </ul>
+        <div class="mobile-socials">
+            <a href="https://github.com/{{ config.github_username }}" target="_blank">GITHUB</a>
+            <a href="{{ config.linkedin_url }}" target="_blank">LINKEDIN</a>
+            <a href="{{ config.leetcode_url }}" target="_blank">LEETCODE</a>
+        </div>
+    </div>
+
+    <!-- Fixed Desktop Sidebar -->
+    <aside id="sidebar">
+        <div class="sidebar-top">
+            <div class="profile-img">
+                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" onerror="this.style.display='none'">
+            </div>
+            <h1 class="sidebar-name">RAJ<br>MAHESHWARI</h1>
+            <h2 class="sidebar-role">AI / ML DEVELOPER</h2>
+            <p class="sidebar-desc">B.Tech AI/ML Student<br>GLA University</p>
+            <div class="sidebar-status">
+                <span class="status-dot"></span> BUILDING & LEARNING
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#hero" class="nav-link active"><span>01</span> HOME</a></li>
+                <li><a href="#about" class="nav-link"><span>02</span> ABOUT</a></li>
+                <li><a href="#projects" class="nav-link"><span>03</span> WORK</a></li>
+                <li><a href="#skills" class="nav-link"><span>04</span> SKILLS</a></li>
+                <li><a href="#activity" class="nav-link"><span>05</span> ACTIVITY</a></li>
+                <li><a href="#journey" class="nav-link"><span>06</span> JOURNEY</a></li>
+                <li><a href="#contact" class="nav-link"><span>07</span> CONTACT</a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-socials">
+            <a href="https://github.com/{{ config.github_username }}" target="_blank">GITHUB</a>
+            <a href="{{ config.linkedin_url }}" target="_blank">LINKEDIN</a>
+            <a href="{{ config.leetcode_url }}" target="_blank">LEETCODE</a>
+        </div>
+    </aside>
+
+    <!-- Main Scrolling Content -->
+    <main id="main-content">
+        
+        <!-- Chapter 1: Hero (Dark Tech) -->
+        <section id="hero" class="chapter theme-dark full-height align-center px-lg relative">
+            <div class="content-wrapper scroll-fade-up">
+                <h1 class="massive-text">I BUILD</h1>
+                <h1 class="massive-text" id="hero-typewriter">INTELLIGENT<br>SYSTEMS</h1>
+                
+                <div class="hero-bottom mt-12">
+                    <div class="hero-meta">
+                        <h3>RAJ MAHESHWARI</h3>
+                        <p class="accent">AI / ML DEVELOPER</p>
+                    </div>
+                    <p class="lead-text mt-4 max-w-sm">
+                        B.Tech AI/ML student exploring machine learning, data, software development, and intelligent applications.
+                    </p>
+                </div>
+            </div>
+            <div class="hero-scroll-indicator">
+                SCROLL <span class="arrow">↓</span>
+            </div>
+        </section>
+        
+        <!-- Chapter 2: About (Professional, Detail-Rich) -->
+        <section id="about" class="chapter theme-light px-lg py-20">
+            <div class="split-layout">
+                <div class="split-left scroll-fade-right">
+                    <h2 class="section-title mb-8">ABOUT</h2>
+                    <h1 class="massive-text">RAJ</h1>
+                    <h1 class="massive-text">MAHESHWARI.</h1>
+                </div>
+                <div class="split-right scroll-fade-left pt-6">
+                    <p class="editorial-text mb-6">
+                        AI/ML Engineering student at GLA University, Mathura. I build intelligent software systems — from data pipelines and ML models to full-stack web applications.
+                    </p>
+                    <p class="editorial-text-small text-muted mb-8">
+                        My work sits at the intersection of machine learning, backend engineering, and data analysis. I don't just train models — I build the architecture that serves them. Currently focused on deep learning, NLP, and scalable Python backends.
+                    </p>
+                    
+                    <!-- Quick Stats Bento -->
+                    <div class="about-bento scroll-fade-up">
+                        <div class="about-bento-item">
+                            <span class="about-bento-num" id="about-lc-count">63</span>
+                            <span class="about-bento-label">LEETCODE<br>PROBLEMS</span>
+                        </div>
+                        <div class="about-bento-item">
+                            <span class="about-bento-num">4</span>
+                            <span class="about-bento-label">GITHUB<br>REPOSITORIES</span>
+                        </div>
+                        <div class="about-bento-item">
+                            <span class="about-bento-num">5+</span>
+                            <span class="about-bento-label">LANGUAGES<br>PROFICIENT</span>
+                        </div>
+                        <div class="about-bento-item">
+                            <span class="about-bento-num">AZ-900</span>
+                            <span class="about-bento-label">MICROSOFT<br>CERTIFIED</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 3: Education & Credentials (Dark, Professional) -->
+        <section class="chapter theme-dark px-lg py-32">
+            <div class="content-wrapper z-10 relative">
+                <h2 class="section-title mb-4 scroll-fade-up">EDUCATION & CREDENTIALS</h2>
+                <h1 class="massive-text scroll-fade-up">WHERE I</h1>
+                <h1 class="massive-text text-outline scroll-fade-up">COME FROM.</h1>
+                
+                <div class="credentials-grid mt-20">
+                    <!-- Education -->
+                    <div class="credential-card scroll-fade-up">
+                        <div class="cred-icon">🎓</div>
+                        <div class="cred-content">
+                            <h3 class="cred-title">B.Tech in AI & Machine Learning</h3>
+                            <p class="cred-org">GLA University, Mathura</p>
+                            <p class="cred-date">2024 — 2028 (Expected)</p>
+                            <p class="cred-detail">Specialization in Artificial Intelligence and Machine Learning. Coursework includes Deep Learning, Data Structures, Computer Vision, NLP, and Database Systems.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Certification -->
+                    <div class="credential-card scroll-fade-up delay-1">
+                        <div class="cred-icon">☁️</div>
+                        <div class="cred-content">
+                            <h3 class="cred-title">Microsoft Azure Fundamentals (AZ-900)</h3>
+                            <p class="cred-org">Microsoft Certified</p>
+                            <p class="cred-date">2025</p>
+                            <p class="cred-detail">Cloud computing concepts, Azure services, security, compliance, and cloud-based machine learning infrastructure.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bootcamp -->
+                    <div class="credential-card scroll-fade-up delay-2">
+                        <div class="cred-icon">🔬</div>
+                        <div class="cred-content">
+                            <h3 class="cred-title">AI/ML Bootcamp 2026</h3>
+                            <p class="cred-org">Intensive Training Program</p>
+                            <p class="cred-date">2026</p>
+                            <p class="cred-detail">Advanced ML pipelines, TensorFlow, neural network architectures (RNN/LSTM), data preprocessing at scale, and model deployment with Flask.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Competitive Programming -->
+                    <div class="credential-card scroll-fade-up delay-3">
+                        <div class="cred-icon">⚡</div>
+                        <div class="cred-content">
+                            <h3 class="cred-title">Competitive Programming</h3>
+                            <p class="cred-org">LeetCode — 63 Problems Solved</p>
+                            <p class="cred-date">Active</p>
+                            <p class="cred-detail">Dynamic Programming, Divide & Conquer, Hash Tables, Greedy Algorithms. Solved problems in Python, C++, Java, and Pandas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 4: Core Competencies (Light, Concrete) -->
+        <section class="chapter theme-light px-lg py-20">
+            <div class="content-wrapper">
+                <h2 class="section-title mb-4 scroll-fade-up">WHAT I BRING</h2>
+                <h1 class="massive-text scroll-fade-up">CORE</h1>
+                <h1 class="massive-text scroll-fade-up">COMPETENCIES.</h1>
+                
+                <div class="competency-grid mt-16">
+                    <div class="competency-item scroll-fade-up">
+                        <div class="comp-num">01</div>
+                        <h3 class="comp-title">Machine Learning Engineering</h3>
+                        <p class="comp-desc">Build, train, and deploy ML models using TensorFlow, scikit-learn, and custom neural architectures (RNN, LSTM). Experience with classification, regression, and sequence prediction.</p>
+                    </div>
+                    <div class="competency-item scroll-fade-up delay-1">
+                        <div class="comp-num">02</div>
+                        <h3 class="comp-title">Data Engineering & Analysis</h3>
+                        <p class="comp-desc">Data preprocessing, cleaning, and analysis with Pandas, NumPy, and SQL. Building ETL pipelines and extracting insights from raw datasets at scale.</p>
+                    </div>
+                    <div class="competency-item scroll-fade-up delay-2">
+                        <div class="comp-num">03</div>
+                        <h3 class="comp-title">Backend Development</h3>
+                        <p class="comp-desc">Python-based backend systems with Flask, RESTful API design, database management (MySQL), and server-side architecture for ML model serving.</p>
+                    </div>
+                    <div class="competency-item scroll-fade-up delay-3">
+                        <div class="comp-num">04</div>
+                        <h3 class="comp-title">Full-Stack Integration</h3>
+                        <p class="comp-desc">Connecting ML backends with web frontends using JavaScript, HTML/CSS, and API integrations. End-to-end deployment from data to user interface.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 5: Skills & Toolkit (Dark Tech) -->
+        <section id="skills" class="chapter theme-dark px-lg py-32 relative">
+            <div class="content-wrapper z-10 relative">
+                <h1 class="massive-text scroll-fade-up">MY</h1>
+                <h1 class="massive-text scroll-fade-up">TOOLKIT.</h1>
+                
+                <div class="skill-network mt-20 scroll-fade-up delay-2">
+                    <div class="skill-group" id="sg-python">
+                        <h4 class="world-title">PYTHON ECOSYSTEM</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="ml,data,backend">Python</span>
+                            <span class="skill-node" data-connect="python,data">Pandas</span>
+                            <span class="skill-node" data-connect="python,data">NumPy</span>
+                            <span class="skill-node" data-connect="python,ml">TensorFlow</span>
+                            <span class="skill-node" data-connect="python,backend">Flask</span>
+                        </div>
+                    </div>
+                    <div class="skill-group" id="sg-data">
+                        <h4 class="world-title">DATA & ARCHITECTURE</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="backend,data">SQL</span>
+                            <span class="skill-node" data-connect="backend,data">MySQL</span>
+                            <span class="skill-node" data-connect="python,data">Data Analysis</span>
+                        </div>
+                    </div>
+                    <div class="skill-group" id="sg-ml">
+                        <h4 class="world-title">MACHINE LEARNING</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="python,ml">Deep Learning</span>
+                            <span class="skill-node" data-connect="python,ml">Neural Networks</span>
+                            <span class="skill-node" data-connect="python,ml">RNN / LSTM</span>
+                        </div>
+                    </div>
+                    <div class="skill-group" id="sg-backend">
+                        <h4 class="world-title">SOFTWARE DEV</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="core">C++</span>
+                            <span class="skill-node" data-connect="core">Java</span>
+                            <span class="skill-node" data-connect="web">JavaScript</span>
+                            <span class="skill-node" data-connect="core">Git & GitHub</span>
+                            <span class="skill-node" data-connect="cloud">Azure (AZ-900)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-connection-line" id="skill-line"></div>
+            </div>
+        </section>
+
+        <!-- Chapter 6: Projects (Light Editorial) -->
+        <section id="projects" class="chapter theme-light px-lg py-32">
+            <div class="content-wrapper">
+                <h1 class="massive-text mb-32 scroll-fade-up">WHAT</h1>
+                <h1 class="massive-text scroll-fade-up">I'VE BUILT.</h1>
+                
+                <!-- Project 01: TrustLayer -->
+                <div class="project-chapter mt-32 scroll-fade-up featured-project">
+                    <div class="proj-visual p1-visual">
+                        <div class="anim-doc"></div>
+                        <div class="anim-node">AI</div>
+                        <div class="anim-doc final"></div>
+                    </div>
+                    <div class="proj-content">
+                        <div class="proj-num">01 — HACKNOVATE 7.0 PROJECT</div>
+                        <h2 class="proj-title">TRUSTLAYER</h2>
+                        <div class="tech-labels mt-4 mb-6">
+                            <span>PYTHON</span><span>AI</span><span>TRUST & VALIDATION</span>
+                        </div>
+                        
+                        <div class="case-study-details mt-8">
+                            <p><strong>Overview:</strong> Built for Hacknovate 7.0. An AI-powered freelance trust & validation system that automatically validates work quality and releases payments securely.</p>
+                            <p class="mt-4"><strong>Key Features:</strong></p>
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                                <li>Automates work quality validation using AI models.</li>
+                                <li>Securely handles automated payment releases upon verification.</li>
+                                <li>Solves freelance client-contractor trust challenges.</li>
+                            </ul>
+                        </div>
+                        
+                        <a href="https://github.com/rajmaheshwari3001-dev/Trustlayer" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                    </div>
+                </div>
+                
+                <!-- Project 02: Excel Data Cleaning Tool -->
+                <div class="project-chapter reverse mt-32 scroll-fade-up">
+                    <div class="proj-content">
+                        <div class="proj-num">02</div>
+                        <h2 class="proj-title">EXCEL DATA CLEANING TOOL</h2>
+                        <div class="tech-labels mt-4 mb-6">
+                            <span>PYTHON</span><span>PANDAS</span><span>DATA AUTOMATION</span>
+                        </div>
+                        
+                        <div class="case-study-details mt-8">
+                            <p><strong>Overview:</strong> A Python automation tool that programmatically cleans Excel and CSV datasets using pandas.</p>
+                            <p class="mt-4"><strong>Key Features:</strong></p>
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                                <li>Removes duplicate rows and handles missing/null values safely.</li>
+                                <li>Cleans and formats inconsistent raw dataset columns.</li>
+                                <li>Exports clean data ready for analytics or machine learning models.</li>
+                            </ul>
+                        </div>
+
+                        <a href="https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                    </div>
+                    <div class="proj-visual p2-visual">
+                        <div class="db-cylinder"></div>
+                        <div class="db-cylinder"></div>
+                        <div class="db-cylinder"></div>
+                    </div>
+                </div>
+                
+                <!-- Project 03: Web Scraper -->
+                <div class="project-chapter mt-32 scroll-fade-up">
+                    <div class="proj-visual p3-visual">
+                        <div class="text-frag t1">PARSE</div>
+                        <div class="text-frag t2">HTML</div>
+                        <div class="text-frag t3">DATA</div>
+                    </div>
+                    <div class="proj-content">
+                        <div class="proj-num">03</div>
+                        <h2 class="proj-title">AUTOMATED WEB SCRAPER</h2>
+                        <div class="tech-labels mt-4 mb-6">
+                            <span>PYTHON</span><span>BEAUTIFULSOUP</span><span>DATA COLLECTION</span>
+                        </div>
+                        
+                        <div class="case-study-details mt-8">
+                            <p><strong>Overview:</strong> A Python script built to extract and structure unstructured data from web pages.</p>
+                            <p class="mt-4"><strong>Key Features:</strong></p>
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                                <li>Parses raw HTML to locate target elements and attributes.</li>
+                                <li>Automates collection of custom data fields into structured formats.</li>
+                                <li>Helps gather raw data for data engineering experiments.</li>
+                            </ul>
+                        </div>
+
+                        <a href="https://github.com/rajmaheshwari3001-dev/-web-scraper" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Project 04: AIML Bootcamp 2026 -->
+                <div class="project-chapter reverse mt-32 scroll-fade-up">
+                    <div class="proj-content">
+                        <div class="proj-num">04</div>
+                        <h2 class="proj-title">AIML BOOTCAMP 2026 TASKS</h2>
+                        <div class="tech-labels mt-4 mb-6">
+                            <span>PYTHON</span><span>MACHINE LEARNING</span><span>DEEP LEARNING</span>
+                        </div>
+                        
+                        <div class="case-study-details mt-8">
+                            <p><strong>Overview:</strong> Repository containing all weekly learning tasks, exercises, and mini-projects from the AIML Bootcamp 2026.</p>
+                            <p class="mt-4"><strong>Key Features:</strong></p>
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                                <li>Python data toolkits (NumPy, Pandas, CSV handling).</li>
+                                <li>ML models, training/testing splits, distance metrics, and vector math.</li>
+                                <li>Sequence models (LSTM) and introduction to Transformer architectures & LLMs.</li>
+                            </ul>
+                        </div>
+
+                        <a href="https://github.com/rajmaheshwari3001-dev/aiml-bootcamp-2026" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                    </div>
+                    <div class="proj-visual p2-visual">
+                        <div class="db-cylinder"></div>
+                        <div class="db-cylinder"></div>
+                        <div class="db-cylinder"></div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- Chapter 7: Inside the Machine (Deep Dark) -->
+        <section id="machine" class="chapter theme-deep-dark px-lg py-32 text-center">
+            <h1 class="massive-text scroll-scale">INSIDE</h1>
+            <h1 class="massive-text text-outline scroll-scale delay-1">THE MACHINE.</h1>
+            <p class="lead-text mt-8 mb-20 scroll-fade-up delay-2">Exploring the systems behind intelligent software.</p>
+            
+            <div class="nn-interactive scroll-fade-up delay-3">
+                <div class="nn-col">
+                    <span class="nn-label">INPUT</span>
+                    <div class="node-circle" data-info="Feature X1"></div>
+                    <div class="node-circle" data-info="Feature X2"></div>
+                    <div class="node-circle" data-info="Feature X3"></div>
+                </div>
+                <div class="nn-col">
+                    <span class="nn-label">HIDDEN</span>
+                    <div class="node-circle" data-info="Weight: 0.85"></div>
+                    <div class="node-circle" data-info="Weight: -0.12"></div>
+                    <div class="node-circle" data-info="Weight: 0.99"></div>
+                    <div class="node-circle" data-info="Weight: 0.43"></div>
+                </div>
+                <div class="nn-col">
+                    <span class="nn-label">HIDDEN</span>
+                    <div class="node-circle" data-info="Activation: ReLU"></div>
+                    <div class="node-circle" data-info="Activation: ReLU"></div>
+                    <div class="node-circle" data-info="Activation: ReLU"></div>
+                    <div class="node-circle" data-info="Activation: ReLU"></div>
+                </div>
+                <div class="nn-col">
+                    <span class="nn-label">OUTPUT</span>
+                    <div class="node-circle" data-info="Prediction: 0.95"></div>
+                    <div class="node-circle" data-info="Prediction: 0.05"></div>
+                </div>
+            </div>
+            <div id="nn-tooltip" class="nn-tooltip">DATA</div>
+
+            <!-- AI Terminal Simulator -->
+            <div class="ai-terminal mt-32 mx-auto max-w-md scroll-fade-up delay-4" style="text-align: left; background: #000; border: 1px solid #333; border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.8rem; height: 200px; overflow-y: hidden; position: relative;">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    <div style="width:10px; height:10px; border-radius:50%; background:#ef4444;"></div>
+                    <div style="width:10px; height:10px; border-radius:50%; background:#f59e0b;"></div>
+                    <div style="width:10px; height:10px; border-radius:50%; background:#10b981;"></div>
+                    <span style="color:#666; font-size:0.7rem; margin-left:auto;">model_training.py</span>
+                </div>
+                <div id="terminal-output" style="color: #10b981;"></div>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(transparent, #000);"></div>
+            </div>
+            
+            <div class="mt-32">
+                <h1 class="massive-text scroll-slide-up">DATA <span class="text-outline">BECOMES SIGNAL.</span></h1>
+                <h1 class="massive-text scroll-slide-up mt-8">SIGNAL <span class="text-outline">BECOMES A MODEL.</span></h1>
+                <h1 class="massive-text scroll-slide-up mt-8">A MODEL <span class="text-outline">BECOMES A PREDICTION.</span></h1>
+            </div>
+        </section>
+
+        <!-- Chapter 8: Developer Signal (Light Editorial) -->
+        <section id="activity" class="chapter theme-light px-lg py-32">
+            <h1 class="massive-text scroll-fade-up">WHAT I</h1>
+            <h1 class="massive-text scroll-fade-up">ACTUALLY DO.</h1>
+            <p class="editorial-text-small text-muted mt-6 mb-20 scroll-fade-up">
+                Projects show what I build. GitHub shows what I code. LeetCode shows how I solve.
+            </p>
+            
+            <!-- GitHub Section -->
+            <div class="signal-section scroll-fade-up">
+                <div class="signal-header">
+                    <h2 class="section-title">GITHUB <span class="live-badge">● LIVE API</span></h2>
+                    <a href="https://github.com/{{ config.github_username }}" target="_blank" class="view-btn">VIEW PROFILE</a>
+                </div>
+                
+                <div class="gh-advanced-grid mt-12">
+                    <!-- Left: Profile & Langs -->
+                    <div class="gh-col">
+                        <div class="gh-profile-card">
+                            <img id="gh-avatar" src="" alt="GitHub" class="gh-avatar">
+                            <div class="gh-info">
+                                <h3 id="gh-name" class="gh-name">--</h3>
+                                <div class="gh-metrics">
+                                    <span><span id="gh-repos" class="num">--</span> REPOS</span>
+                                    <span><span id="gh-followers" class="num">--</span> FOLLOWERS</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gh-langs mt-12">
+                            <h5 class="sub-label mb-4">LANGUAGE ARCHITECTURE</h5>
+                            <div id="gh-lang-container" class="led-container">
+                                <!-- JS Injected LED Bars -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Repos & Activity -->
+                    <div class="gh-col">
+                        <h5 class="sub-label mb-4">DEPLOYED ASSETS</h5>
+                        <div id="gh-repo-list" class="repo-grid">
+                            <!-- JS Injected Repo Cards -->
+                        </div>
+                        
+                        <h5 class="sub-label mt-12 mb-4">LIVE EVENT STREAM</h5>
+                        <div id="gh-activity-list" class="activity-terminal">
+                            <!-- JS Injected Terminal Activity -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Leetcode Section -->
+            <div class="signal-section mt-32 scroll-fade-up">
+                <div class="signal-header">
+                    <h2 class="section-title">HOW I SOLVE (LEETCODE) <span class="live-badge">● LIVE API</span></h2>
+                    <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" class="view-btn">VIEW PROFILE</a>
+                </div>
+                
+                <div class="lc-advanced-grid mt-12">
+                    <div class="lc-visual-col">
+                        <div class="neural-rings-container">
+                            <svg class="neural-rings" viewBox="0 0 200 200">
+                                <!-- Background Rings -->
+                                <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
+                                <circle class="ring-bg" cx="100" cy="100" r="70"></circle>
+                                <circle class="ring-bg" cx="100" cy="100" r="50"></circle>
+                                
+                                <!-- Foreground Animated Rings -->
+                                <circle id="ring-easy" class="ring-fg easy-ring" cx="100" cy="100" r="90"></circle>
+                                <circle id="ring-med" class="ring-fg med-ring" cx="100" cy="100" r="70"></circle>
+                                <circle id="ring-hard" class="ring-fg hard-ring" cx="100" cy="100" r="50"></circle>
+                            </svg>
+                            <div class="ring-center">
+                                <span class="ring-label">SOLVED</span>
+                                <h2 id="lc-total" class="ring-total glitch-text" data-text="0">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lc-stats-col">
+                        <div class="lc-stat-box box-easy">
+                            <span class="stat-glow"></span>
+                            <div class="stat-header">EASY <span class="stat-pct" id="lc-pct-easy">0%</span></div>
+                            <div class="stat-val glitch-text" id="lc-easy" data-text="0">0</div>
+                        </div>
+                        <div class="lc-stat-box box-med">
+                            <span class="stat-glow"></span>
+                            <div class="stat-header">MEDIUM <span class="stat-pct" id="lc-pct-med">0%</span></div>
+                            <div class="stat-val glitch-text" id="lc-med" data-text="0">0</div>
+                        </div>
+                        <div class="lc-stat-box box-hard">
+                            <span class="stat-glow"></span>
+                            <div class="stat-header">HARD <span class="stat-pct" id="lc-pct-hard">0%</span></div>
+                            <div class="stat-val glitch-text" id="lc-hard" data-text="0">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Bento Row: Rank + Languages + Skills + Recent -->
+                <div class="lc-bento-row mt-12 scroll-fade-up">
+                    <!-- Rank & Acceptance -->
+                    <div class="lc-bento-card">
+                        <h5 class="sub-label mb-4">PROFILE STATS</h5>
+                        <div class="bento-stat-grid">
+                            <div class="bento-stat">
+                                <span class="bento-stat-label">GLOBAL RANK</span>
+                                <span class="bento-stat-value" id="lc-rank">--</span>
+                            </div>
+                            <div class="bento-stat">
+                                <span class="bento-stat-label">ACCEPTANCE</span>
+                                <span class="bento-stat-value" id="lc-acceptance">--%</span>
+                            </div>
+                            <div class="bento-stat">
+                                <span class="bento-stat-label">TOTAL SUBS</span>
+                                <span class="bento-stat-value" id="lc-total-subs">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Languages -->
+                    <div class="lc-bento-card">
+                        <h5 class="sub-label mb-4">LANGUAGES</h5>
+                        <div id="lc-lang-list" class="lc-lang-list">
+                            <!-- JS injected -->
+                        </div>
+                    </div>
+                    
+                    <!-- Skills -->
+                    <div class="lc-bento-card">
+                        <h5 class="sub-label mb-4">TOP SKILLS</h5>
+                        <div id="lc-skills-list" class="lc-skills-list">
+                            <!-- JS injected -->
+                        </div>
+                    </div>
+                    
+                    <!-- Recent AC -->
+                    <div class="lc-bento-card">
+                        <h5 class="sub-label mb-4">RECENT SOLVES</h5>
+                        <div id="lc-recent-list" class="lc-recent-list">
+                            <!-- JS injected -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Heatmap -->
+                <div class="heatmap-section mt-12 scroll-fade-up">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                        <h5 class="sub-label mb-4">SUBMISSION ACTIVITY</h5>
+                    </div>
+                    <div id="lc-heatmap" class="heatmap-grid"></div>
+                    <div class="heatmap-legend mt-4" style="display:flex; gap:4px; align-items:center; justify-content:flex-end;">
+                        <span class="text-muted" style="font-size: 0.7rem; margin-right:4px;">Less</span>
+                        <div class="heat-cell lvl-0" style="width:12px; height:12px; border-radius:2px;"></div>
+                        <div class="heat-cell lvl-1" style="width:12px; height:12px; border-radius:2px;"></div>
+                        <div class="heat-cell lvl-2" style="width:12px; height:12px; border-radius:2px;"></div>
+                        <div class="heat-cell lvl-3" style="width:12px; height:12px; border-radius:2px;"></div>
+                        <div class="heat-cell lvl-4" style="width:12px; height:12px; border-radius:2px;"></div>
+                        <span class="text-muted" style="font-size: 0.7rem; margin-left:4px;">More</span>
+                    </div>
+                </div>
+                
+                <div class="timestamp-indicator mt-8 text-center scroll-fade-up">
+                    <p id="api-timestamp" style="font-family: monospace; font-size: 0.7rem; color: var(--c-light-muted);">Live profile data • Updating...</p>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- Chapter 9: Education Timeline (Dark Tech) -->
+        <section id="journey" class="chapter theme-dark px-lg py-32">
+            <div class="content-wrapper z-10 relative">
+                <h2 class="section-title mb-4 scroll-fade-up">TIMELINE</h2>
+                <h1 class="massive-text scroll-scale">MY</h1>
+                <h1 class="massive-text text-outline scroll-scale delay-1">JOURNEY.</h1>
+                
+                <div class="pro-timeline mt-20">
+                    <div class="pro-timeline-item scroll-fade-up">
+                        <div class="pro-tl-date">2024</div>
+                        <div class="pro-tl-line"></div>
+                        <div class="pro-tl-content">
+                            <h3>Started B.Tech AI/ML</h3>
+                            <p>GLA University, Mathura. Began with Python fundamentals, data structures, and algorithms.</p>
+                        </div>
+                    </div>
+                    <div class="pro-timeline-item scroll-fade-up delay-1">
+                        <div class="pro-tl-date">2025</div>
+                        <div class="pro-tl-line"></div>
+                        <div class="pro-tl-content">
+                            <h3>Microsoft Azure Certified (AZ-900)</h3>
+                            <p>Earned cloud fundamentals certification. Started building web applications and backend APIs with Flask.</p>
+                        </div>
+                    </div>
+                    <div class="pro-timeline-item scroll-fade-up delay-2">
+                        <div class="pro-tl-date">2025</div>
+                        <div class="pro-tl-line"></div>
+                        <div class="pro-tl-content">
+                            <h3>Built TrustLayer & Web Scraper</h3>
+                            <p>Developed a misinformation detection system using NLP and a web scraping tool. Started competitive programming on LeetCode.</p>
+                        </div>
+                    </div>
+                    <div class="pro-timeline-item scroll-fade-up delay-3">
+                        <div class="pro-tl-date">2026</div>
+                        <div class="pro-tl-line"></div>
+                        <div class="pro-tl-content">
+                            <h3>AI/ML Bootcamp & Advanced Projects</h3>
+                            <p>Intensive training in TensorFlow, RNNs, data pipelines. Built Excel Data Cleaning Tool and this portfolio. 63+ LeetCode problems solved.</p>
+                        </div>
+                    </div>
+                    <div class="pro-timeline-item current scroll-fade-up delay-4">
+                        <div class="pro-tl-date">NOW</div>
+                        <div class="pro-tl-line"></div>
+                        <div class="pro-tl-content">
+                            <h3>Currently Building</h3>
+                            <p>Deep learning applications, NLP systems, and scalable ML infrastructure. Open to internships and collaborations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 10: Contact (Deep Dark, Professional) -->
+        <section id="contact" class="chapter theme-deep-dark px-lg py-32 text-center relative z-10">
+            <h2 class="section-title mb-4 scroll-fade-up">LET'S CONNECT</h2>
+            <h1 class="massive-text scroll-scale">OPEN TO</h1>
+            <h1 class="massive-text scroll-scale delay-1" id="contact-typewriter">OPPORTUNITIES.</h1>
+            
+            <p class="lead-text mt-12 mb-4 scroll-fade-up delay-2" style="max-width: 600px; margin-left: auto; margin-right: auto;">
+                I'm actively looking for internships, collaborations, and freelance projects in AI/ML, data engineering, and full-stack development.
+            </p>
+            <p class="text-muted mb-12 scroll-fade-up delay-3" style="font-size: 0.9rem;">
+                Based in Mathura, India • Available for remote work
+            </p>
+            
+            <div class="contact-actions scroll-fade-up delay-4">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ config.email }}" target="_blank" class="btn btn-outline-white">EMAIL ME</a>
+                <a href="https://github.com/{{ config.github_username }}" target="_blank" class="btn btn-outline-white">GITHUB</a>
+                <a href="{{ config.linkedin_url }}" target="_blank" class="btn btn-outline-white">LINKEDIN</a>
+                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" class="btn btn-outline-white">LEETCODE</a>
+            </div>
+            
+            <footer class="mt-32 pt-12 border-t border-dark">
+                <h3 class="footer-title">RAJ MAHESHWARI</h3>
+                <p class="text-muted text-sm mt-2">AI / ML DEVELOPER • B.TECH AI/ML • GLA UNIVERSITY</p>
+                <div class="mt-8 text-xs text-muted">
+                    Built with Flask, Three.js & live API integrations<br><br>
+                    © 2026 Raj Maheshwari.
+                </div>
+            </footer>
+        </section>
+        
+    </main>
+    </div><!-- /smooth-wrapper -->
+
+    <!-- Scripts -->
+    <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=8"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=8"></script>
+</body>
+</html>
