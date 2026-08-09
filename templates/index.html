@@ -18,6 +18,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=12">
     <!-- Preconnect for external resources -->
@@ -75,7 +76,7 @@
     <aside id="sidebar">
         <div class="sidebar-top">
             <div class="profile-img">
-                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" onerror="this.style.display='none'">
+                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" fetchpriority="high" onerror="this.style.display='none'">
             </div>
             <h2 class="sidebar-name">RAJ MAHESHWARI</h2>
             <h2 class="sidebar-role">AI / ML DEVELOPER</h2>
