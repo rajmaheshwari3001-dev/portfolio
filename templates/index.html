@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=12">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=13">
     <!-- Preconnect for external resources -->
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -66,9 +66,9 @@
             <li><a href="#contact" class="nav-link">CONTACT</a></li>
         </ul>
         <div class="mobile-socials">
-            <a href="https://github.com/{{ config.github_username }}" target="_blank">GITHUB</a>
-            <a href="{{ config.linkedin_url }}" target="_blank">LINKEDIN</a>
-            <a href="{{ config.leetcode_url }}" target="_blank">LEETCODE</a>
+            <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer">GITHUB</a>
+            <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+            <a href="{{ config.leetcode_url }}" target="_blank" rel="noopener noreferrer">LEETCODE</a>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
     <aside id="sidebar">
         <div class="sidebar-top">
             <div class="profile-img">
-                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" fetchpriority="high" onerror="this.style.display='none'">
+                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" fetchpriority="high" width="80" height="80" onerror="this.style.display='none'">
             </div>
             <h2 class="sidebar-name">RAJ MAHESHWARI</h2>
             <h2 class="sidebar-role">AI / ML DEVELOPER</h2>
@@ -99,9 +99,9 @@
         </nav>
         
         <div class="sidebar-socials">
-            <a href="{{ config.github_url }}" target="_blank" aria-label="GitHub Profile">GITHUB ↗</a>
-            <a href="{{ config.linkedin_url }}" target="_blank" aria-label="LinkedIn Profile">LINKEDIN ↗</a>
-            <a href="{{ config.leetcode_url }}" target="_blank" aria-label="LeetCode Profile">LEETCODE ↗</a>
+            <a href="{{ config.github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">GITHUB ↗</a>
+            <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LINKEDIN ↗</a>
+            <a href="{{ config.leetcode_url }}" target="_blank" rel="noopener noreferrer" aria-label="LeetCode Profile">LEETCODE ↗</a>
         </div>
     </aside>
 
@@ -172,7 +172,7 @@
             <div class="content-wrapper z-10 relative">
                 <h2 class="section-title mb-4 scroll-fade-up">EDUCATION & CREDENTIALS</h2>
                 <h2 class="massive-text gradient-purple scroll-fade-up">WHERE I</h2>
-                <h2 class="massive-text text-outline scroll-fade-up">COME FROM.</h2>
+                <h2 class="massive-text text-outline scroll-fade-up animated-come-from">COME FROM.</h2>
                 
                 <div class="credentials-grid mt-20">
                     <!-- Education -->
@@ -331,7 +331,7 @@
                             </ul>
                         </div>
                         
-                        <a href="https://github.com/rajmaheshwari3001-dev/Trustlayer" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                        <a href="https://github.com/rajmaheshwari3001-dev/Trustlayer" target="_blank" rel="noopener noreferrer" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
                     </div>
                 </div>
                 
@@ -354,7 +354,7 @@
                             </ul>
                         </div>
 
-                        <a href="https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                        <a href="https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool" target="_blank" rel="noopener noreferrer" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
                     </div>
                     <div class="proj-visual p2-visual">
                         <div class="db-cylinder"></div>
@@ -387,7 +387,7 @@
                             </ul>
                         </div>
 
-                        <a href="https://github.com/rajmaheshwari3001-dev/-web-scraper" target="_blank" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                        <a href="https://github.com/rajmaheshwari3001-dev/-web-scraper" target="_blank" rel="noopener noreferrer" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
                     </div>
                 </div>
 
@@ -401,7 +401,7 @@
                             <p class="text-muted mt-4 mb-8 max-w-sm">
                                 Dive into the complete collection of my algorithms, web applications, and experimental AI models on GitHub.
                             </p>
-                            <a href="https://github.com/{{ config.github_username }}" target="_blank" class="cyber-btn">
+                            <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="cyber-btn">
                                 INITIALIZE UPLINK <span class="arrow">→</span>
                             </a>
                         </div>
@@ -482,7 +482,7 @@
             <div class="signal-section scroll-fade-up">
                 <div class="signal-header">
                     <h2 class="section-title">GITHUB <span class="live-badge">● LIVE API</span></h2>
-                    <a href="https://github.com/{{ config.github_username }}" target="_blank" class="view-btn">VIEW PROFILE</a>
+                    <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="view-btn">VIEW PROFILE</a>
                 </div>
                 
                 <div class="gh-advanced-grid mt-12">
@@ -526,7 +526,7 @@
             <div class="signal-section mt-32 scroll-fade-up">
                 <div class="signal-header">
                     <h2 class="section-title">HOW I SOLVE (LEETCODE) <span class="live-badge">● LIVE API</span></h2>
-                    <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" class="view-btn">VIEW PROFILE</a>
+                    <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer" class="view-btn">VIEW PROFILE</a>
                 </div>
                 
                 <div class="lc-advanced-grid mt-12">
@@ -705,10 +705,10 @@
             </p>
             
             <div class="contact-actions scroll-fade-up delay-4">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ config.email }}" target="_blank" class="btn btn-outline-white">EMAIL ME</a>
-                <a href="https://github.com/{{ config.github_username }}" target="_blank" class="btn btn-outline-white">GITHUB</a>
-                <a href="{{ config.linkedin_url }}" target="_blank" class="btn btn-outline-white">LINKEDIN</a>
-                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" class="btn btn-outline-white">LEETCODE</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ config.email }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white">EMAIL ME</a>
+                <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white">GITHUB</a>
+                <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white">LINKEDIN</a>
+                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white">LEETCODE</a>
             </div>
             
             <footer class="mt-32 pt-12 border-t border-dark">
@@ -725,7 +725,7 @@
     </div><!-- /smooth-wrapper -->
 
     <!-- Scripts -->
-    <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=8"></script>
-    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=8"></script>
+    <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=13"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=13"></script>
 </body>
 </html>

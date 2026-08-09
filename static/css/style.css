@@ -601,6 +601,20 @@ html.lenis { height: auto; }
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
+@keyframes outline-color-cycle {
+    0% { -webkit-text-stroke-color: #2563eb; } /* Blue */
+    25% { -webkit-text-stroke-color: #06b6d4; } /* Cyan */
+    50% { -webkit-text-stroke-color: #10b981; } /* Emerald */
+    75% { -webkit-text-stroke-color: #f59e0b; } /* Amber */
+    100% { -webkit-text-stroke-color: #a855f7; } /* Purple */
+}
+
+.animated-come-from {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    animation: outline-color-cycle 8s infinite alternate !important;
+}
+
 .scroll-fade-up { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
 .scroll-fade-right { opacity: 0; transform: translateX(-40px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
 .scroll-fade-left { opacity: 0; transform: translateX(40px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }

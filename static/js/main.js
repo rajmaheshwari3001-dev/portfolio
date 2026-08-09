@@ -573,8 +573,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Massive Text Scrubbing Effect
         const massiveTexts = document.querySelectorAll('.massive-text');
         massiveTexts.forEach(text => {
-            // Check if not typewriter
-            if (text.id !== 'hero-typewriter') {
+            // Check if not typewriter and not text-outline
+            if (text.id !== 'hero-typewriter' && !text.classList.contains('text-outline')) {
                 gsap.fromTo(text, 
                     { backgroundPosition: "200% center", color: "transparent", WebkitTextStroke: "1px rgba(255,255,255,0.2)" },
                     { 
