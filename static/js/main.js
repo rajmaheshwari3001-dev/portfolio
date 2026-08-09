@@ -176,10 +176,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (terminalOutput && terminalInput) {
         const commands = {
-            'help': 'Available commands:<br>- whoami: Information about Raj<br>- skills: List of core competencies<br>- clear: Clear terminal<br>- hack: Initialize neural interface',
-            'whoami': 'Raj Maheshwari<br>AI/ML Developer & Software Engineer<br>Passionate about building intelligent systems.',
+            'help': 'Available commands:<br>- whoami: Information about Raj<br>- skills: List of core competencies<br>- ls: List directory contents<br>- cat resume.txt: View resume<br>- clear: Clear terminal<br>- sudo: Gain root access<br>- hack: Initialize neural interface',
+            'whoami': 'Raj Maheshwari<br>AI/ML Developer & Software Engineer<br>Status: Building intelligent systems.',
             'skills': '> Loading matrix...<br>[OK] Python, Machine Learning, Data Science<br>[OK] Flask, Web Development<br>[OK] Problem Solving (LeetCode: 60+)',
-            'hack': '> ACCESSING MAINFRAME...<br>> NEURAL NETWORKS DEPLOYED...<br>> Just kidding, I mostly build safe models.'
+            'hack': '> ACCESSING MAINFRAME...<br>> NEURAL NETWORKS DEPLOYED...<br>> Just kidding, I mostly build safe models.',
+            'ls': 'drwxr-xr-x  projects/<br>drwxr-xr-x  models/<br>-rw-r--r--  resume.txt<br>-rw-------  secret_keys.env',
+            'cat resume.txt': 'Loading resume...<br>Raj Maheshwari - B.Tech AI/ML @ GLA University.<br>Building Full-Stack ML Apps. Scroll down for more.',
+            'cat secret_keys.env': 'Permission denied. Nice try! 😉',
+            'sudo': 'raj@system is not in the sudoers file. This incident will be reported.'
         };
 
         terminalInput.addEventListener('keydown', function(e) {
@@ -200,12 +204,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     response.style.marginBottom = "8px";
                     response.style.color = "#10b981";
                     
-                    if (commands[val]) {
-                        response.innerHTML = commands[val];
-                    } else {
-                        response.innerHTML = `Command not found: ${val}. Type 'help' for a list of commands.`;
+                    // Simple easter egg check
+                    let outputText = commands[val];
+                    if (!outputText) {
+                        if (val.startsWith('cat ')) {
+                            outputText = `cat: ${val.split(' ')[1]}: No such file or directory`;
+                        } else {
+                            outputText = `Command not found: ${val}. Type 'help' for a list of commands.`;
+                        }
                     }
-                    terminalOutput.appendChild(response);
+                    
+                    // Small delay to simulate processing
+                    setTimeout(() => {
+                        response.innerHTML = outputText;
+                        terminalOutput.appendChild(response);
+                        terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
+                    }, 150);
                 }
                 
                 this.value = '';
