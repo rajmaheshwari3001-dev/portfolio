@@ -129,37 +129,41 @@
         </section>
         
         <!-- Chapter 2: About (Professional, Detail-Rich) -->
-        <section id="about" class="chapter theme-light px-lg py-20">
-            <div class="split-layout">
-                <div class="split-left scroll-fade-right">
-                    <h2 class="section-title mb-8">ABOUT</h2>
-                    <h2 class="massive-text gradient-amber">RAJ MAHESHWARI.</h2>
-                </div>
-                <div class="split-right scroll-fade-left pt-6">
-                    <p class="editorial-text mb-6">
-                        AI/ML Engineering student at GLA University, Mathura. I build intelligent software systems — from data pipelines and ML models to full-stack web applications.
-                    </p>
-                    <p class="editorial-text-small text-muted mb-8">
-                        My work sits at the intersection of machine learning, backend engineering, and data analysis. I don't just train models — I build the architecture that serves them. Currently focused on deep learning, NLP, and scalable Python backends.
-                    </p>
+        <section id="about" class="chapter theme-light px-lg py-20 relative overflow-hidden">
+            <div class="content-wrapper z-10 relative">
+                <h2 class="section-title mb-8 scroll-fade-up">ABOUT</h2>
+                
+                <!-- Full width massive text to prevent awkward breaking -->
+                <h2 class="massive-text gradient-amber scroll-fade-up" style="white-space: nowrap; font-size: clamp(3rem, 11vw, 12rem); line-height: 0.85; margin-bottom: 4rem;">
+                    RAJ<br>MAHESHWARI.
+                </h2>
+                
+                <div class="about-content-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; max-width: 1200px; margin-left: auto;">
+                    <div class="scroll-fade-up delay-1">
+                        <p class="editorial-text mb-6">
+                            AI/ML Engineering student at GLA University, Mathura. I build intelligent software systems — from data pipelines and ML models to full-stack web applications.
+                        </p>
+                        <p class="editorial-text-small text-muted mb-8">
+                            My work sits at the intersection of machine learning, backend engineering, and data analysis. I don't just train models — I build the architecture that serves them. Currently focused on deep learning, NLP, and scalable Python backends.
+                        </p>
+                    </div>
                     
-                    <!-- Quick Stats Bento -->
-                    <div class="about-bento scroll-fade-up">
-                        <div class="about-bento-item hover-glow">
-                            <span class="about-bento-num" id="about-lc-count">63</span>
-                            <span class="about-bento-label">LEETCODE<br>PROBLEMS</span>
+                    <div class="about-bento scroll-fade-up delay-2">
+                        <div class="bento-box hover-glow glow-amber">
+                            <div class="bento-val">63</div>
+                            <div class="bento-label">LEETCODE<br>PROBLEMS</div>
                         </div>
-                        <div class="about-bento-item hover-glow">
-                            <span class="about-bento-num">4</span>
-                            <span class="about-bento-label">GITHUB<br>REPOSITORIES</span>
+                        <div class="bento-box hover-glow glow-amber">
+                            <div class="bento-val">4</div>
+                            <div class="bento-label">GITHUB<br>REPOSITORIES</div>
                         </div>
-                        <div class="about-bento-item hover-glow">
-                            <span class="about-bento-num">5+</span>
-                            <span class="about-bento-label">LANGUAGES<br>PROFICIENT</span>
+                        <div class="bento-box hover-glow glow-amber">
+                            <div class="bento-val">5+</div>
+                            <div class="bento-label">LANGUAGES<br>PROFICIENT</div>
                         </div>
-                        <div class="about-bento-item hover-glow">
-                            <span class="about-bento-num">AZ-900</span>
-                            <span class="about-bento-label">MICROSOFT<br>CERTIFIED</span>
+                        <div class="bento-box hover-glow glow-amber">
+                            <div class="bento-val" style="font-size: 2rem;">AZ-900</div>
+                            <div class="bento-label">MICROSOFT<br>CERTIFIED</div>
                         </div>
                     </div>
                 </div>
