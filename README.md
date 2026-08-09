@@ -1,18 +1,18 @@
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=35&pause=1000&color=00F0FF&center=true&vCenter=true&width=800&lines=%E2%9A%A1+RAJ+MAHESHWARI+%7C+Software+Engineer;Crafting+High-Performance+Web+Apps;API+Integration+%26+Backend+Caching;Interactive+3D+WebGL+Experiences)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=800&size=40&pause=1000&color=d97706&center=true&vCenter=true&width=800&lines=%E2%9A%A1+RAJ+MAHESHWARI+%7C+Software+Engineer;Building+Intelligent+Systems;Luxury+UI+%26+Fluid+Typography;Interactive+AI+Terminal+Simulations)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
 
-[![Live Deployment](https://img.shields.io/badge/Live_Deployment-portfolio--lilac--delta--c1kxu40gza.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=00F0FF)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+[![Live Deployment](https://img.shields.io/badge/LIVE_DEPLOYMENT-portfolio.vercel.app-050505?style=for-the-badge&logo=vercel&logoColor=d97706)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
 
 </div>
 
-<br/>
+---
 
-Welcome to the source code of my personal developer portfolio. This isn't just a static HTML page; it's a dynamic, high-performance web application designed to demonstrate my capabilities in backend engineering, API integration, and frontend 3D rendering.
+Welcome to the source code of my personal developer portfolio. This isn't just a static webpage; it's a **high-performance, luxury-themed web application** designed to demonstrate my capabilities in backend engineering, API integration, interactive UNIX terminal simulation, and premium frontend design.
 
 ## 🏗️ System Architecture
 
-Unlike most portfolios, this application dynamically pulls my real-time coding activity while meticulously managing external API rate limits through a custom caching layer.
+This application dynamically pulls my real-time coding activity while meticulously managing external API rate limits through a custom caching layer.
 
 ```mermaid
 graph TD
@@ -39,13 +39,16 @@ graph TD
     C -- Cache Hit --> B
 ```
 
-## 🛠️ Engineering Highlights
+## ✨ Engineering Highlights
 
-- **Intelligent API Caching (Backend):** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times for the frontend.
-- **Interactive WebGL Rendering (Frontend):** Integrates `Three.js` for stunning, interactive background elements. The 3D graphics are optimized to maintain a high framerate without dominating the main JavaScript thread.
-- **Glassmorphic UI/UX:** A modern, clean, responsive layout constructed with CSS3, avoiding heavy CSS frameworks to ensure maximum performance and precise visual control.
+- **Interactive UNIX Terminal Simulator:** A fully playable, custom-built terminal in the UI. Type `ls`, `cat resume.txt`, or `sudo` to experience a simulated file system that responds instantly with micro-delays for tactile realism.
+- **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones, without overlapping.
+- **Intelligent API Caching (Backend):** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
+- **Glassmorphic & Gradient Architecture:** Avoids heavy CSS frameworks in favor of hand-written, ultra-performant custom CSS. Features deep 24px frosted glass, premium metallic gradients (Gold, Champagne, Amber), and dynamic hover-glows.
 
-## 💻 Tech Stack
+<details>
+<summary><b>💻 View Tech Stack</b></summary>
+<br>
 
 <p align="center">
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
@@ -61,10 +64,15 @@ graph TD
   <img src="https://img.shields.io/badge/GitHub_API-181717?style=for-the-badge&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/LeetCode_API-FFA116?style=for-the-badge&logo=leetcode&logoColor=black" />
 </p>
+</details>
 
 ## 🚀 Local Development Setup
 
 To run this application locally and explore the architecture yourself, follow this terminal workflow.
+
+<details>
+<summary><b>View Setup Instructions</b></summary>
+<br>
 
 **1. Clone & Navigate**
 ```bash
@@ -105,6 +113,7 @@ export GITHUB_TOKEN="your_token_here"
 python app.py
 ```
 *The API and Frontend will now be served at [http://localhost:5000](http://localhost:5000).*
+</details>
 
 ## 📁 Repository Map
 
