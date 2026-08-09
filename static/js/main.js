@@ -67,6 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Hover Glow Effect for Bento Boxes ---
+    document.addEventListener('mousemove', (e) => {
+        const glowElements = document.querySelectorAll('.hover-glow');
+        glowElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            el.style.setProperty('--mouse-x', `${x}px`);
+            el.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
     // --- Hero Typewriter Effect ---
     const heroTypewriter = document.getElementById('hero-typewriter');
     if (heroTypewriter) {
@@ -158,55 +170,48 @@ document.addEventListener('DOMContentLoaded', () => {
         contactObserver.observe(contactTypewriter.parentElement);
     }
 
-    // --- AI Terminal Simulator ---
+    // --- Interactive Playable Terminal ---
     const terminalOutput = document.getElementById('terminal-output');
-    if (terminalOutput) {
-        const logs = [
-            "Initializing deep learning model...",
-            "Loading dataset (14,204 samples)...",
-            "Compiling architecture: Sequential",
-            "Epoch 1/50 [=======>] - loss: 0.6931 - acc: 0.5120",
-            "Epoch 2/50 [===============>] - loss: 0.5120 - acc: 0.7640",
-            "Epoch 3/50 [======================>] - loss: 0.3210 - acc: 0.8920",
-            "Epoch 4/50 [=========================>] - loss: 0.1054 - acc: 0.9510",
-            "Model training converged.",
-            "Evaluating test set...",
-            "Test Accuracy: 94.8%",
-            "Saving model to /models/v2_final.h5 ...",
-            "Process completed successfully."
-        ];
-        
-        let logIndex = 0;
-        function addLog() {
-            if (logIndex < logs.length) {
-                const p = document.createElement('div');
-                p.innerText = "> " + logs[logIndex];
-                p.style.marginBottom = "4px";
-                terminalOutput.appendChild(p);
-                logIndex++;
+    const terminalInput = document.getElementById('terminal-input');
+    
+    if (terminalOutput && terminalInput) {
+        const commands = {
+            'help': 'Available commands:<br>- whoami: Information about Raj<br>- skills: List of core competencies<br>- clear: Clear terminal<br>- hack: Initialize neural interface',
+            'whoami': 'Raj Maheshwari<br>AI/ML Developer & Software Engineer<br>Passionate about building intelligent systems.',
+            'skills': '> Loading matrix...<br>[OK] Python, Machine Learning, Data Science<br>[OK] Flask, Web Development<br>[OK] Problem Solving (LeetCode: 60+)',
+            'hack': '> ACCESSING MAINFRAME...<br>> NEURAL NETWORKS DEPLOYED...<br>> Just kidding, I mostly build safe models.'
+        };
+
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const val = this.value.trim().toLowerCase();
+                if (!val) return;
                 
-                // Keep scrolled to bottom
+                // Echo command
+                const cmdLine = document.createElement('div');
+                cmdLine.innerHTML = `<span style="color:#888;">raj@system:~$</span> ${val}`;
+                terminalOutput.appendChild(cmdLine);
+                
+                // Handle command
+                if (val === 'clear') {
+                    terminalOutput.innerHTML = '';
+                } else {
+                    const response = document.createElement('div');
+                    response.style.marginBottom = "8px";
+                    response.style.color = "#10b981";
+                    
+                    if (commands[val]) {
+                        response.innerHTML = commands[val];
+                    } else {
+                        response.innerHTML = `Command not found: ${val}. Type 'help' for a list of commands.`;
+                    }
+                    terminalOutput.appendChild(response);
+                }
+                
+                this.value = '';
                 terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
-                
-                setTimeout(addLog, Math.random() * 800 + 200);
-            } else {
-                // Loop it
-                setTimeout(() => {
-                    terminalOutput.innerHTML = "";
-                    logIndex = 0;
-                    addLog();
-                }, 5000);
-            }
-        }
-        
-        // Start terminal via IntersectionObserver so it starts when scrolled to
-        const termObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                addLog();
-                termObserver.disconnect();
             }
         });
-        termObserver.observe(terminalOutput.parentElement);
     }
     
     // --- Skill Network Interactivity ---
@@ -526,3 +531,56 @@ function getTimeAgo(date) {
     const months = Math.floor(days / 30);
     return months + 'mo ago';
 }
+
+// --- GSAP Animations & Magnetic Buttons ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Magnetic Buttons
+    const magnets = document.querySelectorAll('.nav-link, .sidebar-socials a, .cyber-btn');
+    magnets.forEach((magnet) => {
+        magnet.addEventListener('mousemove', function(e) {
+            const position = magnet.getBoundingClientRect();
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+            
+            magnet.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+            magnet.style.transition = 'transform 0s';
+        });
+        
+        magnet.addEventListener('mouseleave', function() {
+            magnet.style.transform = 'translate(0px, 0px)';
+            magnet.style.transition = 'transform 0.3s ease';
+        });
+    });
+
+    // 2. GSAP ScrollTrigger
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Massive Text Scrubbing Effect
+        const massiveTexts = document.querySelectorAll('.massive-text');
+        massiveTexts.forEach(text => {
+            // Check if not typewriter
+            if (text.id !== 'hero-typewriter') {
+                gsap.fromTo(text, 
+                    { backgroundPosition: "200% center", color: "transparent", WebkitTextStroke: "1px rgba(255,255,255,0.2)" },
+                    { 
+                        backgroundPosition: "0% center",
+                        color: "inherit",
+                        WebkitTextStroke: "0px transparent",
+                        scrollTrigger: {
+                            trigger: text,
+                            start: "top 90%",
+                            end: "bottom 50%",
+                            scrub: 1
+                        }
+                    }
+                );
+                
+                // Add required CSS for the effect
+                text.style.backgroundImage = "linear-gradient(90deg, var(--c-accent-cyan) 0%, var(--c-accent-blue) 50%, transparent 50%)";
+                text.style.backgroundSize = "200% 100%";
+                text.style.WebkitBackgroundClip = "text";
+            }
+        });
+    }
+});

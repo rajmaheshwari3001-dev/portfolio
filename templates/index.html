@@ -24,6 +24,8 @@
     <!-- Lenis for smooth scroll -->
     <script defer src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -141,19 +143,19 @@
                     
                     <!-- Quick Stats Bento -->
                     <div class="about-bento scroll-fade-up">
-                        <div class="about-bento-item">
+                        <div class="about-bento-item hover-glow">
                             <span class="about-bento-num" id="about-lc-count">63</span>
                             <span class="about-bento-label">LEETCODE<br>PROBLEMS</span>
                         </div>
-                        <div class="about-bento-item">
+                        <div class="about-bento-item hover-glow">
                             <span class="about-bento-num">4</span>
                             <span class="about-bento-label">GITHUB<br>REPOSITORIES</span>
                         </div>
-                        <div class="about-bento-item">
+                        <div class="about-bento-item hover-glow">
                             <span class="about-bento-num">5+</span>
                             <span class="about-bento-label">LANGUAGES<br>PROFICIENT</span>
                         </div>
-                        <div class="about-bento-item">
+                        <div class="about-bento-item hover-glow">
                             <span class="about-bento-num">AZ-900</span>
                             <span class="about-bento-label">MICROSOFT<br>CERTIFIED</span>
                         </div>
@@ -171,7 +173,7 @@
                 
                 <div class="credentials-grid mt-20">
                     <!-- Education -->
-                    <div class="credential-card scroll-fade-up">
+                    <div class="credential-card hover-glow scroll-fade-up">
                         <div class="cred-icon">🎓</div>
                         <div class="cred-content">
                             <h3 class="cred-title">B.Tech in AI & Machine Learning</h3>
@@ -182,7 +184,7 @@
                     </div>
                     
                     <!-- Certification -->
-                    <div class="credential-card scroll-fade-up delay-1">
+                    <div class="credential-card hover-glow scroll-fade-up delay-1">
                         <div class="cred-icon">☁️</div>
                         <div class="cred-content">
                             <h3 class="cred-title">Microsoft Azure Fundamentals (AZ-900)</h3>
@@ -193,7 +195,7 @@
                     </div>
                     
                     <!-- Bootcamp -->
-                    <div class="credential-card scroll-fade-up delay-2">
+                    <div class="credential-card hover-glow scroll-fade-up delay-2">
                         <div class="cred-icon">🔬</div>
                         <div class="cred-content">
                             <h3 class="cred-title">AI/ML Bootcamp 2026</h3>
@@ -204,7 +206,7 @@
                     </div>
                     
                     <!-- Competitive Programming -->
-                    <div class="credential-card scroll-fade-up delay-3">
+                    <div class="credential-card hover-glow scroll-fade-up delay-3">
                         <div class="cred-icon">⚡</div>
                         <div class="cred-content">
                             <h3 class="cred-title">Competitive Programming</h3>
@@ -225,22 +227,22 @@
                 <h1 class="massive-text scroll-fade-up">COMPETENCIES.</h1>
                 
                 <div class="competency-grid mt-16">
-                    <div class="competency-item scroll-fade-up">
+                    <div class="competency-item hover-glow scroll-fade-up">
                         <div class="comp-num">01</div>
                         <h3 class="comp-title">Machine Learning Engineering</h3>
                         <p class="comp-desc">Build, train, and deploy ML models using TensorFlow, scikit-learn, and custom neural architectures (RNN, LSTM). Experience with classification, regression, and sequence prediction.</p>
                     </div>
-                    <div class="competency-item scroll-fade-up delay-1">
+                    <div class="competency-item hover-glow scroll-fade-up delay-1">
                         <div class="comp-num">02</div>
                         <h3 class="comp-title">Data Engineering & Analysis</h3>
                         <p class="comp-desc">Data preprocessing, cleaning, and analysis with Pandas, NumPy, and SQL. Building ETL pipelines and extracting insights from raw datasets at scale.</p>
                     </div>
-                    <div class="competency-item scroll-fade-up delay-2">
+                    <div class="competency-item hover-glow scroll-fade-up delay-2">
                         <div class="comp-num">03</div>
                         <h3 class="comp-title">Backend Development</h3>
                         <p class="comp-desc">Python-based backend systems with Flask, RESTful API design, database management (MySQL), and server-side architecture for ML model serving.</p>
                     </div>
-                    <div class="competency-item scroll-fade-up delay-3">
+                    <div class="competency-item hover-glow scroll-fade-up delay-3">
                         <div class="comp-num">04</div>
                         <h3 class="comp-title">Full-Stack Integration</h3>
                         <p class="comp-desc">Connecting ML backends with web frontends using JavaScript, HTML/CSS, and API integrations. End-to-end deployment from data to user interface.</p>
@@ -442,15 +444,20 @@
             <div id="nn-tooltip" class="nn-tooltip">DATA</div>
 
             <!-- AI Terminal Simulator -->
-            <div class="ai-terminal mt-32 mx-auto max-w-md scroll-fade-up delay-4" style="text-align: left; background: #000; border: 1px solid #333; border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.8rem; height: 200px; overflow-y: hidden; position: relative;">
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+            <div class="ai-terminal mt-32 mx-auto max-w-md scroll-fade-up delay-4" style="text-align: left; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.8rem; height: 250px; overflow-y: auto; position: relative;" onclick="document.getElementById('terminal-input').focus()">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
                     <div style="width:10px; height:10px; border-radius:50%; background:#ef4444;"></div>
                     <div style="width:10px; height:10px; border-radius:50%; background:#f59e0b;"></div>
                     <div style="width:10px; height:10px; border-radius:50%; background:#10b981;"></div>
-                    <span style="color:#666; font-size:0.7rem; margin-left:auto;">model_training.py</span>
+                    <span style="color:#888; font-size:0.7rem; margin-left:auto;">raj_os v1.0</span>
                 </div>
-                <div id="terminal-output" style="color: #10b981;"></div>
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(transparent, #000);"></div>
+                <div id="terminal-output" style="color: #10b981; margin-bottom: 5px;">
+                    <div>Type 'help' to see available commands.</div>
+                </div>
+                <div style="display: flex; align-items: center; color: #10b981;">
+                    <span style="margin-right: 8px;">raj@system:~$</span>
+                    <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" style="background: transparent; border: none; color: #fff; font-family: 'Courier New', monospace; font-size: 0.8rem; outline: none; flex-grow: 1;">
+                </div>
             </div>
             
             <div class="mt-32">
@@ -478,7 +485,7 @@
                 <div class="gh-advanced-grid mt-12">
                     <!-- Left: Profile & Langs -->
                     <div class="gh-col">
-                        <div class="gh-profile-card">
+                        <div class="gh-profile-card hover-glow">
                             <img id="gh-avatar" src="" alt="GitHub" class="gh-avatar">
                             <div class="gh-info">
                                 <h3 id="gh-name" class="gh-name">--</h3>
@@ -541,17 +548,17 @@
                     </div>
                     
                     <div class="lc-stats-col">
-                        <div class="lc-stat-box box-easy">
+                        <div class="lc-stat-box hover-glow box-easy">
                             <span class="stat-glow"></span>
                             <div class="stat-header">EASY <span class="stat-pct" id="lc-pct-easy">0%</span></div>
                             <div class="stat-val glitch-text" id="lc-easy" data-text="0">0</div>
                         </div>
-                        <div class="lc-stat-box box-med">
+                        <div class="lc-stat-box hover-glow box-med">
                             <span class="stat-glow"></span>
                             <div class="stat-header">MEDIUM <span class="stat-pct" id="lc-pct-med">0%</span></div>
                             <div class="stat-val glitch-text" id="lc-med" data-text="0">0</div>
                         </div>
-                        <div class="lc-stat-box box-hard">
+                        <div class="lc-stat-box hover-glow box-hard">
                             <span class="stat-glow"></span>
                             <div class="stat-header">HARD <span class="stat-pct" id="lc-pct-hard">0%</span></div>
                             <div class="stat-val glitch-text" id="lc-hard" data-text="0">0</div>
