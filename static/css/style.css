@@ -104,36 +104,36 @@ body {
     );
 }
 
-/* Glow Modifiers */
-.glow-purple {
-    --glow-primary: rgba(192, 132, 252, 0.15);
-    --glow-secondary: rgba(147, 51, 234, 0.05);
-    --glow-border: rgba(192, 132, 252, 0.4);
-    --glow-shadow: rgba(147, 51, 234, 0.15);
+/* Glow Modifiers - Luxury Edition */
+.glow-silver {
+    --glow-primary: rgba(255, 255, 255, 0.1);
+    --glow-secondary: rgba(200, 200, 200, 0.05);
+    --glow-border: rgba(255, 255, 255, 0.25);
+    --glow-shadow: rgba(255, 255, 255, 0.1);
 }
-.glow-emerald {
-    --glow-primary: rgba(52, 211, 153, 0.15);
-    --glow-secondary: rgba(16, 185, 129, 0.05);
-    --glow-border: rgba(52, 211, 153, 0.4);
-    --glow-shadow: rgba(16, 185, 129, 0.15);
+.glow-champagne {
+    --glow-primary: rgba(247, 231, 206, 0.15);
+    --glow-secondary: rgba(220, 190, 150, 0.05);
+    --glow-border: rgba(247, 231, 206, 0.4);
+    --glow-shadow: rgba(247, 231, 206, 0.15);
+}
+.glow-obsidian {
+    --glow-primary: rgba(30, 30, 30, 0.4);
+    --glow-secondary: rgba(10, 10, 10, 0.2);
+    --glow-border: rgba(80, 80, 80, 0.4);
+    --glow-shadow: rgba(0, 0, 0, 0.5);
 }
 .glow-amber {
-    --glow-primary: rgba(251, 191, 36, 0.15);
-    --glow-secondary: rgba(217, 119, 6, 0.05);
-    --glow-border: rgba(251, 191, 36, 0.4);
-    --glow-shadow: rgba(217, 119, 6, 0.15);
+    --glow-primary: rgba(247, 231, 206, 0.15);
+    --glow-secondary: rgba(220, 190, 150, 0.05);
+    --glow-border: rgba(247, 231, 206, 0.4);
+    --glow-shadow: rgba(247, 231, 206, 0.15);
 }
-.glow-rose {
-    --glow-primary: rgba(251, 113, 133, 0.15);
-    --glow-secondary: rgba(225, 29, 72, 0.05);
-    --glow-border: rgba(251, 113, 133, 0.4);
-    --glow-shadow: rgba(225, 29, 72, 0.15);
-}
-.glow-gold {
-    --glow-primary: rgba(253, 224, 71, 0.12);
-    --glow-secondary: rgba(217, 119, 6, 0.05);
-    --glow-border: rgba(212, 175, 55, 0.4);
-    --glow-shadow: rgba(212, 175, 55, 0.15);
+.glow-rose, .glow-emerald, .glow-purple, .glow-gold {
+    --glow-primary: rgba(255, 255, 255, 0.1);
+    --glow-secondary: rgba(200, 200, 200, 0.05);
+    --glow-border: rgba(255, 255, 255, 0.25);
+    --glow-shadow: rgba(255, 255, 255, 0.1);
 }
 
 
@@ -218,26 +218,23 @@ body {
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 10px 20px var(--text-glow, rgba(37,99,235,0.15)));
 }
-/* Gradient Utilities */
-.gradient-purple {
-    --text-gradient: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
-    --text-glow: rgba(168, 85, 247, 0.15);
+/* Gradient Utilities - Luxury */
+.gradient-silver {
+    --text-gradient: linear-gradient(135deg, #ffffff 0%, #b0b0b0 100%);
+    --text-glow: rgba(255, 255, 255, 0.1);
 }
-.gradient-emerald {
-    --text-gradient: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
-    --text-glow: rgba(16, 185, 129, 0.15);
-}
-.gradient-amber {
-    --text-gradient: linear-gradient(135deg, #ffffff 0%, #fbbf24 100%);
-    --text-glow: rgba(245, 158, 11, 0.15);
-}
-.gradient-rose {
-    --text-gradient: linear-gradient(135deg, #ffffff 0%, #fb7185 100%);
-    --text-glow: rgba(225, 29, 72, 0.15);
-}
-.gradient-gold {
+.gradient-champagne, .gradient-amber, .gradient-gold {
     --text-gradient: linear-gradient(135deg, #ffffff 0%, #fde047 30%, #d97706 100%);
-    --text-glow: rgba(212, 175, 55, 0.2);
+    --text-glow: rgba(212, 175, 55, 0.25);
+}
+.gradient-obsidian {
+    --text-gradient: linear-gradient(135deg, #a0a0a0 0%, #404040 100%);
+    --text-glow: rgba(0, 0, 0, 0.4);
+}
+.gradient-purple, .gradient-emerald, .gradient-rose {
+    /* Map legacy neon classes to luxury silver for seamless HTML upgrades */
+    --text-gradient: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #b0b0b0 100%);
+    --text-glow: rgba(255, 255, 255, 0.1);
 }
 .massive-text-small {
     font-family: var(--font-heading);
@@ -811,6 +808,11 @@ html.lenis { height: auto; }
     
     .project-chapter {
         gap: 2rem !important;
+    }
+    
+    .ai-interface {
+        padding: 1.5rem !important;
+        margin-top: 4rem !important;
     }
     
     body, html {

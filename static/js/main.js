@@ -598,3 +598,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- Luxury AI Sentiment Inference ---
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('ai-sentiment-input');
+    const label = document.getElementById('ai-prediction-label');
+    const bar = document.getElementById('ai-confidence-bar');
+    const val = document.getElementById('ai-confidence-val');
+    
+    if (!input || !label || !bar || !val) return;
+    
+    // Simple heuristic dictionary for demonstration
+    const positiveWords = ['good', 'great', 'awesome', 'excellent', 'amazing', 'love', 'perfect', 'beautiful', 'luxury', 'premium'];
+    const negativeWords = ['bad', 'terrible', 'awful', 'poor', 'worst', 'hate', 'ugly', 'cheap', 'broken'];
+    
+    let timeout = null;
+    
+    input.addEventListener('input', (e) => {
+        clearTimeout(timeout);
+        const text = e.target.value.toLowerCase();
+        
+        if (text.trim() === '') {
+            label.innerText = 'WAITING...';
+            label.style.color = '#fff';
+            bar.style.width = '0%';
+            val.innerText = '0.00%';
+            return;
+        }
+        
+        // Simulate processing delay for "luxury" feel
+        label.innerText = 'PROCESSING TENSORS...';
+        label.style.color = '#d4af37'; // Champagne
+        
+        timeout = setTimeout(() => {
+            const words = text.split(/\s+/);
+            let score = 0;
+            
+            words.forEach(word => {
+                if (positiveWords.includes(word)) score += 1;
+                if (negativeWords.includes(word)) score -= 1;
+            });
+            
+            // Calculate a fake confidence between 65% and 99%
+            const baseConfidence = 65 + Math.random() * 25;
+            let finalConfidence = baseConfidence + (Math.abs(score) * 5);
+            if (finalConfidence > 99.9) finalConfidence = 99.9;
+            
+            if (score > 0) {
+                label.innerText = 'POSITIVE';
+                label.style.color = '#10b981'; // Emerald
+                bar.style.background = 'linear-gradient(90deg, #10b981, #d4af37)';
+            } else if (score < 0) {
+                label.innerText = 'NEGATIVE';
+                label.style.color = '#ef4444'; // Rose
+                bar.style.background = 'linear-gradient(90deg, #ef4444, #d4af37)';
+            } else {
+                label.innerText = 'NEUTRAL';
+                label.style.color = '#b0b0b0'; // Silver
+                bar.style.background = 'linear-gradient(90deg, #b0b0b0, #d4af37)';
+                finalConfidence = 45 + Math.random() * 10; // Lower confidence for neutral
+            }
+            
+            bar.style.width = `${finalConfidence}%`;
+            val.innerText = `${finalConfidence.toFixed(2)}%`;
+            
+        }, 600); // 600ms fake processing delay
+    });
+});
