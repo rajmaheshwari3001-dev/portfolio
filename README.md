@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=800&size=40&pause=1000&color=d97706&center=true&vCenter=true&width=800&lines=%E2%9A%A1+RAJ+MAHESHWARI+%7C+Software+Engineer;Building+Intelligent+Systems;Luxury+UI+%26+Fluid+Typography;Interactive+AI+Terminal+Simulations)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=800&size=40&pause=1000&color=d97706&center=true&vCenter=true&width=800&lines=%E2%9A%A1+RAJ+MAHESHWARI+%7C+Software+Engineer;Building+Intelligent+Systems;Luxury+UI+%26+Fluid+Typography;Interactive+AI+Inference)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
 
 [![Live Deployment](https://img.shields.io/badge/LIVE_DEPLOYMENT-portfolio.vercel.app-050505?style=for-the-badge&logo=vercel&logoColor=d97706)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
 
@@ -41,10 +41,11 @@ graph TD
 
 ## ✨ Engineering Highlights
 
-- **Interactive UNIX Terminal Simulator:** A fully playable, custom-built terminal in the UI. Type `ls`, `cat resume.txt`, or `sudo` to experience a simulated file system that responds instantly with micro-delays for tactile realism.
-- **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones, without overlapping.
+- **Interactive AI Neural Interface:** A custom-built, interactive sentiment inference widget right in the UI. Type any sentence to simulate real-time tensor processing and receive a live Positive/Negative/Neutral classification with confidence metrics.
+- **Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
+- **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones.
 - **Intelligent API Caching (Backend):** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
-- **Glassmorphic & Gradient Architecture:** Avoids heavy CSS frameworks in favor of hand-written, ultra-performant custom CSS. Features deep 24px frosted glass, premium metallic gradients (Gold, Champagne, Amber), and dynamic hover-glows.
+- **Premium Glassmorphic Design:** Avoids heavy CSS frameworks in favor of hand-written, ultra-performant custom CSS. Features deep 24px frosted glass, premium metallic gradients (Gold, Champagne, Silver), and luxurious obsidian hover-glows.
 
 <details>
 <summary><b>💻 View Tech Stack</b></summary>
