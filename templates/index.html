@@ -24,6 +24,7 @@
     <!-- Preconnect for external resources -->
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <!-- Lenis for smooth scroll -->
     <script defer src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -75,6 +76,7 @@
     <!-- Fixed Desktop Sidebar -->
     <aside id="sidebar">
         <div class="sidebar-top">
+            <button id="desktop-sidebar-toggle" aria-label="Toggle Sidebar"><i class="ph ph-list"></i></button>
             <div class="profile-img">
                 <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" fetchpriority="high" width="80" height="80" onerror="this.style.display='none'">
             </div>
@@ -88,13 +90,13 @@
         
         <nav class="sidebar-nav">
             <ul>
-                <li><a href="#hero" class="nav-link active"><span>01</span> HOME</a></li>
-                <li><a href="#about" class="nav-link"><span>02</span> ABOUT</a></li>
-                <li><a href="#projects" class="nav-link"><span>03</span> WORK</a></li>
-                <li><a href="#skills" class="nav-link"><span>04</span> SKILLS</a></li>
-                <li><a href="#activity" class="nav-link"><span>05</span> ACTIVITY</a></li>
-                <li><a href="#journey" class="nav-link"><span>06</span> JOURNEY</a></li>
-                <li><a href="#contact" class="nav-link"><span>07</span> CONTACT</a></li>
+                <li><a href="#hero" class="nav-link active"><i class="ph ph-house"></i> <span class="nav-text">HOME</span></a></li>
+                <li><a href="#about" class="nav-link"><i class="ph ph-user"></i> <span class="nav-text">ABOUT</span></a></li>
+                <li><a href="#projects" class="nav-link"><i class="ph ph-briefcase"></i> <span class="nav-text">WORK</span></a></li>
+                <li><a href="#skills" class="nav-link"><i class="ph ph-lightning"></i> <span class="nav-text">SKILLS</span></a></li>
+                <li><a href="#activity" class="nav-link"><i class="ph ph-activity"></i> <span class="nav-text">ACTIVITY</span></a></li>
+                <li><a href="#journey" class="nav-link"><i class="ph ph-map-trifold"></i> <span class="nav-text">JOURNEY</span></a></li>
+                <li><a href="#contact" class="nav-link"><i class="ph ph-envelope"></i> <span class="nav-text">CONTACT</span></a></li>
             </ul>
         </nav>
         
@@ -110,7 +112,11 @@
         
         <!-- Chapter 1: Hero (Dark Tech) -->
         <section id="hero" class="chapter theme-dark full-height align-center px-lg relative">
-            <div class="content-wrapper scroll-fade-up">
+            <!-- Cinematic Background Video -->
+            <video id="hero-bg-video" class="hero-video" src="{{ url_for('static', filename='video/hero_sequence.mp4') }}" autoplay loop muted playsinline></video>
+            <div class="hero-video-overlay"></div>
+            
+            <div class="content-wrapper scroll-fade-up" style="position: relative; z-index: 2;">
                 <h2 class="massive-text gradient-gold" style="margin-bottom: 0;">I BUILD</h2>
                 <h1 class="massive-text gradient-gold" id="hero-typewriter">INTELLIGENT<br>SYSTEMS</h1>
                 
@@ -130,11 +136,11 @@
         </section>
         
         <!-- Chapter 2: About (Professional, Detail-Rich) -->
-        <section id="about" class="chapter theme-light px-lg py-20">
+        <section id="about" class="chapter theme-dark px-lg py-20">
             <div class="split-layout">
                 <div class="split-left scroll-fade-right">
                     <h2 class="section-title mb-8">ABOUT</h2>
-                    <h2 class="massive-text gradient-amber" style="font-size: clamp(2rem, 4.5vw, 5rem); line-height: 1; white-space: nowrap;">RAJ<br>MAHESHWARI.</h2>
+                    <h2 class="massive-text gradient-amber scroll-blur-in" style="font-size: clamp(2rem, 4.5vw, 5rem); line-height: 1; white-space: nowrap;">RAJ<br>MAHESHWARI.</h2>
                 </div>
                 <div class="split-right scroll-fade-left pt-6">
                     <p class="editorial-text mb-6">
@@ -301,14 +307,14 @@
             </div>
         </section>
 
-        <!-- Chapter 6: Projects (Light Editorial) -->
-        <section id="projects" class="chapter theme-light px-lg py-32">
+        <!-- Chapter 6: Projects (Dark Tech) -->
+        <section id="projects" class="chapter theme-dark px-lg py-32">
             <div class="content-wrapper">
-                <h2 class="massive-text gradient-rose mb-32 scroll-fade-up">WHAT</h2>
-                <h2 class="massive-text gradient-rose scroll-fade-up">I'VE BUILT.</h2>
+                <h2 class="massive-text gradient-rose mb-32 scroll-rotate-in">WHAT</h2>
+                <h2 class="massive-text gradient-rose scroll-rotate-in">I'VE BUILT.</h2>
                 
                 <!-- Project 01: TrustLayer -->
-                <div class="project-chapter mt-32 scroll-fade-up featured-project">
+                <div class="project-chapter mt-32 scroll-fade-up featured-project" onclick="window.open('https://github.com/rajmaheshwari3001-dev/Trustlayer', '_blank')" style="cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                     <div class="proj-visual p1-visual">
                         <div class="anim-doc"></div>
                         <div class="anim-node">AI</div>
@@ -324,19 +330,24 @@
                         <div class="case-study-details mt-8">
                             <p><strong>Overview:</strong> A Deep AI Validation system that bridges the trust gap between freelancers and clients. It provides an intelligent escrow layer that evaluates code and releases payments securely.</p>
                             <p class="mt-4"><strong>Key Features:</strong></p>
-                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
                                 <li>Multi-dimensional AI scoring (Security, Quality, Testing, Requirements).</li>
                                 <li>Interactive visual validation pipeline and live AI terminal.</li>
                                 <li>Generates detailed, actionable AI Code Audit Reports for freelancers.</li>
                             </ul>
                         </div>
                         
-                        <a href="https://github.com/rajmaheshwari3001-dev/Trustlayer" target="_blank" rel="noopener noreferrer" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                        <button class="view-btn mt-8">
+                            <svg height="18" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="18" fill="currentColor">
+                                <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                            </svg>
+                            VIEW SOURCE CODE
+                        </button>
                     </div>
                 </div>
                 
                 <!-- Project 02: Excel Data Cleaning Tool -->
-                <div class="project-chapter reverse mt-32 scroll-fade-up">
+                <div class="project-chapter reverse mt-32 scroll-fade-up" onclick="window.open('https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool', '_blank')" style="cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                     <div class="proj-content">
                         <div class="proj-num">02</div>
                         <h2 class="proj-title">EXCEL DATA CLEANING TOOL</h2>
@@ -347,14 +358,19 @@
                         <div class="case-study-details mt-8">
                             <p><strong>Overview:</strong> A Python automation tool that programmatically cleans Excel and CSV datasets using pandas.</p>
                             <p class="mt-4"><strong>Key Features:</strong></p>
-                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
                                 <li>Removes duplicate rows and handles missing/null values safely.</li>
                                 <li>Cleans and formats inconsistent raw dataset columns.</li>
                                 <li>Exports clean data ready for analytics or machine learning models.</li>
                             </ul>
                         </div>
 
-                        <a href="https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool" target="_blank" rel="noopener noreferrer" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                        <button class="view-btn mt-8">
+                            <svg height="18" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="18" fill="currentColor">
+                                <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                            </svg>
+                            VIEW SOURCE CODE
+                        </button>
                     </div>
                     <div class="proj-visual p2-visual">
                         <div class="db-cylinder"></div>
@@ -364,7 +380,7 @@
                 </div>
                 
                 <!-- Project 03: Web Scraper -->
-                <div class="project-chapter mt-32 scroll-fade-up">
+                <div class="project-chapter mt-32 scroll-fade-up" onclick="window.open('https://github.com/rajmaheshwari3001-dev/-web-scraper', '_blank')" style="cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                     <div class="proj-visual p3-visual">
                         <div class="text-frag t1">PARSE</div>
                         <div class="text-frag t2">HTML</div>
@@ -380,14 +396,19 @@
                         <div class="case-study-details mt-8">
                             <p><strong>Overview:</strong> A Python script built to extract and structure unstructured data from web pages.</p>
                             <p class="mt-4"><strong>Key Features:</strong></p>
-                            <ul style="list-style-type: disc; margin-left: 1.5rem; color: #333; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                            <ul style="list-style-type: disc; margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
                                 <li>Parses raw HTML to locate target elements and attributes.</li>
                                 <li>Automates collection of custom data fields into structured formats.</li>
                                 <li>Helps gather raw data for data engineering experiments.</li>
                             </ul>
                         </div>
 
-                        <a href="https://github.com/rajmaheshwari3001-dev/-web-scraper" target="_blank" rel="noopener noreferrer" class="view-btn mt-8">EXPLORE CODE <span class="arrow">→</span></a>
+                        <button class="view-btn mt-8">
+                            <svg height="18" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="18" fill="currentColor">
+                                <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                            </svg>
+                            VIEW SOURCE CODE
+                        </button>
                     </div>
                 </div>
 
@@ -446,34 +467,23 @@
             </div>
             <div id="nn-tooltip" class="nn-tooltip">DATA</div>
 
-            <!-- Luxury AI Neural Interface -->
-            <div class="ai-interface mt-32 mx-auto max-w-md scroll-fade-up delay-4 hover-glow glow-silver" style="text-align: left; background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 2rem; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-                <div style="position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
-                
-                <h4 style="font-family: var(--font-heading); color: #fff; letter-spacing: 2px; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
-                    <span style="display:inline-block; width:6px; height:6px; background:#d4af37; border-radius:50%; box-shadow:0 0 10px #d4af37;"></span> 
-                    NEURAL SENTIMENT INFERENCE
-                </h4>
-                <p style="color: #888; font-size: 0.8rem; margin-bottom: 1.5rem;">A lightweight client-side model classifying text sentiment in real-time.</p>
-                
-                <div style="position: relative; margin-bottom: 1.5rem;">
-                    <input type="text" id="ai-sentiment-input" placeholder="Enter a sentence to analyze..." aria-label="AI Input" autocomplete="off" spellcheck="false" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: var(--font-body); font-size: 0.9rem; padding: 1rem; border-radius: 8px; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='rgba(212,175,55,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+            <!-- Interactive System Terminal -->
+            <div class="interactive-terminal mt-32 mx-auto max-w-md scroll-fade-up delay-4">
+                <div class="terminal-header">
+                    <div class="term-dots">
+                        <span class="dot close"></span>
+                        <span class="dot min"></span>
+                        <span class="dot max"></span>
+                    </div>
+                    <div class="term-title">raj@system: ~</div>
                 </div>
-                
-                <div class="inference-result" style="display: flex; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: #aaa; font-size: 0.75rem; letter-spacing: 1px;">PREDICTION</span>
-                        <span id="ai-prediction-label" style="color: #fff; font-family: var(--font-heading); font-size: 0.85rem; letter-spacing: 1px;">WAITING...</span>
-                    </div>
-                    
-                    <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin: 8px 0;">
-                        <div id="ai-confidence-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #b0b0b0, #d4af37); transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);"></div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: #aaa; font-size: 0.75rem; letter-spacing: 1px;">CONFIDENCE</span>
-                        <span id="ai-confidence-val" style="color: #fff; font-family: monospace; font-size: 0.85rem;">0.00%</span>
-                    </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="term-line output"><span class="term-type">[SYSTEM ONLINE]</span> Initialization complete.</div>
+                    <div class="term-line output">Type <span class="term-highlight">'help'</span> to see available commands.</div>
+                </div>
+                <div class="terminal-input-wrapper">
+                    <span class="term-prompt">raj@system:~$</span>
+                    <input type="text" id="terminal-input" class="terminal-input" placeholder="" autocomplete="off" spellcheck="false" />
                 </div>
             </div>
             
@@ -484,10 +494,10 @@
             </div>
         </section>
 
-        <!-- Chapter 8: Developer Signal (Light Editorial) -->
-        <section id="activity" class="chapter theme-light px-lg py-32">
-            <h2 class="massive-text scroll-fade-up">WHAT I</h2>
-            <h2 class="massive-text scroll-fade-up">ACTUALLY DO.</h2>
+        <!-- Chapter 8: Developer Signal (Dark) -->
+        <section id="activity" class="chapter theme-dark px-lg py-32">
+            <h2 class="massive-text scroll-slide-up">WHAT I</h2>
+            <h2 class="massive-text scroll-slide-up delay-1">ACTUALLY DO.</h2>
             <p class="editorial-text-small text-muted mt-6 mb-20 scroll-fade-up">
                 Projects show what I build. GitHub shows what I code. LeetCode shows how I solve.
             </p>
@@ -661,7 +671,7 @@
                 <h2 class="massive-text text-outline scroll-scale delay-1">JOURNEY.</h2>
                 
                 <div class="pro-timeline mt-20">
-                    <div class="pro-timeline-item scroll-fade-up">
+                    <div class="pro-timeline-item scroll-slide-up">
                         <div class="pro-tl-date">2024</div>
                         <div class="pro-tl-line"></div>
                         <div class="pro-tl-content">

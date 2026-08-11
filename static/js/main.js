@@ -665,3 +665,151 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 600); // 600ms fake processing delay
     });
 });
+
+// --- Hero Video GSAP Scroll Animation ---
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const heroVideo = document.getElementById('hero-bg-video');
+        if (heroVideo) {
+            // Fade out the video and parallax it slightly on scroll
+            gsap.to(heroVideo, {
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                opacity: 0,
+                y: 150, // Slight parallax effect downwards
+                ease: "none"
+            });
+        }
+    }
+});
+
+// --- Page Load & Scroll Handling ---
+// Force scroll to top before unload and on load
+window.addEventListener('beforeunload', () => {
+    window.scrollTo(0, 0);
+});
+
+// Remove any hash from the URL on load to prevent auto-scrolling
+if (window.location.hash) {
+    window.history.replaceState('', document.title, window.location.pathname + window.location.search);
+}
+
+// --- Desktop Sidebar Toggle & Auto-Collapse ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Force scroll to top on load (smoothly)
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    const desktopToggleBtn = document.getElementById('desktop-sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (desktopToggleBtn) {
+        desktopToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('sidebar-collapsed');
+        });
+    }
+
+    // 2. Collapse sidebar automatically on first mouse leave (with smooth delay)
+    if (sidebar) {
+        const onFirstMouseLeave = () => {
+            // Add a small delay so it doesn't feel like a sudden glitch
+            setTimeout(() => {
+                document.body.classList.add('sidebar-collapsed');
+            }, 400);
+            sidebar.removeEventListener('mouseleave', onFirstMouseLeave);
+        };
+        sidebar.addEventListener('mouseleave', onFirstMouseLeave);
+    }
+
+    // --- Interactive System Terminal ---
+    const termInput = document.getElementById('terminal-input');
+    const termBody = document.getElementById('terminal-body');
+    
+    if (termInput && termBody) {
+        // Focus input when clicking anywhere on the terminal
+        const terminalContainer = document.querySelector('.interactive-terminal');
+        if (terminalContainer) {
+            terminalContainer.addEventListener('click', () => {
+                termInput.focus();
+            });
+        }
+
+        const appendLine = (htmlContent) => {
+            const div = document.createElement('div');
+            div.className = 'term-line';
+            div.innerHTML = htmlContent;
+            termBody.appendChild(div);
+            termBody.scrollTop = termBody.scrollHeight;
+        };
+
+        termInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = termInput.value.trim().toLowerCase();
+                termInput.value = '';
+                
+                if (!cmd) return;
+
+                // Echo command
+                const echo = document.createElement('div');
+                echo.className = 'term-line cmd-echo';
+                echo.innerHTML = `<span class="term-prompt">raj@system:~$</span> ${cmd}`;
+                termBody.appendChild(echo);
+
+                // Process command
+                switch (cmd) {
+                    case 'help':
+                        appendLine(`Available commands:<br>
+                        <span class="term-highlight">about</span> - Teleport to About section<br>
+                        <span class="term-highlight">projects</span> - Teleport to Projects section<br>
+                        <span class="term-highlight">journey</span> - Teleport to Timeline section<br>
+                        <span class="term-highlight">contact</span> - Teleport to Contact section<br>
+                        <span class="term-highlight">whoami</span> - Display user info<br>
+                        <span class="term-highlight">clear</span> - Clear terminal output`);
+                        break;
+                    case 'about':
+                    case 'go about':
+                        appendLine(`Initiating teleport sequence to <span class="term-highlight">ABOUT</span>...`);
+                        lenis.scrollTo('#about', { offset: -50 });
+                        break;
+                    case 'projects':
+                    case 'go projects':
+                    case 'work':
+                        appendLine(`Initiating teleport sequence to <span class="term-highlight">PROJECTS</span>...`);
+                        lenis.scrollTo('#projects', { offset: -50 });
+                        break;
+                    case 'journey':
+                    case 'timeline':
+                    case 'go journey':
+                        appendLine(`Initiating teleport sequence to <span class="term-highlight">JOURNEY</span>...`);
+                        lenis.scrollTo('#journey', { offset: -50 });
+                        break;
+                    case 'contact':
+                    case 'go contact':
+                        appendLine(`Initiating teleport sequence to <span class="term-highlight">CONTACT</span>...`);
+                        lenis.scrollTo('#contact', { offset: -50 });
+                        break;
+                    case 'whoami':
+                        appendLine(`RAJ MAHESHWARI<br>AI/ML Developer building intelligent software systems.`);
+                        break;
+                    case 'clear':
+                        termBody.innerHTML = '';
+                        break;
+                    case 'sudo':
+                        appendLine(`Nice try. This incident will be reported.`);
+                        break;
+                    default:
+                        appendLine(`Command not found: ${cmd}. Type <span class="term-highlight">help</span> for a list of commands.`);
+                }
+                termBody.scrollTop = termBody.scrollHeight;
+            }
+        });
+    }
+});
