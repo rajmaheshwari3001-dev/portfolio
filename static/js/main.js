@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Scroll Animations (Intersection Observer) ---
-    const animatedElements = document.querySelectorAll('.scroll-fade-up, .scroll-fade-right, .scroll-fade-left, .scroll-scale, .scroll-slide-up, .scroll-draw-line');
+    const animatedElements = document.querySelectorAll('.scroll-fade-up, .scroll-fade-right, .scroll-fade-left, .scroll-scale, .scroll-slide-up, .scroll-draw-line, .scroll-blur-in, .scroll-rotate-in');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
