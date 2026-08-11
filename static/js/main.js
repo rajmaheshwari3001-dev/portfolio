@@ -229,9 +229,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Wait for the peak of the flash (approx 150ms) to scroll
                     setTimeout(() => {
+                        this.blur(); // Remove focus to prevent browser snapping back
                         const targetSection = document.getElementById(val);
                         if (targetSection && window.lenis) {
-                            window.lenis.scrollTo(targetSection, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                            window.lenis.scrollTo('#' + val, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
                         } else if (targetSection) {
                             targetSection.scrollIntoView({ behavior: 'smooth' });
                         }
