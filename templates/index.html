@@ -555,19 +555,9 @@
                 
                 <div class="lc-advanced-grid mt-12">
                     <div class="lc-visual-col">
-                        <div class="neural-rings-container">
-                            <svg class="neural-rings" viewBox="0 0 200 200">
-                                <!-- Background Rings -->
-                                <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
-                                <circle class="ring-bg" cx="100" cy="100" r="70"></circle>
-                                <circle class="ring-bg" cx="100" cy="100" r="50"></circle>
-                                
-                                <!-- Foreground Animated Rings -->
-                                <circle id="ring-easy" class="ring-fg easy-ring" cx="100" cy="100" r="90"></circle>
-                                <circle id="ring-med" class="ring-fg med-ring" cx="100" cy="100" r="70"></circle>
-                                <circle id="ring-hard" class="ring-fg hard-ring" cx="100" cy="100" r="50"></circle>
-                            </svg>
-                            <div class="ring-center">
+                        <div class="neural-rings-container" style="position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center;">
+                            <canvas id="lcDoughnutChart"></canvas>
+                            <div class="ring-center" style="position: absolute;">
                                 <span class="ring-label">SOLVED</span>
                                 <h2 id="lc-total" class="ring-total glitch-text" data-text="0">0</h2>
                             </div>
@@ -623,10 +613,10 @@
                     </div>
                     
                     <!-- Skills -->
-                    <div class="lc-bento-card">
-                        <h5 class="sub-label mb-4">TOP SKILLS</h5>
-                        <div id="lc-skills-list" class="lc-skills-list">
-                            <!-- JS injected -->
+                    <div class="lc-bento-card" style="display: flex; flex-direction: column;">
+                        <h5 class="sub-label mb-4">SKILL MATRIX (RADAR)</h5>
+                        <div style="flex-grow: 1; position: relative; min-height: 200px;">
+                            <canvas id="lcRadarChart"></canvas>
                         </div>
                     </div>
                     

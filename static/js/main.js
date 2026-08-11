@@ -197,8 +197,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 terminalOutput.appendChild(cmdLine);
                 
                 // Handle command
+                const teleportSections = ['projects', 'about', 'journey', 'contact', 'skills', 'activity', 'hero'];
                 if (val === 'clear') {
                     terminalOutput.innerHTML = '';
+                } else if (teleportSections.includes(val)) {
+                    // Thor Teleportation!
+                    let flash = document.getElementById('thor-flash-overlay');
+                    if (!flash) {
+                        flash = document.createElement('div');
+                        flash.id = 'thor-flash-overlay';
+                        flash.className = 'thor-flash';
+                        document.body.appendChild(flash);
+                    }
+                    
+                    // Trigger flash animation
+                    flash.classList.remove('thor-striking');
+                    void flash.offsetWidth; // Trigger reflow
+                    flash.classList.add('thor-striking');
+                    
+                    // Trigger screen shake
+                    document.body.classList.remove('screen-shake');
+                    void document.body.offsetWidth;
+                    document.body.classList.add('screen-shake');
+                    setTimeout(() => document.body.classList.remove('screen-shake'), 500);
+                    
+                    const response = document.createElement('div');
+                    response.style.marginBottom = "8px";
+                    response.style.color = "#06b6d4";
+                    response.innerHTML = `> INITIATING BIFROST TELEPORT TO /${val.toUpperCase()}...`;
+                    terminalOutput.appendChild(response);
+                    
+                    // Wait for the peak of the flash (approx 150ms) to scroll
+                    setTimeout(() => {
+                        const targetSection = document.getElementById(val);
+                        if (targetSection && typeof lenis !== 'undefined') {
+                            lenis.scrollTo(targetSection, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                        } else if (targetSection) {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 150);
+
                 } else {
                     const response = document.createElement('div');
                     response.style.marginBottom = "8px";
@@ -455,20 +493,36 @@ function fetchLeetcodeData() {
                     });
                 });
                 
-                // Neural Rings
-                const totalTarget = Math.max(total, 500);
-                const cEasy = 565;
-                const cMed = 440;
-                const cHard = 314;
-                
-                setTimeout(() => {
-                    const re = document.getElementById('ring-easy');
-                    const rm = document.getElementById('ring-med');
-                    const rh = document.getElementById('ring-hard');
-                    if (re) re.style.strokeDashoffset = cEasy - (easy / totalTarget) * cEasy;
-                    if (rm) rm.style.strokeDashoffset = cMed - (med / totalTarget) * cMed;
-                    if (rh) rh.style.strokeDashoffset = cHard - (hard / totalTarget) * cHard;
-                }, 500);
+                // Chart.js Doughnut for Solved Stats
+                const ctxDoughnut = document.getElementById('lcDoughnutChart');
+                if (ctxDoughnut) {
+                    new Chart(ctxDoughnut, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Easy', 'Medium', 'Hard'],
+                            datasets: [{
+                                data: [easy, med, hard],
+                                backgroundColor: ['#10b981', '#f59e0b', '#f43f5e'],
+                                borderColor: 'rgba(5, 5, 5, 1)',
+                                borderWidth: 3,
+                                hoverOffset: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '75%',
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0,0,0,0.8)',
+                                    titleFont: { family: "'Space Grotesk', sans-serif" },
+                                    bodyFont: { family: "'Space Grotesk', sans-serif" }
+                                }
+                            }
+                        }
+                    });
+                }
                 
                 // Percentages
                 if (total > 0) {
@@ -499,12 +553,45 @@ function fetchLeetcodeData() {
                     });
                 }
                 
-                // Skills
-                const skillsList = document.getElementById('lc-skills-list');
-                if (skillsList && d.skills) {
-                    skillsList.innerHTML = '';
-                    d.skills.forEach(skill => {
-                        skillsList.innerHTML += `<span class="lc-skill-tag ${skill.level}">${skill.name} ×${skill.count}</span>`;
+                // Chart.js Radar for Skill Matrix
+                const ctxRadar = document.getElementById('lcRadarChart');
+                if (ctxRadar && d.skills) {
+                    const topSkills = d.skills.slice(0, 6);
+                    new Chart(ctxRadar, {
+                        type: 'radar',
+                        data: {
+                            labels: topSkills.map(s => s.name.toUpperCase()),
+                            datasets: [{
+                                label: 'Problems Solved',
+                                data: topSkills.map(s => s.count),
+                                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                                borderColor: 'rgba(37, 99, 235, 1)',
+                                pointBackgroundColor: '#06b6d4',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: '#06b6d4',
+                                borderWidth: 2,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                r: {
+                                    angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    pointLabels: {
+                                        color: 'rgba(255, 255, 255, 0.7)',
+                                        font: { family: "'Space Grotesk', sans-serif", size: 10 }
+                                    },
+                                    ticks: { display: false }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { backgroundColor: 'rgba(0,0,0,0.8)' }
+                            }
+                        }
                     });
                 }
                 

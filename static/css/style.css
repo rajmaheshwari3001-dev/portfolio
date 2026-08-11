@@ -682,24 +682,134 @@ html.lenis { height: auto; }
 .delay-3 { transition-delay: 0.3s; }
 .delay-4 { transition-delay: 0.4s; }
 
-/* Responsive */
+/* ==========================================================================
+   Mobile Navigation Core
+   ========================================================================== */
+#mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+#mobile-nav .logo {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+#mobile-nav .logo span { color: var(--c-accent-blue); }
+#mobile-menu-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+#mobile-menu-btn span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    transition: 0.3s;
+}
+#mobile-menu-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: rgba(5, 5, 5, 0.98);
+    backdrop-filter: blur(15px);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#mobile-menu-overlay.active {
+    transform: translateX(0);
+}
+#mobile-menu-overlay ul {
+    list-style: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-left: 0;
+}
+#mobile-menu-overlay .nav-link {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+#mobile-menu-overlay .nav-link:hover, #mobile-menu-overlay .nav-link.active {
+    color: #fff;
+}
+.mobile-socials {
+    margin-top: 4rem;
+    display: flex;
+    gap: 1.5rem;
+}
+.mobile-socials a {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--c-accent-cyan);
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
 @media (max-width: 1024px) {
-    body { cursor: auto; } /* Restore cursor on mobile */
+    body { cursor: auto; }
     .custom-cursor { display: none; }
     #sidebar { transform: translateX(-100%); }
     #mobile-nav { display: flex; }
     #main-content { margin-left: 0; margin-top: 60px; }
     #neural-canvas { z-index: -1; }
+    
     .split-layout { grid-template-columns: 1fr; gap: 2rem; }
     .project-chapter, .project-chapter.reverse { grid-template-columns: 1fr; gap: 3rem; }
     .proj-visual { order: -1; }
     .gh-editorial-grid { grid-template-columns: 1fr; }
     .lc-editorial-grid { grid-template-columns: 1fr; padding: 2rem; }
-    .gh-advanced-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .lc-advanced-grid { grid-template-columns: 1fr; gap: 2rem; }
+    
+    .gh-advanced-grid, .lc-advanced-grid { grid-template-columns: 1fr; gap: 2rem; }
     .repo-grid { grid-template-columns: 1fr; }
-    .heatmap-grid { grid-template-columns: repeat(10, 1fr); }
     .lc-bento-row { grid-template-columns: 1fr 1fr; }
+    .about-bento { grid-template-columns: 1fr 1fr; }
+    .credentials-grid { grid-template-columns: 1fr; }
+    .competency-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .heatmap-grid { grid-template-columns: repeat(5, 1fr); gap: 2px; }
+    .massive-text, .massive-text-small { font-size: clamp(2rem, 8vw, 4rem); }
+    .px-lg { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-32 { padding-top: 4rem; padding-bottom: 4rem; }
+    .terminal-body { height: 350px; }
+    .more-repos-card { flex-direction: column; text-align: center; gap: 2rem; padding: 2rem 1.5rem; }
+    .card-actions { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+    .lc-bento-row, .about-bento { grid-template-columns: 1fr; }
+    .lc-stats-col { flex-direction: column; }
+    .project-stats { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .gh-profile-card { flex-direction: column; text-align: center; }
 }
 
 /* More Repositories Enhanced Section */
@@ -1023,4 +1133,51 @@ html.lenis { height: auto; }
 }
 .terminal-input:focus {
     background: transparent !important;
+}
+
+/* ==========================================================================
+   Thor Teleportation Effect
+   ========================================================================== */
+.thor-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(10,200,255,1) 40%, rgba(0,0,0,0) 80%);
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0;
+    mix-blend-mode: screen;
+}
+
+@keyframes thorStrike {
+    0% { opacity: 0; transform: scale(1); filter: brightness(1); }
+    10% { opacity: 1; transform: scale(1.2); filter: brightness(3); }
+    20% { opacity: 0; }
+    30% { opacity: 0.8; transform: scale(1.1); }
+    40% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.thor-striking {
+    animation: thorStrike 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes screenShake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+.screen-shake {
+    animation: screenShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
