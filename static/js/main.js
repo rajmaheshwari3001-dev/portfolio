@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Smooth Scroll (Lenis) ---
-    const lenis = new Lenis({
+    window.lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         direction: 'vertical',
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function raf(time) {
-        lenis.raf(time);
+        window.lenis.raf(time);
         requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
@@ -230,8 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Wait for the peak of the flash (approx 150ms) to scroll
                     setTimeout(() => {
                         const targetSection = document.getElementById(val);
-                        if (targetSection && typeof lenis !== 'undefined') {
-                            lenis.scrollTo(targetSection, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                        if (targetSection && window.lenis) {
+                            window.lenis.scrollTo(targetSection, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
                         } else if (targetSection) {
                             targetSection.scrollIntoView({ behavior: 'smooth' });
                         }
