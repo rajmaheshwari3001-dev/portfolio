@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=14">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
     <!-- Preconnect for external resources -->
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -52,26 +52,31 @@
     <!-- Mobile Top Nav -->
     <nav id="mobile-nav">
         <div class="logo">RM<span>.</span></div>
-        <button id="mobile-menu-btn" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
-    <div id="mobile-menu-overlay">
-        <ul>
-            <li><a href="#hero" class="nav-link">HOME</a></li>
-            <li><a href="#about" class="nav-link">ABOUT</a></li>
-            <li><a href="#projects" class="nav-link">WORK</a></li>
-            <li><a href="#skills" class="nav-link">SKILLS</a></li>
-            <li><a href="#activity" class="nav-link">ACTIVITY</a></li>
-            <li><a href="#journey" class="nav-link">JOURNEY</a></li>
-            <li><a href="#contact" class="nav-link">CONTACT</a></li>
-        </ul>
-        <div class="mobile-socials">
-            <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer">GITHUB</a>
-            <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
-            <a href="{{ config.leetcode_url }}" target="_blank" rel="noopener noreferrer">LEETCODE</a>
+        <div class="mobile-top-socials">
+            <a href="{{ config.github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="ph ph-github-logo"></i></a>
+            <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
         </div>
-    </div>
+    </nav>
+
+    <!-- Floating Mobile Bottom Nav (Premium Pill Style) -->
+    <nav id="mobile-bottom-nav">
+        <a href="#hero" class="bottom-nav-link active" aria-label="Home">
+            <i class="ph ph-house"></i>
+        </a>
+        <a href="#activity" class="bottom-nav-link" aria-label="Activity">
+            <i class="ph ph-activity"></i>
+        </a>
+        <a href="#projects" class="bottom-nav-link center-float-btn" aria-label="Work">
+            <div class="center-bg"></div>
+            <i class="ph ph-briefcase"></i>
+        </a>
+        <a href="#contact" class="bottom-nav-link" aria-label="Contact">
+            <i class="ph ph-envelope"></i>
+        </a>
+        <a href="#about" class="bottom-nav-link" aria-label="About">
+            <i class="ph ph-user"></i>
+        </a>
+    </nav>
 
     <!-- Fixed Desktop Sidebar -->
     <aside id="sidebar">
@@ -153,15 +158,15 @@
                     <!-- Quick Stats Bento -->
                     <div class="about-bento scroll-fade-up">
                         <div class="about-bento-item hover-glow glow-amber">
-                            <span class="about-bento-num" id="about-lc-count">63</span>
+                            <span class="about-bento-num animated-counter" id="about-lc-count" data-target="63">0</span>
                             <span class="about-bento-label">LEETCODE<br>PROBLEMS</span>
                         </div>
                         <div class="about-bento-item hover-glow glow-amber">
-                            <span class="about-bento-num">4</span>
+                            <span class="about-bento-num animated-counter" data-target="4">0</span>
                             <span class="about-bento-label">GITHUB<br>REPOSITORIES</span>
                         </div>
                         <div class="about-bento-item hover-glow glow-amber">
-                            <span class="about-bento-num">5+</span>
+                            <span class="about-bento-num"><span class="animated-counter" data-target="5">0</span>+</span>
                             <span class="about-bento-label">LANGUAGES<br>PROFICIENT</span>
                         </div>
                         <div class="about-bento-item hover-glow glow-amber">
@@ -483,7 +488,7 @@
                 </div>
                 <div class="terminal-input-wrapper">
                     <span class="term-prompt">raj@system:~$</span>
-                    <input type="text" id="terminal-input" class="terminal-input" placeholder="" autocomplete="off" spellcheck="false" />
+                    <input type="text" id="terminal-input" class="terminal-input" aria-label="Terminal input command" placeholder="" autocomplete="off" spellcheck="false" />
                 </div>
             </div>
             
@@ -559,7 +564,7 @@
                             <canvas id="lcDoughnutChart"></canvas>
                             <div class="ring-center" style="position: absolute;">
                                 <span class="ring-label">SOLVED</span>
-                                <h2 id="lc-total" class="ring-total glitch-text" data-text="0">0</h2>
+                                <h2 id="lc-total" class="ring-total glitch-text animated-counter" data-target="0" data-text="0">0</h2>
                             </div>
                         </div>
                     </div>
@@ -568,17 +573,17 @@
                         <div class="lc-stat-box hover-glow glow-emerald box-easy">
                             <span class="stat-glow"></span>
                             <div class="stat-header">EASY <span class="stat-pct" id="lc-pct-easy">0%</span></div>
-                            <div class="stat-val glitch-text" id="lc-easy" data-text="0">0</div>
+                            <div class="stat-val glitch-text animated-counter" id="lc-easy" data-target="0" data-text="0">0</div>
                         </div>
                         <div class="lc-stat-box hover-glow glow-amber box-med">
                             <span class="stat-glow"></span>
                             <div class="stat-header">MEDIUM <span class="stat-pct" id="lc-pct-med">0%</span></div>
-                            <div class="stat-val glitch-text" id="lc-med" data-text="0">0</div>
+                            <div class="stat-val glitch-text animated-counter" id="lc-med" data-target="0" data-text="0">0</div>
                         </div>
                         <div class="lc-stat-box hover-glow glow-rose box-hard">
                             <span class="stat-glow"></span>
                             <div class="stat-header">HARD <span class="stat-pct" id="lc-pct-hard">0%</span></div>
-                            <div class="stat-val glitch-text" id="lc-hard" data-text="0">0</div>
+                            <div class="stat-val glitch-text animated-counter" id="lc-hard" data-target="0" data-text="0">0</div>
                         </div>
                     </div>
                 </div>
@@ -739,7 +744,7 @@
     </div><!-- /smooth-wrapper -->
 
     <!-- Scripts -->
-    <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=15"></script>
-    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=15"></script>
+    <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=17"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=17"></script>
 </body>
 </html>
