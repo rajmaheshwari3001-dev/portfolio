@@ -68,14 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Hover Glow Effect for Bento Boxes ---
-    document.addEventListener('mousemove', (e) => {
-        const glowElements = document.querySelectorAll('.hover-glow');
-        glowElements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            el.style.setProperty('--mouse-x', `${x}px`);
-            el.style.setProperty('--mouse-y', `${y}px`);
+    const glowElements = document.querySelectorAll('.hover-glow');
+    glowElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            // Use requestAnimationFrame to prevent layout thrashing on fast mouse movements
+            window.requestAnimationFrame(() => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                el.style.setProperty('--mouse-x', `${x}px`);
+                el.style.setProperty('--mouse-y', `${y}px`);
+            });
         });
     });
 
@@ -326,44 +329,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Mobile Nav Scroll Animation & ScrollSpy ---
-    const topNav = document.getElementById('mobile-nav');
+    // --- Mobile Nav Active State Sync & Smooth Anchor Scroll ---
     const bottomNav = document.getElementById('mobile-bottom-nav');
-    
-    if (topNav || bottomNav) {
-        let lastScrollY = window.scrollY;
-        let ticking = false;
-        
-        if (topNav) topNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-        if (bottomNav) bottomNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const currentScrollY = window.scrollY;
-                    
-                    if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                        // Scrolling down - hide
-                        if (topNav) topNav.style.transform = 'translateY(-100%)';
-                        if (bottomNav) bottomNav.style.transform = 'translate(-50%, 150%)';
-                    } else {
-                        // Scrolling up - show
-                        if (topNav) topNav.style.transform = 'translateY(0)';
-                        if (bottomNav) bottomNav.style.transform = 'translate(-50%, 0)';
-                    }
-                    
-                    lastScrollY = currentScrollY;
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-    }
-
-    // Update active state and indicator on scroll for bottom nav
     const sections = document.querySelectorAll('section.chapter');
     const bottomNavLinks = document.querySelectorAll('.bottom-nav-link');
     const navIndicator = document.querySelector('.nav-indicator');
+    
+    // 1. Smooth Scroll for all anchor links (prevent native jumping)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                e.preventDefault();
+                
+                // Immediately update indicator on click for responsiveness
+                if (this.classList.contains('bottom-nav-link')) {
+                    bottomNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    updateNavIndicator(this);
+                }
+                
+                if (window.lenis) {
+                    window.lenis.scrollTo(targetId, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                } else {
+                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
     
     function updateNavIndicator(activeLink) {
         if (!activeLink || !navIndicator || !bottomNav) return;
@@ -375,19 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const leftPos = linkRect.left - navRect.left + (linkRect.width / 2) - (50 / 2); // 50px is indicator width
         navIndicator.style.left = `${leftPos}px`;
     }
-
-    bottomNavLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            bottomNavLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-            updateNavIndicator(this);
-        });
-    });
     
     if (sections.length > 0 && bottomNavLinks.length > 0) {
         const observerOptions = {
             root: null,
-            rootMargin: '-50% 0px -50% 0px',
+            rootMargin: '-30% 0px -70% 0px', // Trigger closer to the top of the screen
             threshold: 0
         };
         
