@@ -46,6 +46,7 @@ graph TD
 - **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones.
 - **Intelligent API Caching (Backend):** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
 - **Premium Glassmorphic Design:** Avoids heavy CSS frameworks in favor of hand-written, ultra-performant custom CSS. Features deep 24px frosted glass, premium metallic gradients (Gold, Champagne, Silver), and luxurious obsidian hover-glows.
+- **Dynamic Mobile Navigation:** Features a highly responsive, custom-built mobile pill navigation. Integrated with the Lenis smooth scrolling engine and a custom IntersectionObserver ScrollSpy, it dynamically slides a colored background pill to the active section with flawless 60FPS CSS transitions.
 
 <details>
 <summary><b>💻 View Tech Stack</b></summary>
