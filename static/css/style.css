@@ -44,7 +44,8 @@ body {
     pointer-events: none;
     z-index: 9999;
     transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
-    mix-blend-mode: difference;
+    background-color: rgba(0, 240, 255, 0.3); /* Cyan tint instead of blend mode */
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
     will-change: transform;
 }
 .custom-cursor.hovering {

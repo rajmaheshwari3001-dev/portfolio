@@ -1,6 +1,6 @@
 /**
  * Cinematic Thunder Teleportation Navigation System
- * Reusable transition engine for Marvel-style energy arrivals.
+ * Enhanced Edition (Audio + Branching Lightning)
  */
 
 const TeleportTransition = {
@@ -16,28 +16,62 @@ const TeleportTransition = {
     init() {
         if (this.elementsCreated) return;
 
-        // Create overlay
         this.overlay = document.createElement('div');
         this.overlay.className = 'teleport-overlay';
 
-        // Create flash
         this.flash = document.createElement('div');
         this.flash.className = 'teleport-flash';
 
-        // Create lightning container
         this.lightningContainer = document.createElement('div');
         this.lightningContainer.className = 'teleport-lightning-container';
 
-        // Append to body
         document.body.appendChild(this.overlay);
         document.body.appendChild(this.lightningContainer);
         document.body.appendChild(this.flash);
 
-        // Define the app shell for shaking (wrap body contents if needed, or just shake body)
-        // Shaking the entire body is easiest without structural changes
         this.appShell = document.body;
-
         this.elementsCreated = true;
+    },
+
+    playThunder() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            
+            // Generate deep rumble (Brownian noise)
+            const bufferSize = ctx.sampleRate * 1.5;
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            
+            let lastOut = 0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                data[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = data[i];
+                data[i] *= 3.5;
+            }
+            
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 400; // Deep rumble
+            
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(1.5, ctx.currentTime + 0.05); // Impact crack
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2); // Fade out
+            
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            
+            noise.start();
+        } catch(e) {
+            console.log("Audio skipped");
+        }
     },
 
     generateLightning() {
@@ -49,21 +83,39 @@ const TeleportTransition = {
         const width = window.innerWidth;
         const height = window.innerHeight;
 
-        // Generate 3-5 random jagged lightning branches
-        const numBranches = Math.floor(Math.random() * 3) + 3;
+        // Generate 8-12 massive main branches for the Thor effect
+        const numBranches = Math.floor(Math.random() * 5) + 8;
         
         for (let i = 0; i < numBranches; i++) {
+            // Main branch
             const path = document.createElementNS(svgns, "path");
             path.classList.add("teleport-lightning-path");
             
-            let d = `M ${Math.random() * width} 0 `;
             let currentX = Math.random() * width;
             let currentY = 0;
+            let d = `M ${currentX} ${currentY} `;
             
             while (currentY < height) {
-                currentX += (Math.random() - 0.5) * 150;
-                currentY += Math.random() * 150 + 50;
+                currentX += (Math.random() - 0.5) * (width * 0.2);
+                currentY += Math.random() * 100 + 20;
                 d += `L ${currentX} ${currentY} `;
+                
+                // 30% chance to fork
+                if (Math.random() > 0.7) {
+                    const fork = document.createElementNS(svgns, "path");
+                    fork.classList.add("teleport-lightning-path");
+                    fork.classList.add("fork");
+                    let fx = currentX;
+                    let fy = currentY;
+                    let fd = `M ${fx} ${fy} `;
+                    for(let j=0; j<3; j++) {
+                        fx += (Math.random() - 0.5) * 200;
+                        fy += Math.random() * 100 + 10;
+                        fd += `L ${fx} ${fy} `;
+                    }
+                    fork.setAttribute("d", fd);
+                    svg.appendChild(fork);
+                }
             }
             
             path.setAttribute("d", d);
@@ -82,57 +134,39 @@ const TeleportTransition = {
 
     async charge() {
         this.init();
-        
-        // State: CHARGING
         this.overlay.classList.add('charging');
-        
-        // Wait for energy buildup
         await this.sleep(400);
     },
 
     async impact() {
-        // State: IMPACT
-        
-        // 1. Generate and strike lightning
         const paths = this.generateLightning();
         paths.forEach(p => p.classList.add('strike'));
         
-        // 2. Flash screen
         this.flash.classList.add('impact');
-        
-        // 3. Screen shake
         this.appShell.classList.add('teleport-shake');
+        
+        // Play generative thunder rumble
+        this.playThunder();
 
-        // The exact moment of blindness is ~50ms into the flash
         await this.sleep(50);
     },
 
     async reveal() {
-        // State: REVEAL
-        
-        // Wait for flash and shake to mostly finish
         await this.sleep(300);
         
-        // Clean up classes
         this.overlay.classList.remove('charging');
         this.flash.classList.remove('impact');
         this.appShell.classList.remove('teleport-shake');
         this.lightningContainer.innerHTML = '';
         
-        // Allow fade out
         await this.sleep(300);
     },
 
     async go(targetSelector, scrollEngine) {
-        // Prevent double execution
         if (this.isTransitioning) return;
         
-        // Check if target exists
         const targetEl = document.querySelector(targetSelector);
-        if (!targetEl) {
-            console.error(`Teleport target ${targetSelector} not found.`);
-            return false;
-        }
+        if (!targetEl) return false;
 
         this.isTransitioning = true;
 
@@ -140,7 +174,6 @@ const TeleportTransition = {
             await this.charge();
             await this.impact();
             
-            // Navigate strictly during the blind spot of the flash
             if (scrollEngine) {
                 scrollEngine.scrollTo(targetSelector, { offset: -50, duration: 0.1 });
             } else {
@@ -149,11 +182,10 @@ const TeleportTransition = {
 
             await this.reveal();
         } catch (error) {
-            console.error("Teleportation sequence failed:", error);
+            console.error(error);
         } finally {
             this.isTransitioning = false;
         }
-        
         return true;
     }
 };

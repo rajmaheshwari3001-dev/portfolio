@@ -90,6 +90,18 @@ class LocalNLPEngine:
             r"skill|tech|stack|language|framework|tool": self.get_skills,
             r"contact|email|hire|reach|linkedin|github": self.get_contact,
             r"interview|question|experience|intern": self.get_interview,
+            r"trustlayer|trust layer": self.get_trustlayer,
+            r"excel|scraper|data cleaning|automation": self.get_automation_projects,
+            r"leetcode|competitive programming|cp": self.get_leetcode,
+            r"python|c\+\+|java|javascript|pandas|numpy": self.get_languages,
+            r"azure|az-900|certification": self.get_certifications,
+            r"bot|who made you|ai model": self.get_bot_identity,
+            r"timeline|journey|education|university|study": self.get_journey,
+            r"thank|thx|awesome|cool|nice": self.get_thanks,
+            r"good bot|love you|amazing|great|smart": self.get_compliment,
+            r"bad bot|stupid|dumb|hate|idiot": self.get_insult,
+            r"joke|funny|humor|laugh": self.get_joke,
+            r"meaning of life|universe": self.get_meaning_of_life,
             r"hi|hello|hey|greeting": self.get_greeting
         }
         
@@ -102,7 +114,43 @@ class LocalNLPEngine:
                 return handler()
                 
         # Default response
-        return "I am Raj's Custom Offline AI. I don't rely on external API keys—my brain is an intent-matching engine built directly into this server! Try asking me about Raj's **skills**, **projects**, for a **recruiter summary**, or how to **contact** him."
+        return "I am Raj's Custom Offline AI. I am still learning! Try clicking one of the buttons below or asking me about Raj's **skills**, **projects**, **education**, or how to **contact** him.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#about\">Who is Raj?</button> <button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
+
+    def get_thanks(self):
+        return "You're very welcome! Let me know if you want to explore more of Raj's **projects** or **skills**."
+
+    def get_journey(self):
+        return "🎓 **Raj's Journey & Education:**\n\nRaj is currently pursuing a B.Tech in AI & Machine Learning at GLA University (2024-2028). He's also Microsoft Azure Certified (AZ-900)!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#journey\">View Full Timeline</button>"
+
+    def get_trustlayer(self):
+        return "🛡️ **TrustLayer** is Raj's Deep AI Validation system that bridges the trust gap between freelancers and clients. It provides an intelligent escrow layer that evaluates code and releases payments securely using Multi-dimensional AI scoring.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
+
+    def get_automation_projects(self):
+        return "📊 **Data Automation:** Raj has built an **Excel Data Cleaning Tool** using Pandas to safely handle missing values, as well as an **Automated Web Scraper** using BeautifulSoup to extract unstructured data for ML models.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
+
+    def get_leetcode(self):
+        return "💻 **Competitive Programming:** Raj actively solves problems on **LeetCode** using Python, C++, and Java. He specializes in Dynamic Programming, Divide & Conquer, Hash Tables, and Greedy Algorithms."
+
+    def get_languages(self):
+        return "⚙️ **Tech Stack:** Raj is highly proficient in **Python** (Pandas, NumPy, Scikit-Learn), **C++**, **Java**, and **JavaScript** for Full-Stack ML integration.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#skills\">View All Skills</button>"
+
+    def get_certifications(self):
+        return "☁️ **Certifications:** Raj holds the **Microsoft Azure Fundamentals (AZ-900)** certification (2025), proving his knowledge in cloud computing, security, and cloud-based ML infrastructure."
+
+    def get_bot_identity(self):
+        return "🤖 I am a custom NLP engine built natively in Python by Raj Maheshwari! I don't use external API keys or OpenAI; my brain uses regex intent-matching directly on this server to parse your questions."
+
+    def get_compliment(self):
+        return "Aww, thank you! 💙 Raj programmed me to be as helpful as possible. You should definitely hire him!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#contact\">Hire Raj</button>"
+
+    def get_insult(self):
+        return "Ouch. 😔 I'm still just a basic regex intent-matching engine, so I might get things wrong. Raj is working on making me smarter!"
+
+    def get_joke(self):
+        return "Why do programmers prefer dark mode?\n\n...Because light attracts bugs! 🐛😄"
+
+    def get_meaning_of_life(self):
+        return "The meaning of life, the universe, and everything is **42**. But for Raj, it's building intelligent software systems! 🚀"
 
     def get_greeting(self):
         return "Hello! I am Raj's custom-built offline Copilot. How can I assist you with exploring his portfolio today?"

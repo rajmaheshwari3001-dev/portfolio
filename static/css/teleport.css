@@ -12,6 +12,7 @@
     transition: opacity 0.3s ease;
     background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
     backdrop-filter: contrast(1.1) brightness(0.9);
+    will-change: opacity, backdrop-filter;
 }
 
 .teleport-overlay.charging {
@@ -45,16 +46,22 @@
 
 .teleport-lightning-path {
     fill: none;
-    stroke: #00F0FF;
-    stroke-width: 3;
-    filter: drop-shadow(0 0 12px #00F0FF) drop-shadow(0 0 30px #ffffff);
+    stroke: #ffffff;
+    stroke-width: 4;
+    filter: drop-shadow(0 0 15px #00F0FF) drop-shadow(0 0 40px #ffffff);
     stroke-linecap: round;
     stroke-linejoin: round;
     opacity: 0;
 }
 
 .teleport-lightning-path.strike {
-    animation: lightning-strike 0.15s ease-out forwards;
+    animation: thor-lightning-strike 0.3s ease-out forwards;
+}
+
+.teleport-lightning-path.fork {
+    stroke-width: 2;
+    stroke: #00F0FF;
+    filter: drop-shadow(0 0 8px #00F0FF);
 }
 
 /* 4. Screen Shake (Applied to wrapper or body) */
@@ -63,6 +70,8 @@
     transform-origin: center center;
     /* Ensure no scrollbars appear during shake */
     overflow-x: hidden !important; 
+    filter: saturate(1.5) contrast(1.2);
+    will-change: transform, filter;
 }
 
 /* =======================================================================
@@ -82,26 +91,32 @@
 
 @keyframes cinematic-flash {
     0% { opacity: 0; }
-    5% { opacity: 1; }
+    10% { opacity: 1; background-color: #ffffff; }
+    20% { opacity: 0.8; }
+    30% { opacity: 1; background-color: #00f0ff; }
     100% { opacity: 0; }
 }
 
-@keyframes lightning-strike {
+@keyframes thor-lightning-strike {
     0% { opacity: 0; stroke-width: 1; }
-    20% { opacity: 1; stroke-width: 5; filter: drop-shadow(0 0 20px #ffffff); }
-    40% { opacity: 0; }
-    60% { opacity: 1; stroke-width: 2; }
+    10% { opacity: 1; stroke-width: 8; filter: drop-shadow(0 0 40px #ffffff); }
+    25% { opacity: 0; }
+    40% { opacity: 1; stroke-width: 4; filter: drop-shadow(0 0 20px #00F0FF); }
+    55% { opacity: 0; }
+    70% { opacity: 1; stroke-width: 6; }
     100% { opacity: 0; }
 }
 
 @keyframes cinematic-shake {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    15% { transform: translate3d(-8px, 5px, 0) scale(1.02); }
-    30% { transform: translate3d(6px, -4px, 0) scale(1.02); }
-    45% { transform: translate3d(-5px, 3px, 0) scale(1.02); }
-    60% { transform: translate3d(3px, -2px, 0) scale(1.01); }
-    75% { transform: translate3d(-2px, 1px, 0) scale(1.01); }
-    100% { transform: translate3d(0, 0, 0) scale(1); }
+    0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+    10% { transform: translate3d(-15px, 12px, 0) scale(1.04) rotate(-2deg); filter: hue-rotate(-10deg) drop-shadow(6px 0 0 red) drop-shadow(-6px 0 0 cyan) blur(1px); }
+    20% { transform: translate3d(12px, -10px, 0) scale(1.04) rotate(1.5deg); filter: drop-shadow(4px 0 0 red) drop-shadow(-4px 0 0 cyan) blur(0px); }
+    30% { transform: translate3d(-8px, 6px, 0) scale(1.03) rotate(-1deg); }
+    40% { transform: translate3d(6px, -4px, 0) scale(1.02) rotate(0.5deg); }
+    50% { transform: translate3d(-4px, 3px, 0) scale(1.02) rotate(-0.5deg); }
+    65% { transform: translate3d(2px, -2px, 0) scale(1.01) rotate(0deg); }
+    80% { transform: translate3d(-1px, 1px, 0) scale(1.01) rotate(0deg); }
+    100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); filter: none; }
 }
 
 /* =======================================================================

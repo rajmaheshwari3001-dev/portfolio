@@ -71,10 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (target) {
                         const targetEl = document.querySelector(target);
                         if (targetEl) {
-                            targetEl.scrollIntoView({ behavior: 'smooth' });
-                            // Optional: close chat on navigate for better view
+                            // Automatically close chat window when teleporting on mobile
                             if (window.innerWidth <= 768) {
                                 toggleChat();
+                            }
+                            
+                            // Trigger Cinematic Teleportation if available
+                            if (typeof TeleportTransition !== 'undefined') {
+                                TeleportTransition.go(target, typeof lenis !== 'undefined' ? lenis : null);
+                            } else {
+                                targetEl.scrollIntoView({ behavior: 'smooth' });
                             }
                         }
                     }
