@@ -21,17 +21,24 @@ graph TD
     classDef backend fill:#0F172A,stroke:#A855F7,stroke-width:2px,color:#A855F7;
     classDef external fill:#0F172A,stroke:#F59E0B,stroke-width:2px,color:#F59E0B;
     classDef cache fill:#1E293B,stroke:#F43F5E,stroke-width:2px,stroke-dasharray: 5 5,color:#F43F5E;
+    classDef ai fill:#050505,stroke:#EAB308,stroke-width:2px,color:#EAB308;
 
     %% Nodes
     A[Three.js Frontend WebGL Client]:::client
+    F[Portfolio Copilot UI]:::client
     B[Flask API Application]:::backend
     C((In-Memory Cache Layer TTL 30m)):::cache
-    D[GitHub REST API Profile, Repos, Languages]:::external
-    E[LeetCode GraphQL API Activity, Stats]:::external
+    D[GitHub REST API]:::external
+    E[LeetCode GraphQL API]:::external
+    G[Google Gemini LLM]:::ai
+    H[(Portfolio Knowledge Base)]:::backend
 
     %% Relationships
     A -- Asynchronous Fetch --> B
+    F -- Natural Language Queries --> B
     B -- Check Valid Data --> C
+    B -- Prompt Injection --> G
+    H -- RAG Context --> B
     C -- Cache Miss / Expired --> D
     C -- Cache Miss / Expired --> E
     D -- Return JSON --> C
@@ -41,6 +48,7 @@ graph TD
 
 ## ✨ Engineering Highlights
 
+- **Portfolio Copilot (AI Assistant):** A fully integrated, context-aware digital representation of myself. Powered by Google Gemini, visitors can ask questions, get dynamic project recommendations, and be automatically scrolled to relevant sections. It features a custom knowledge-base designed to completely eliminate hallucination.
 - **Interactive AI Neural Interface:** A custom-built, interactive sentiment inference widget right in the UI. Type any sentence to simulate real-time tensor processing and receive a live Positive/Negative/Neutral classification with confidence metrics.
 - **Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
 - **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones.
@@ -129,6 +137,7 @@ portfolio/
 │   └── index.html
 ├── app.py                  # Main Flask application & Caching Router
 ├── config.py               # Application configurations & secrets mapping
+├── portfolio_data.json     # Structured Knowledge Base for Portfolio Copilot
 ├── requirements.txt        # Python dependency manifest
 └── README.md               # You are here
 ```

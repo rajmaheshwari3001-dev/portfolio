@@ -1207,3 +1207,43 @@ html.lenis { height: auto; }
 .screen-shake {
     animation: screenShake 0.6s cubic-bezier(.36,.07,.19,.97) both;
 }
+
+/* =========================================================
+   UI/UX AUDIT: TYPOGRAPHY & CONTRAST OVERRIDES
+   ========================================================= */
+
+/* 1. Typography Inheritance */
+body {
+    font-family: var(--font-body) !important;
+    font-weight: 400;
+    color: #e2e8f0; /* Off-white for better readability, reduced eye strain */
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .footer-title {
+    font-family: var(--font-heading) !important;
+    font-weight: 600 !important;
+    color: #ffffff; /* Pure white for high contrast headings */
+    letter-spacing: 0.02em;
+}
+
+/* 2. Global Weight Standardization */
+/* Force all regular paragraphs and descriptions to weight 400 */
+p, .text-muted, .lead-text, .nav-links a, .hero-subtitle {
+    font-weight: 400 !important;
+}
+
+/* Force UI elements to Semibold (600) */
+.btn, button, .tag, .badge, .project-title, .activity-title {
+    font-weight: 600 !important;
+}
+
+/* 3. Copilot Inheritance Fixes */
+.copilot-window, .copilot-body, .copilot-msg {
+    font-family: var(--font-body) !important;
+    font-weight: 400 !important;
+}
+
+.copilot-title h3, .copilot-quick-btn, .copilot-action {
+    font-family: var(--font-heading) !important;
+    font-weight: 600 !important;
+}

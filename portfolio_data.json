@@ -1,0 +1,105 @@
+{
+  "profile": {
+    "name": "Raj Maheshwari",
+    "title": "AI / ML DEVELOPER",
+    "university": "GLA University, Mathura",
+    "degree": "B.Tech in AI & Machine Learning (2024 — 2028 Expected)",
+    "summary": "AI/ML Engineering student building intelligent software systems — from data pipelines and ML models to full-stack web applications. Focuses on deep learning, NLP, and scalable Python backends.",
+    "contact": {
+      "email": "rajmaheshwari3001@gmail.com",
+      "github": "https://github.com/rajmaheshwari3001-dev",
+      "linkedin": "https://www.linkedin.com/in/raj-maheshwari-6293683a4/",
+      "leetcode": "https://leetcode.com/u/9760497925/"
+    }
+  },
+  "education_and_certifications": [
+    {
+      "title": "B.Tech in AI & Machine Learning",
+      "organization": "GLA University, Mathura",
+      "date": "2024 — 2028 (Expected)",
+      "description": "Specialization in Artificial Intelligence and Machine Learning. Coursework includes Deep Learning, Data Structures, Computer Vision, NLP, and Database Systems."
+    },
+    {
+      "title": "Microsoft Azure Fundamentals (AZ-900)",
+      "organization": "Microsoft Certified",
+      "date": "2025",
+      "description": "Cloud computing concepts, Azure services, security, compliance, and cloud-based machine learning infrastructure."
+    },
+    {
+      "title": "AI/ML Bootcamp 2026",
+      "organization": "Intensive Training Program",
+      "date": "2026",
+      "description": "Advanced ML pipelines, TensorFlow, neural network architectures (RNN/LSTM), data preprocessing at scale, and model deployment with Flask."
+    }
+  ],
+  "competencies": [
+    {
+      "title": "Machine Learning Engineering",
+      "description": "Build, train, and deploy ML models using TensorFlow, scikit-learn, and custom neural architectures (RNN, LSTM). Experience with classification, regression, and sequence prediction."
+    },
+    {
+      "title": "Data Engineering & Analysis",
+      "description": "Data preprocessing, cleaning, and analysis with Pandas, NumPy, and SQL. Building ETL pipelines and extracting insights from raw datasets at scale."
+    },
+    {
+      "title": "Backend Development",
+      "description": "Python-based backend systems with Flask, RESTful API design, database management (MySQL), and server-side architecture for ML model serving."
+    },
+    {
+      "title": "Full-Stack Integration",
+      "description": "Connecting ML backends with web frontends using JavaScript, HTML/CSS, and API integrations. End-to-end deployment from data to user interface."
+    }
+  ],
+  "skills": {
+    "python_ecosystem": ["Python", "Pandas", "NumPy"],
+    "data_and_architecture": ["SQL", "MySQL", "Data Analysis"],
+    "machine_learning": ["Scikit-Learn", "Data Preprocessing", "Regression / Classification"],
+    "software_development": ["C++", "Java", "JavaScript", "Git & GitHub", "Azure (AZ-900)"]
+  },
+  "projects": [
+    {
+      "name": "TrustLayer",
+      "technologies": ["HTML/CSS/JS", "PYTHON", "AI VALIDATION"],
+      "overview": "A Deep AI Validation system that bridges the trust gap between freelancers and clients. It provides an intelligent escrow layer that evaluates code and releases payments securely.",
+      "features": [
+        "Multi-dimensional AI scoring (Security, Quality, Testing, Requirements).",
+        "Interactive visual validation pipeline and live AI terminal.",
+        "Generates detailed, actionable AI Code Audit Reports for freelancers."
+      ],
+      "url": "https://github.com/rajmaheshwari3001-dev/Trustlayer"
+    },
+    {
+      "name": "Excel Data Cleaning Tool",
+      "technologies": ["PYTHON", "PANDAS", "DATA AUTOMATION"],
+      "overview": "A Python automation tool that programmatically cleans Excel and CSV datasets using pandas.",
+      "features": [
+        "Removes duplicate rows and handles missing/null values safely.",
+        "Cleans and formats inconsistent raw dataset columns.",
+        "Exports clean data ready for analytics or machine learning models."
+      ],
+      "url": "https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool"
+    },
+    {
+      "name": "Automated Web Scraper",
+      "technologies": ["PYTHON", "BEAUTIFULSOUP", "DATA COLLECTION"],
+      "overview": "A Python script built to extract and structure unstructured data from web pages.",
+      "features": [
+        "Parses raw HTML to locate target elements and attributes.",
+        "Automates collection of custom data fields into structured formats.",
+        "Helps gather raw data for data engineering experiments."
+      ],
+      "url": "https://github.com/rajmaheshwari3001-dev/-web-scraper"
+    }
+  ],
+  "competitive_programming": {
+    "platform": "LeetCode",
+    "topics": ["Dynamic Programming", "Divide & Conquer", "Hash Tables", "Greedy Algorithms"],
+    "languages": ["Python", "C++", "Java", "Pandas"]
+  },
+  "timeline": [
+    {"year": "2024", "event": "Started B.Tech AI/ML at GLA University"},
+    {"year": "2025", "event": "Microsoft Azure Certified (AZ-900)"},
+    {"year": "2025", "event": "Built TrustLayer & Web Scraper"},
+    {"year": "2026", "event": "AI/ML Bootcamp & Advanced Projects"}
+  ]
+}

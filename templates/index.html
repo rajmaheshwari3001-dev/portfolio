@@ -21,6 +21,8 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/copilot.css') }}">
+
     <!-- Preconnect for external resources -->
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -746,5 +748,55 @@
     <!-- Scripts -->
     <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=17"></script>
     <script defer src="{{ url_for('static', filename='js/main.js') }}?v=17"></script>
+
+    <!-- Portfolio Copilot AI Orb -->
+    <div class="copilot-orb-container" id="copilot-orb-container">
+        <div class="copilot-tooltip" id="copilot-tooltip" role="tooltip">Ask my Portfolio</div>
+        <button class="copilot-orb" id="copilot-orb" aria-label="Open Portfolio Copilot Chat" aria-haspopup="dialog" aria-expanded="false" aria-controls="copilot-window">
+            <i class="ph ph-robot" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <!-- Portfolio Copilot Chat Window -->
+    <div class="copilot-window" id="copilot-window" role="dialog" aria-label="Portfolio Copilot Chat Window" aria-modal="false" aria-hidden="true" data-lenis-prevent>
+        <div class="copilot-header">
+            <div class="copilot-title">
+                <h3 id="copilot-dialog-title">PORTFOLIO COPILOT</h3>
+                <span aria-live="polite"><div class="copilot-status-dot" aria-hidden="true"></div> AI Assistant Online</span>
+            </div>
+            <button class="copilot-close" id="copilot-close" aria-label="Close Chat Window">
+                <i class="ph ph-x" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="copilot-body" id="copilot-body" role="log" aria-live="polite" aria-atomic="false" data-lenis-prevent>
+            <div class="copilot-msg ai" tabindex="0">
+                <p>👋 Hi! I'm Portfolio Copilot.</p>
+                <p>I can help you explore Raj's projects, skills, AI/ML work, and experience.</p>
+                <p>What would you like to know?</p>
+                <div class="copilot-quick-actions" role="group" aria-label="Quick action prompts">
+                    <button class="copilot-quick-btn" data-prompt="👨‍💼 Give me a recruiter summary">👨‍💼 Recruiter Summary</button>
+                    <button class="copilot-quick-btn" data-prompt="🚀 Show me your best projects">🚀 Best Projects</button>
+                    <button class="copilot-quick-btn" data-prompt="💻 What are your technical skills?">💻 Technical Skills</button>
+                    <button class="copilot-quick-btn" data-prompt="🎤 Let's start a technical interview">🎤 Start Interview</button>
+                    <button class="copilot-quick-btn" data-prompt="📩 How can I contact you?">📩 Contact Me</button>
+                </div>
+            </div>
+            <div class="copilot-typing" id="copilot-typing" aria-hidden="true">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="copilot-input-area">
+            <label for="copilot-input" class="visually-hidden">Ask a question</label>
+            <input type="text" id="copilot-input" class="copilot-input" placeholder="Ask me anything..." aria-label="Type your question for the AI assistant" autocomplete="off">
+            <button class="copilot-send" id="copilot-send" aria-label="Send message">
+                <i class="ph ph-paper-plane-right" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    
+    <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
+
 </body>
 </html>
