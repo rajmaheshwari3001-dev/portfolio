@@ -360,9 +360,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Update active state on scroll for bottom nav
+    // Update active state and indicator on scroll for bottom nav
     const sections = document.querySelectorAll('section.chapter');
     const bottomNavLinks = document.querySelectorAll('.bottom-nav-link');
+    const navIndicator = document.querySelector('.nav-indicator');
+    
+    function updateNavIndicator(activeLink) {
+        if (!activeLink || !navIndicator || !bottomNav) return;
+        
+        const navRect = bottomNav.getBoundingClientRect();
+        const linkRect = activeLink.getBoundingClientRect();
+        
+        // Calculate the left position relative to the parent nav container
+        const leftPos = linkRect.left - navRect.left + (linkRect.width / 2) - (50 / 2); // 50px is indicator width
+        navIndicator.style.left = `${leftPos}px`;
+    }
+
+    bottomNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            bottomNavLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+            updateNavIndicator(this);
+        });
+    });
     
     if (sections.length > 0 && bottomNavLinks.length > 0) {
         const observerOptions = {
@@ -377,9 +397,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     const currentId = entry.target.getAttribute('id');
                     
                     bottomNavLinks.forEach(link => {
-                        link.classList.remove('active');
                         if (link.getAttribute('href') === `#${currentId}`) {
-                            link.classList.add('active');
+                            if (!link.classList.contains('active')) {
+                                bottomNavLinks.forEach(l => l.classList.remove('active'));
+                                link.classList.add('active');
+                                updateNavIndicator(link);
+                            }
                         }
                     });
                 }
@@ -390,6 +413,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sec.getAttribute('id')) {
                 sectionObserver.observe(sec);
             }
+        });
+
+        // Initialize indicator position after layout is complete
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const activeLink = document.querySelector('.bottom-nav-link.active') || bottomNavLinks[0];
+                updateNavIndicator(activeLink);
+            }, 500);
+        });
+        
+        // Handle window resize which might shift link positions
+        window.addEventListener('resize', () => {
+            const activeLink = document.querySelector('.bottom-nav-link.active');
+            if (activeLink) updateNavIndicator(activeLink);
         });
     }
 
