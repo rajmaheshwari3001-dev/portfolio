@@ -202,24 +202,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     terminalOutput.innerHTML = '';
                 } else if (teleportSections.includes(val)) {
                     // Thor Teleportation!
-                    let flash = document.getElementById('thor-flash-overlay');
-                    if (!flash) {
-                        flash = document.createElement('div');
-                        flash.id = 'thor-flash-overlay';
-                        flash.className = 'thor-flash';
-                        document.body.appendChild(flash);
-                    }
+                    let oldFlash = document.getElementById('thor-flash-overlay');
+                    if (oldFlash) oldFlash.remove();
                     
-                    // Trigger flash animation
-                    flash.classList.remove('thor-striking');
-                    void flash.offsetWidth; // Trigger reflow
-                    flash.classList.add('thor-striking');
+                    let flash = document.createElement('div');
+                    flash.id = 'thor-flash-overlay';
+                    flash.className = 'thor-flash thor-striking';
+                    document.body.appendChild(flash);
                     
-                    // Trigger screen shake
-                    document.body.classList.remove('screen-shake');
-                    void document.body.offsetWidth;
-                    document.body.classList.add('screen-shake');
-                    setTimeout(() => document.body.classList.remove('screen-shake'), 500);
+                    // Trigger screen shake on the smooth-wrapper for maximum impact without scrollbar glitches
+                    const shakeWrapper = document.getElementById('smooth-wrapper') || document.body;
+                    shakeWrapper.classList.remove('screen-shake');
+                    
+                    // Use requestAnimationFrame to ensure the class removal is processed before re-adding
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            shakeWrapper.classList.add('screen-shake');
+                            setTimeout(() => shakeWrapper.classList.remove('screen-shake'), 600);
+                        });
+                    });
                     
                     const response = document.createElement('div');
                     response.style.marginBottom = "8px";
@@ -325,20 +326,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Mobile Menu ---
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileOverlay = document.getElementById('mobile-menu-overlay');
-    const mobileLinks = document.querySelectorAll('#mobile-menu-overlay .nav-link');
+    // --- Mobile Nav Scroll Animation & ScrollSpy ---
+    const topNav = document.getElementById('mobile-nav');
+    const bottomNav = document.getElementById('mobile-bottom-nav');
     
-    if (mobileBtn && mobileOverlay) {
-        mobileBtn.addEventListener('click', () => {
-            mobileOverlay.classList.toggle('active');
-        });
+    if (topNav || bottomNav) {
+        let lastScrollY = window.scrollY;
+        let ticking = false;
         
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileOverlay.classList.remove('active');
+        if (topNav) topNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+        if (bottomNav) bottomNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+                    
+                    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                        // Scrolling down - hide
+                        if (topNav) topNav.style.transform = 'translateY(-100%)';
+                        if (bottomNav) bottomNav.style.transform = 'translate(-50%, 150%)';
+                    } else {
+                        // Scrolling up - show
+                        if (topNav) topNav.style.transform = 'translateY(0)';
+                        if (bottomNav) bottomNav.style.transform = 'translate(-50%, 0)';
+                    }
+                    
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    // Update active state on scroll for bottom nav
+    const sections = document.querySelectorAll('section.chapter');
+    const bottomNavLinks = document.querySelectorAll('.bottom-nav-link');
+    
+    if (sections.length > 0 && bottomNavLinks.length > 0) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+        
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    
+                    bottomNavLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${currentId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
             });
+        }, observerOptions);
+        
+        sections.forEach(sec => {
+            if (sec.getAttribute('id')) {
+                sectionObserver.observe(sec);
+            }
         });
     }
 
@@ -354,6 +405,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     animatedElements.forEach(el => observer.observe(el));
+
+    // --- Animated Counters ---
+    const counterElements = document.querySelectorAll('.animated-counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                if (!el.dataset.animated) {
+                    el.dataset.animated = 'true';
+                    const target = parseInt(el.getAttribute('data-target')) || 0;
+                    if (target > 0) {
+                        if (el.classList.contains('glitch-text')) {
+                            el.classList.add('is-glitching');
+                            animateValue(el, 0, target, 2000, () => {
+                                el.classList.remove('is-glitching');
+                                el.setAttribute('data-text', target);
+                            });
+                        } else {
+                            animateValue(el, 0, target, 2000);
+                        }
+                    }
+                }
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    counterElements.forEach(el => counterObserver.observe(el));
 
     // --- Fetch Data ---
     fetchGithubData();
@@ -487,11 +565,14 @@ function fetchLeetcodeData() {
                 els.forEach((id, idx) => {
                     const el = document.getElementById(id);
                     if (!el) return;
-                    el.classList.add('is-glitching');
-                    animateValue(el, 0, vals[idx], 2000, () => {
-                        el.classList.remove('is-glitching');
-                        el.setAttribute('data-text', vals[idx]);
-                    });
+                    el.setAttribute('data-target', vals[idx]);
+                    if (el.dataset.animated === 'true') {
+                        el.classList.add('is-glitching');
+                        animateValue(el, 0, vals[idx], 2000, () => {
+                            el.classList.remove('is-glitching');
+                            el.setAttribute('data-text', vals[idx]);
+                        });
+                    }
                 });
                 
                 // Chart.js Doughnut for Solved Stats
