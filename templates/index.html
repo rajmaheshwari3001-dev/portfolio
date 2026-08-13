@@ -22,6 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/copilot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teleport.css') }}">
 
     <!-- Preconnect for external resources -->
     <link rel="preconnect" href="https://unpkg.com">
@@ -745,9 +746,11 @@
     </main>
     </div><!-- /smooth-wrapper -->
 
-    <!-- Scripts -->
+    <!-- Custom Scripts -->
     <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=17"></script>
-    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=17"></script>
+    <script defer src="{{ url_for('static', filename='js/teleportEngine.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=8"></script>
+    <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
 
     <!-- Portfolio Copilot AI Orb -->
     <div class="copilot-orb-container" id="copilot-orb-container">

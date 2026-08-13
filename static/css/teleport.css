@@ -1,0 +1,128 @@
+/* =======================================================================
+   CINEMATIC THUNDER TELEPORTATION NAVIGATION
+   ======================================================================= */
+
+/* 1. Base Overlay (Energy Buildup) */
+.teleport-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+    backdrop-filter: contrast(1.1) brightness(0.9);
+}
+
+.teleport-overlay.charging {
+    opacity: 1;
+    animation: energy-pulse 0.4s ease-in forwards;
+}
+
+/* 2. Intense Impact Flash */
+.teleport-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    pointer-events: none;
+    background-color: #ffffff;
+    opacity: 0;
+    mix-blend-mode: overlay;
+}
+
+.teleport-flash.impact {
+    animation: cinematic-flash 0.5s cubic-bezier(0.1, 1, 0.1, 1) forwards;
+}
+
+/* 3. Lightning SVG Layer */
+.teleport-lightning-container {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.teleport-lightning-path {
+    fill: none;
+    stroke: #00F0FF;
+    stroke-width: 3;
+    filter: drop-shadow(0 0 12px #00F0FF) drop-shadow(0 0 30px #ffffff);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+}
+
+.teleport-lightning-path.strike {
+    animation: lightning-strike 0.15s ease-out forwards;
+}
+
+/* 4. Screen Shake (Applied to wrapper or body) */
+.teleport-shake {
+    animation: cinematic-shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform-origin: center center;
+    /* Ensure no scrollbars appear during shake */
+    overflow-x: hidden !important; 
+}
+
+/* =======================================================================
+   KEYFRAMES
+   ======================================================================= */
+
+@keyframes energy-pulse {
+    0% {
+        backdrop-filter: contrast(1.1) brightness(0.9) blur(0px);
+        background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+    }
+    100% {
+        backdrop-filter: contrast(1.5) brightness(0.6) blur(2px);
+        background: radial-gradient(circle at center, rgba(0,240,255,0.1) 0%, rgba(0, 0, 0, 0.95) 100%);
+    }
+}
+
+@keyframes cinematic-flash {
+    0% { opacity: 0; }
+    5% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes lightning-strike {
+    0% { opacity: 0; stroke-width: 1; }
+    20% { opacity: 1; stroke-width: 5; filter: drop-shadow(0 0 20px #ffffff); }
+    40% { opacity: 0; }
+    60% { opacity: 1; stroke-width: 2; }
+    100% { opacity: 0; }
+}
+
+@keyframes cinematic-shake {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    15% { transform: translate3d(-8px, 5px, 0) scale(1.02); }
+    30% { transform: translate3d(6px, -4px, 0) scale(1.02); }
+    45% { transform: translate3d(-5px, 3px, 0) scale(1.02); }
+    60% { transform: translate3d(3px, -2px, 0) scale(1.01); }
+    75% { transform: translate3d(-2px, 1px, 0) scale(1.01); }
+    100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+/* =======================================================================
+   ACCESSIBILITY - REDUCED MOTION
+   ======================================================================= */
+@media (prefers-reduced-motion: reduce) {
+    .teleport-overlay, .teleport-flash, .teleport-lightning-container, .teleport-shake {
+        animation: none !important;
+        transition: none !important;
+        opacity: 0 !important;
+        transform: none !important;
+    }
+    
+    .teleport-flash.impact {
+        /* Gentle fade instead of flash/shake */
+        animation: gentle-fade 0.4s ease forwards !important;
+    }
+}
+
+@keyframes gentle-fade {
+    0% { opacity: 0; background: #000; mix-blend-mode: normal; }
+    50% { opacity: 1; background: #000; mix-blend-mode: normal; }
+    100% { opacity: 0; background: #000; mix-blend-mode: normal; }
+}

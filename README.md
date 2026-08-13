@@ -49,6 +49,7 @@ graph TD
 ## ✨ Engineering Highlights
 
 - **Portfolio Copilot (AI Assistant):** A fully integrated, context-aware digital representation of myself. Powered by Google Gemini, visitors can ask questions, get dynamic project recommendations, and be automatically scrolled to relevant sections. It features a custom knowledge-base designed to completely eliminate hallucination.
+- **Cinematic Teleportation Navigation:** A completely bespoke, state-machine-controlled transition engine. When navigating via the terminal, users experience a superhero-style cinematic arrival featuring procedural SVG lightning, screen shake, and high-contrast energy flashes before arriving at their destination.
 - **Interactive AI Neural Interface:** A custom-built, interactive sentiment inference widget right in the UI. Type any sentence to simulate real-time tensor processing and receive a live Positive/Negative/Neutral classification with confidence metrics.
 - **Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
 - **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones.

@@ -967,25 +967,25 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     case 'about':
                     case 'go about':
-                        appendLine(`Initiating teleport sequence to <span class="term-highlight">ABOUT</span>...`);
-                        lenis.scrollTo('#about', { offset: -50 });
+                        appendLine(`Initiating cinematic teleport sequence to <span class="term-highlight">ABOUT</span>...`);
+                        TeleportTransition.go('#about', typeof lenis !== 'undefined' ? lenis : null);
                         break;
                     case 'projects':
                     case 'go projects':
                     case 'work':
-                        appendLine(`Initiating teleport sequence to <span class="term-highlight">PROJECTS</span>...`);
-                        lenis.scrollTo('#projects', { offset: -50 });
+                        appendLine(`Initiating cinematic teleport sequence to <span class="term-highlight">PROJECTS</span>...`);
+                        TeleportTransition.go('#projects', typeof lenis !== 'undefined' ? lenis : null);
                         break;
                     case 'journey':
                     case 'timeline':
                     case 'go journey':
-                        appendLine(`Initiating teleport sequence to <span class="term-highlight">JOURNEY</span>...`);
-                        lenis.scrollTo('#journey', { offset: -50 });
+                        appendLine(`Initiating cinematic teleport sequence to <span class="term-highlight">JOURNEY</span>...`);
+                        TeleportTransition.go('#journey', typeof lenis !== 'undefined' ? lenis : null);
                         break;
                     case 'contact':
                     case 'go contact':
-                        appendLine(`Initiating teleport sequence to <span class="term-highlight">CONTACT</span>...`);
-                        lenis.scrollTo('#contact', { offset: -50 });
+                        appendLine(`Initiating cinematic teleport sequence to <span class="term-highlight">CONTACT</span>...`);
+                        TeleportTransition.go('#contact', typeof lenis !== 'undefined' ? lenis : null);
                         break;
                     case 'whoami':
                         appendLine(`RAJ MAHESHWARI<br>AI/ML Developer building intelligent software systems.`);
