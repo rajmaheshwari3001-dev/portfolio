@@ -89,17 +89,6 @@
         "Helps gather raw data for data engineering experiments."
       ],
       "url": "https://github.com/rajmaheshwari3001-dev/-web-scraper"
-    },
-    {
-      "name": "AI Resume to Portfolio Generator",
-      "technologies": ["HTML/CSS/JS", "FRONTEND", "VERCEL"],
-      "overview": "An AI-assisted web application that dynamically transforms resume data into a modern, responsive personal portfolio.",
-      "features": [
-        "Parses structured resume details to generate a customized, professional portfolio interface.",
-        "Features a sleek, responsive design utilizing modern CSS aesthetics like glassmorphism.",
-        "Configured for instant deployment via Vercel for seamless sharing."
-      ],
-      "url": "https://github.com/rajmaheshwari3001-dev/resume-portfolio-generator"
     }
   ],
   "competitive_programming": {

@@ -21,7 +21,6 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stitch.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/copilot.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/teleport.css') }}">
 
@@ -39,30 +38,6 @@
 </head>
 <body>
     <div id="smooth-wrapper">
-
-    <!-- Interactive ID Card -->
-    <div class="id-card-wrapper" id="id-card">
-        <div class="lanyard"></div>
-        <div class="id-card-body">
-            <div class="hole-punch"></div>
-            <div class="id-photo">
-                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" onerror="this.style.display='none'">
-            </div>
-            <div class="id-details">
-                <div class="id-name">Raj Maheshwari</div>
-                <div class="id-title">AI / ML Developer</div>
-            </div>
-            <div class="id-qr">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7" />
-                    <rect x="14" y="3" width="7" height="7" />
-                    <rect x="14" y="14" width="7" height="7" />
-                    <rect x="3" y="14" width="7" height="7" />
-                </svg>
-            </div>
-        </div>
-        <button id="enable-motion-btn" class="motion-btn">Enable Motion</button>
-    </div>
     
     <!-- Custom Cursor -->
     <div id="custom-cursor" class="custom-cursor" aria-hidden="true"></div>
@@ -106,94 +81,70 @@
         </a>
     </nav>
 
-    <!-- Stitch Sidebar -->
-    <aside class="sidebar" aria-label="Primary navigation">
-      <div class="sidebar__logo" role="img" aria-label="Cinematic AI logo">
-        <i class="ph ph-robot" style="font-size: 22px;"></i>
-      </div>
-
-      <nav class="sidebar__nav">
-        <ul>
-          <li>
-            <button type="button" class="sidebar__link sidebar__link--active" aria-current="page" title="Home" onclick="location.href='#hero'">
-              <i class="ph ph-house" style="font-size: 19px;"></i>
-              <span class="sidebar__link-label">Home</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="sidebar__link" title="About" onclick="location.href='#about'">
-              <i class="ph ph-user" style="font-size: 19px;"></i>
-              <span class="sidebar__link-label">About</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="sidebar__link" title="Work" onclick="location.href='#projects'">
-              <i class="ph ph-briefcase" style="font-size: 19px;"></i>
-              <span class="sidebar__link-label">Work</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="sidebar__link" title="Activity" onclick="location.href='#activity'">
-              <i class="ph ph-chart-line-up" style="font-size: 19px;"></i>
-              <span class="sidebar__link-label">Activity</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="sidebar__link" title="Contact" onclick="location.href='#contact'">
-              <i class="ph ph-envelope" style="font-size: 19px;"></i>
-              <span class="sidebar__link-label">Contact</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="sidebar__rail" aria-hidden="true"></div>
+    <!-- Fixed Desktop Sidebar -->
+    <aside id="sidebar">
+        <div class="sidebar-top">
+            <button id="desktop-sidebar-toggle" aria-label="Toggle Sidebar"><i class="ph ph-list"></i></button>
+            <div class="profile-img">
+                <img src="https://github.com/{{ config.github_username }}.png" alt="Raj Maheshwari" fetchpriority="high" width="80" height="80" onerror="this.style.display='none'">
+            </div>
+            <h2 class="sidebar-name">RAJ MAHESHWARI</h2>
+            <h2 class="sidebar-role">AI / ML DEVELOPER</h2>
+            <p class="sidebar-desc">B.Tech AI/ML Student<br>GLA University</p>
+            <div class="sidebar-status">
+                <span class="status-dot"></span> BUILDING & LEARNING
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#hero" class="nav-link active"><i class="ph ph-house"></i> <span class="nav-text">HOME</span></a></li>
+                <li><a href="#about" class="nav-link"><i class="ph ph-user"></i> <span class="nav-text">ABOUT</span></a></li>
+                <li><a href="#projects" class="nav-link"><i class="ph ph-briefcase"></i> <span class="nav-text">WORK</span></a></li>
+                <li><a href="#skills" class="nav-link"><i class="ph ph-lightning"></i> <span class="nav-text">SKILLS</span></a></li>
+                <li><a href="#activity" class="nav-link"><i class="ph ph-activity"></i> <span class="nav-text">ACTIVITY</span></a></li>
+                <li><a href="#journey" class="nav-link"><i class="ph ph-map-trifold"></i> <span class="nav-text">JOURNEY</span></a></li>
+                <li><a href="#contact" class="nav-link"><i class="ph ph-envelope"></i> <span class="nav-text">CONTACT</span></a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-socials">
+            <a href="{{ config.github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">GITHUB ↗</a>
+            <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LINKEDIN ↗</a>
+            <a href="{{ config.leetcode_url }}" target="_blank" rel="noopener noreferrer" aria-label="LeetCode Profile">LEETCODE ↗</a>
+        </div>
     </aside>
 
     <!-- Main Scrolling Content -->
     <main id="main-content">
-        <div class="bento-container">
-        <!-- Chapter 1: Hero (Stitch Design) -->
-        <section id="hero" class="hero bento-card col-span-12" aria-label="Introduction" style="min-height: 80vh;">
+        
+        <!-- Chapter 1: Hero (Dark Tech) -->
+        <section id="hero" class="chapter theme-dark full-height align-center px-lg relative">
+            <!-- Cinematic Background Video -->
+            <video id="hero-bg-video" class="hero-video" src="{{ url_for('static', filename='video/hero_sequence.mp4') }}" autoplay loop muted playsinline></video>
+            <div class="hero-video-overlay"></div>
             
-            <div class="background-effects">
-              <div class="bg-grid"></div>
-              <div class="bg-vignette"></div>
-            </div>
-
-            <div class="glow-orb">
-              <div class="glow-orb__core"></div>
-              <div class="glow-orb__halo"></div>
-            </div>
-
-            <div class="hero__headline-wrap" style="position: relative; z-index: 2;">
-                <div class="matrix-rain">
-                  <!-- The rain animation is handled by CSS in stitch.css -->
+            <div class="content-wrapper scroll-fade-up" style="position: relative; z-index: 2;">
+                <h2 class="massive-text gradient-gold" style="margin-bottom: 0;">I BUILD</h2>
+                <h1 class="massive-text gradient-gold" id="hero-typewriter">INTELLIGENT<br>SYSTEMS</h1>
+                
+                <div class="hero-bottom mt-12">
+                    <div class="hero-meta">
+                        <h3>RAJ MAHESHWARI</h3>
+                        <p class="accent">AI / ML DEVELOPER</p>
+                    </div>
+                    <p class="lead-text mt-4 max-w-sm">
+                        B.Tech AI/ML student exploring machine learning, data, software development, and intelligent applications.
+                    </p>
                 </div>
-                <h1 class="hero__headline">
-                    <span class="hero__headline-line">I BUILD</span><br/>
-                    <span class="hero__headline-line">INTELLIGENT</span><br/>
-                    <span class="hero__headline-line">SYSTEMS</span>
-                </h1>
             </div>
-
-            <div class="hero__byline" style="position: relative; z-index: 2;">
-                <p class="hero__name">RAJ MAHESHWARI</p>
-                <p class="hero__role">AI / ML DEVELOPER</p>
-            </div>
-
-            <p class="hero__bio" style="position: relative; z-index: 2;">
-                B.Tech AI/ML student exploring machine learning, data, software development, and intelligent applications.
-            </p>
-
-            <div class="scroll-indicator" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);">
-              <span class="scroll-indicator__text">SCROLL</span>
-              <i class="ph ph-arrow-down scroll-indicator__arrow"></i>
+            <div class="hero-scroll-indicator">
+                SCROLL <span class="arrow">↓</span>
             </div>
         </section>
         
         <!-- Chapter 2: About (Professional, Detail-Rich) -->
-        <section id="about" class="bento-card col-span-8">
+        <section id="about" class="chapter theme-light px-lg py-20">
             <div class="split-layout">
                 <div class="split-left scroll-fade-right">
                     <h2 class="section-title mb-8">ABOUT</h2>
@@ -231,7 +182,7 @@
         </section>
 
         <!-- Chapter 3: Education & Credentials (Dark, Professional) -->
-        <section class="bento-card col-span-4">
+        <section class="chapter theme-dark px-lg py-32">
             <div class="content-wrapper z-10 relative">
                 <h2 class="section-title mb-4 scroll-fade-up">EDUCATION & CREDENTIALS</h2>
                 <h2 class="massive-text gradient-purple scroll-fade-up">WHERE I</h2>
@@ -286,7 +237,7 @@
         </section>
 
         <!-- Chapter 4: Core Competencies (Light, Concrete) -->
-        <section class="bento-card col-span-12">
+        <section class="chapter theme-light px-lg py-20">
             <div class="content-wrapper">
                 <h2 class="section-title mb-4 scroll-fade-up">WHAT I BRING</h2>
                 <h2 class="massive-text gradient-emerald scroll-fade-up">CORE</h2>
@@ -318,7 +269,7 @@
         </section>
 
         <!-- Chapter 5: Skills & Toolkit (Dark Tech) -->
-        <section id="skills" class="bento-card col-span-12 relative">
+        <section id="skills" class="chapter theme-dark px-lg py-32 relative">
             <div class="content-wrapper z-10 relative">
                 <h2 class="massive-text scroll-fade-up">MY</h2>
                 <h2 class="massive-text scroll-fade-up">TOOLKIT.</h2>
@@ -365,7 +316,7 @@
         </section>
 
         <!-- Chapter 6: Projects (Dark Tech) -->
-        <section id="projects" class="bento-card col-span-12">
+        <section id="projects" class="chapter theme-dark px-lg py-32">
             <div class="content-wrapper">
                 <h2 class="massive-text gradient-rose mb-32 scroll-rotate-in">WHAT</h2>
                 <h2 class="massive-text gradient-rose scroll-rotate-in">I'VE BUILT.</h2>
@@ -490,7 +441,7 @@
         </section>
 
         <!-- Chapter 7: Inside the Machine (Deep Dark) -->
-        <section id="machine" class="bento-card col-span-12 text-center">
+        <section id="machine" class="chapter theme-deep-dark px-lg py-32 text-center">
             <h2 class="massive-text scroll-scale">INSIDE</h2>
             <h2 class="massive-text text-outline scroll-scale delay-1">THE MACHINE.</h2>
             <p class="lead-text mt-8 mb-20 scroll-fade-up delay-2">Exploring the systems behind intelligent software.</p>
@@ -552,7 +503,7 @@
         </section>
 
         <!-- Chapter 8: Developer Signal (Light Editorial) -->
-        <section id="activity" class="bento-card col-span-12">
+        <section id="activity" class="chapter theme-light px-lg py-32">
             <h2 class="massive-text scroll-slide-up">WHAT I</h2>
             <h2 class="massive-text scroll-slide-up delay-1">ACTUALLY DO.</h2>
             <p class="editorial-text-small text-muted mt-6 mb-20 scroll-fade-up">
@@ -711,7 +662,7 @@
         </section>
 
         <!-- Chapter 9: Education Timeline (Dark Tech) -->
-        <section id="journey" class="bento-card col-span-12">
+        <section id="journey" class="chapter theme-dark px-lg py-32">
             <div class="content-wrapper z-10 relative">
                 <h2 class="section-title mb-4 scroll-fade-up">TIMELINE</h2>
                 <h2 class="massive-text gradient-amber scroll-scale">MY</h2>
@@ -763,7 +714,7 @@
         </section>
 
         <!-- Chapter 10: Contact (Deep Dark, Professional) -->
-        <section id="contact" class="bento-card col-span-12 text-center relative z-10">
+        <section id="contact" class="chapter theme-deep-dark px-lg py-32 text-center relative z-10">
             <h2 class="section-title mb-4 scroll-fade-up">LET'S CONNECT</h2>
             <h2 class="massive-text gradient-purple scroll-scale">OPEN TO</h2>
             <h2 class="massive-text gradient-purple scroll-scale delay-1" id="contact-typewriter">OPPORTUNITIES.</h2>
@@ -792,7 +743,6 @@
             </footer>
         </section>
         
-        </div> <!-- /bento-container -->
     </main>
     </div><!-- /smooth-wrapper -->
 
@@ -804,18 +754,18 @@
 
     <!-- Portfolio Copilot AI Orb -->
     <div class="copilot-orb-container" id="copilot-orb-container">
-        <div class="copilot-tooltip" id="copilot-tooltip" role="tooltip">Ask Gemini AI</div>
-        <button class="copilot-orb gemini-theme" id="copilot-orb" aria-label="Open Gemini Copilot Chat" aria-haspopup="dialog" aria-expanded="false" aria-controls="copilot-window">
-            <i class="ph ph-sparkle" aria-hidden="true"></i>
+        <div class="copilot-tooltip" id="copilot-tooltip" role="tooltip">Ask my Portfolio</div>
+        <button class="copilot-orb" id="copilot-orb" aria-label="Open Portfolio Copilot Chat" aria-haspopup="dialog" aria-expanded="false" aria-controls="copilot-window">
+            <i class="ph ph-robot" aria-hidden="true"></i>
         </button>
     </div>
 
     <!-- Portfolio Copilot Chat Window -->
-    <div class="copilot-window gemini-theme" id="copilot-window" role="dialog" aria-label="Gemini Copilot Chat Window" aria-modal="false" aria-hidden="true" data-lenis-prevent>
+    <div class="copilot-window" id="copilot-window" role="dialog" aria-label="Portfolio Copilot Chat Window" aria-modal="false" aria-hidden="true" data-lenis-prevent>
         <div class="copilot-header">
             <div class="copilot-title">
-                <h3 id="copilot-dialog-title"><i class="ph ph-sparkle" style="margin-right:5px; color:#A8C7FA;"></i> GEMINI AI</h3>
-                <span aria-live="polite"><div class="copilot-status-dot" aria-hidden="true"></div> Powered by Google Gemini</span>
+                <h3 id="copilot-dialog-title">PORTFOLIO COPILOT</h3>
+                <span aria-live="polite"><div class="copilot-status-dot" aria-hidden="true"></div> AI Assistant Online</span>
             </div>
             <button class="copilot-close" id="copilot-close" aria-label="Close Chat Window">
                 <i class="ph ph-x" aria-hidden="true"></i>
@@ -823,9 +773,9 @@
         </div>
         <div class="copilot-body" id="copilot-body" role="log" aria-live="polite" aria-atomic="false" data-lenis-prevent>
             <div class="copilot-msg ai" tabindex="0">
-                <p>✨ Hi! I'm an AI powered by Gemini.</p>
-                <p>I know everything about Raj's skills, projects, and professional background.</p>
-                <p>How can I help you today?</p>
+                <p>👋 Hi! I'm Portfolio Copilot.</p>
+                <p>I can help you explore Raj's projects, skills, AI/ML work, and experience.</p>
+                <p>What would you like to know?</p>
                 <div class="copilot-quick-actions" role="group" aria-label="Quick action prompts">
                     <button class="copilot-quick-btn" data-prompt="👨‍💼 Give me a recruiter summary">👨‍💼 Recruiter Summary</button>
                     <button class="copilot-quick-btn" data-prompt="🚀 Show me your best projects">🚀 Best Projects</button>
@@ -850,91 +800,6 @@
     </div>
     
     <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/haptics.js') }}"></script>
 
-    <!-- ID Card Motion Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const idCard = document.getElementById('id-card');
-            const motionBtn = document.getElementById('enable-motion-btn');
-            if(!idCard) return;
-
-            let currentRotation = { x: 0, y: 0, z: 0 };
-            let targetRotation = { x: 0, y: 0, z: 0 };
-            let scrollVelocity = 0;
-            let lastScrollY = window.scrollY;
-            
-            // --- Scroll Logic ---
-            window.addEventListener('scroll', () => {
-                const currentScrollY = window.scrollY;
-                scrollVelocity = currentScrollY - lastScrollY;
-                lastScrollY = currentScrollY;
-                
-                // Swing forward/back based on scroll direction
-                targetRotation.x = Math.max(-30, Math.min(30, scrollVelocity * 0.5));
-                // Slight sway side to side
-                targetRotation.z = Math.max(-10, Math.min(10, scrollVelocity * 0.1));
-            });
-
-            // --- Device Motion / Gyroscope Logic ---
-            function handleOrientation(event) {
-                let tiltX = event.beta;
-                let tiltY = event.gamma;
-                
-                if (tiltX === null || tiltY === null) return;
-                
-                tiltX -= 45; 
-                
-                targetRotation.x = Math.max(-40, Math.min(40, tiltX * 0.5));
-                targetRotation.y = Math.max(-40, Math.min(40, tiltY * 0.5));
-                targetRotation.z = Math.max(-20, Math.min(20, tiltY * 0.2));
-                
-                if(motionBtn) motionBtn.classList.add('hidden');
-            }
-
-            // --- Animation Loop ---
-            function lerp(start, end, factor) {
-                return start + (end - start) * factor;
-            }
-
-            function animate() {
-                currentRotation.x = lerp(currentRotation.x, targetRotation.x, 0.1);
-                currentRotation.y = lerp(currentRotation.y, targetRotation.y, 0.1);
-                currentRotation.z = lerp(currentRotation.z, targetRotation.z, 0.1);
-
-                targetRotation.x *= 0.95;
-                targetRotation.z *= 0.95;
-                
-                idCard.style.transform = `scale(${window.innerWidth <= 768 ? 0.7 : (window.innerWidth <= 1024 ? 0.8 : 1)}) rotateX(${currentRotation.x}deg) rotateY(${currentRotation.y}deg) rotateZ(${currentRotation.z}deg)`;
-                
-                requestAnimationFrame(animate);
-            }
-            
-            animate(); 
-
-            // --- iOS Permissions ---
-            if(motionBtn) {
-                motionBtn.addEventListener('click', () => {
-                    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                        DeviceOrientationEvent.requestPermission()
-                            .then(permissionState => {
-                                if (permissionState === 'granted') {
-                                    window.addEventListener('deviceorientation', handleOrientation);
-                                    motionBtn.classList.add('hidden');
-                                }
-                            })
-                            .catch(console.error);
-                    } else {
-                        window.addEventListener('deviceorientation', handleOrientation);
-                        motionBtn.classList.add('hidden');
-                    }
-                });
-            }
-            
-            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission !== 'function') {
-                window.addEventListener('deviceorientation', handleOrientation);
-            }
-        });
-    </script>
 </body>
 </html>
