@@ -1,12 +1,36 @@
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=800&size=40&pause=1000&color=d97706&center=true&vCenter=true&width=800&lines=%E2%9A%A1+RAJ+MAHESHWARI+%7C+Software+Engineer;Building+Intelligent+Systems;Luxury+UI+%26+Fluid+Typography;Interactive+AI+Inference)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+# Portfolio Website - v2.0
+[portfolio.rajmaheshwari.tech](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
 
-[![Live Deployment](https://img.shields.io/badge/LIVE_DEPLOYMENT-portfolio.vercel.app-050505?style=for-the-badge&logo=vercel&logoColor=d97706)](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+<br/>
+
+<img src="https://raw.githubusercontent.com/rajmaheshwari3001-dev/portfolio/main/static/images/mockup_placeholder.png" onerror="this.src='https://via.placeholder.com/800x450.png?text=Add+Laptop/Mobile+Mockup+Here'" alt="Portfolio Mockup" width="800">
+
+<br/>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/BUILT%20WITH-%E2%9D%A4-orange?style=for-the-badge" alt="Built With Love">
+  <img src="https://img.shields.io/badge/MADE%20WITH-PYTHON-red?style=for-the-badge" alt="Made with Python">
+  <img src="https://img.shields.io/badge/OPEN-SOURCE-red?style=for-the-badge" alt="Open Source">
+  <img src="https://img.shields.io/github/stars/rajmaheshwari3001-dev/portfolio?style=for-the-badge&color=gray" alt="Stars">
+  <img src="https://img.shields.io/github/forks/rajmaheshwari3001-dev/portfolio?style=for-the-badge&color=gray" alt="Forks">
+</p>
+
+<p align="center">
+  <a href="https://github.com/rajmaheshwari3001-dev/portfolio/issues"><b>🔷 Report Bug</b></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/rajmaheshwari3001-dev/portfolio/issues"><b>🔷 Request Feature</b></a>
+</p>
+
+## TL;DR
+
+You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [rajmaheshwari3001-dev](https://github.com/rajmaheshwari3001-dev). Thanks!
 
 </div>
 
 ---
+
 
 Welcome to the source code of my personal developer portfolio. This isn't just a static webpage; it's a **high-performance, luxury-themed web application** designed to demonstrate my capabilities in backend engineering, API integration, interactive UNIX terminal simulation, and premium frontend design.
 
