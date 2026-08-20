@@ -1,20 +1,20 @@
 <div align="center">
 
 # Portfolio Website - v2.0
-[portfolio.rajmaheshwari.tech](https://portfolio-lilac-delta-c1kxu40gza.vercel.app)
+<h3><a href="https://portfolio-lilac-delta-c1kxu40gza.vercel.app">portfolio.rajmaheshwari.tech</a></h3>
 
 <br/>
 
 <img src="https://raw.githubusercontent.com/rajmaheshwari3001-dev/portfolio/main/static/images/mockup_placeholder.png" onerror="this.src='https://via.placeholder.com/800x450.png?text=Add+Laptop/Mobile+Mockup+Here'" alt="Portfolio Mockup" width="800">
 
-<br/>
+<br/><br/>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/BUILT%20WITH-%E2%9D%A4-orange?style=for-the-badge" alt="Built With Love">
-  <img src="https://img.shields.io/badge/MADE%20WITH-PYTHON-red?style=for-the-badge" alt="Made with Python">
-  <img src="https://img.shields.io/badge/OPEN-SOURCE-red?style=for-the-badge" alt="Open Source">
-  <img src="https://img.shields.io/github/stars/rajmaheshwari3001-dev/portfolio?style=for-the-badge&color=gray" alt="Stars">
-  <img src="https://img.shields.io/github/forks/rajmaheshwari3001-dev/portfolio?style=for-the-badge&color=gray" alt="Forks">
+  <img src="https://img.shields.io/badge/BUILT%20WITH-%E2%9D%A4-F59E0B?style=for-the-badge" alt="Built With Love">
+  <img src="https://img.shields.io/badge/MADE%20WITH-PYTHON-E11D48?style=for-the-badge" alt="Made with Python">
+  <img src="https://img.shields.io/badge/OPEN-SOURCE-E11D48?style=for-the-badge" alt="Open Source">
+  <img src="https://img.shields.io/github/stars/rajmaheshwari3001-dev/portfolio?style=for-the-badge&color=52525B" alt="Stars">
+  <img src="https://img.shields.io/github/forks/rajmaheshwari3001-dev/portfolio?style=for-the-badge&color=52525B" alt="Forks">
 </p>
 
 <p align="center">
@@ -23,11 +23,11 @@
   <a href="https://github.com/rajmaheshwari3001-dev/portfolio/issues"><b>🔷 Request Feature</b></a>
 </p>
 
+</div>
+
 ## TL;DR
 
 You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [rajmaheshwari3001-dev](https://github.com/rajmaheshwari3001-dev). Thanks!
-
-</div>
 
 ---
 
