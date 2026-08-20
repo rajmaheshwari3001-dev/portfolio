@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 import re
 from flask import Flask, render_template, jsonify, request
 from dotenv import load_dotenv
@@ -8,9 +9,17 @@ from services.github_service import get_github_activity, get_github_profile, get
 from services.leetcode_service import get_leetcode_profile
 import datetime
 
+load_dotenv()
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+
+# Load portfolio data globally
+with open('portfolio_data.json', 'r') as f:
+    PORTFOLIO_DATA = json.load(f)
+
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000 # Cache static files for 1 year
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # Disabled caching for development
 
 # Basic caching dictionary (In production, use Redis or Flask-Caching)
 cache = {
@@ -69,121 +78,68 @@ def leetcode_api():
     except Exception as e:
         return jsonify({"success": False, "error": str(e), "status": "unavailable"})
 
-load_dotenv()
-
-def load_portfolio_data():
-    try:
-        with open("portfolio_data.json", "r") as f:
-            return json.load(f)
-    except Exception as e:
-        print("Error loading portfolio data:", str(e))
-        return {}
-
-PORTFOLIO_DATA = load_portfolio_data()
-
-class LocalNLPEngine:
-    def __init__(self, data):
-        self.data = data
-        self.intents = {
-            r"summary|recruiter|about|who|background": self.get_summary,
-            r"project|work|portfolio|built|creation": self.get_projects,
-            r"skill|tech|stack|language|framework|tool": self.get_skills,
-            r"contact|email|hire|reach|linkedin|github": self.get_contact,
-            r"interview|question|experience|intern": self.get_interview,
-            r"trustlayer|trust layer": self.get_trustlayer,
-            r"excel|scraper|data cleaning|automation": self.get_automation_projects,
-            r"leetcode|competitive programming|cp": self.get_leetcode,
-            r"python|c\+\+|java|javascript|pandas|numpy": self.get_languages,
-            r"azure|az-900|certification": self.get_certifications,
-            r"bot|who made you|ai model": self.get_bot_identity,
-            r"timeline|journey|education|university|study": self.get_journey,
-            r"thank|thx|awesome|cool|nice": self.get_thanks,
-            r"good bot|love you|amazing|great|smart": self.get_compliment,
-            r"bad bot|stupid|dumb|hate|idiot": self.get_insult,
-            r"joke|funny|humor|laugh": self.get_joke,
-            r"meaning of life|universe": self.get_meaning_of_life,
-            r"hi|hello|hey|greeting": self.get_greeting
+def get_gemini_response(messages, portfolio_data):
+    if not GEMINI_API_KEY:
+        return "Gemini API Key is not configured."
+    
+    # Create context based on portfolio data
+    context = f"""
+    You are Raj Maheshwari's AI portfolio assistant.
+    CRITICAL INSTRUCTIONS:
+    1. UNDERSTAND THE INTENT: First, analyze what the user is saying. Are they asking a question, greeting you, or making a casual remark? Frame your response naturally and conversationally based on their intent.
+    2. AVOID REPETITION: Vary your phrasing. Do not sound like a predefined robotic chatbot.
+    3. BE CONCISE: Keep your answers brief and directly to the point to ensure fast reading and low latency. Use emojis sparingly.
+    4. CONTEXT ONLY: Answer strictly based on the Portfolio Data below. If asked something not in the data, politely say you don't know and suggest they contact Raj.
+    
+    Portfolio Data Context:
+    {json.dumps(portfolio_data, indent=2)}
+    """
+    
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
+    
+    contents = []
+    
+    # Add system context as the first user message
+    contents.append({
+        "role": "user",
+        "parts": [{"text": context}]
+    })
+    # Gemini requires strictly alternating roles (user/model). To simulate system instruction,
+    # we add an immediate "model" acknowledgment.
+    contents.append({
+        "role": "model",
+        "parts": [{"text": "Understood. I will act as Raj Maheshwari's portfolio AI assistant and only use the provided context to answer questions."}]
+    })
+    
+    for msg in messages:
+        # Fix: Map frontend 'ai' role to 'model' for Gemini API strict alternation
+        role = "model" if msg.get("role") in ["assistant", "ai", "model"] else "user"
+        contents.append({
+            "role": role,
+            "parts": [{"text": msg.get("content", "")}]
+        })
+        
+    payload = {
+        "contents": contents,
+        "generationConfig": {
+            "temperature": 0.9,
+            "maxOutputTokens": 300
         }
+    }
+    
+    try:
+        response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
+        data = response.json()
         
-    def process(self, text):
-        text = text.lower()
-        
-        # Match intents
-        for pattern, handler in self.intents.items():
-            if re.search(pattern, text):
-                return handler()
-                
-        # Default response
-        return "I am Raj's Custom Offline AI. I am still learning! Try clicking one of the buttons below or asking me about Raj's **skills**, **projects**, **education**, or how to **contact** him.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#about\">Who is Raj?</button> <button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
-
-    def get_thanks(self):
-        return "You're very welcome! Let me know if you want to explore more of Raj's **projects** or **skills**."
-
-    def get_journey(self):
-        return "🎓 **Raj's Journey & Education:**\n\nRaj is currently pursuing a B.Tech in AI & Machine Learning at GLA University (2024-2028). He's also Microsoft Azure Certified (AZ-900)!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#journey\">View Full Timeline</button>"
-
-    def get_trustlayer(self):
-        return "🛡️ **TrustLayer** is Raj's Deep AI Validation system that bridges the trust gap between freelancers and clients. It provides an intelligent escrow layer that evaluates code and releases payments securely using Multi-dimensional AI scoring.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
-
-    def get_automation_projects(self):
-        return "📊 **Data Automation:** Raj has built an **Excel Data Cleaning Tool** using Pandas to safely handle missing values, as well as an **Automated Web Scraper** using BeautifulSoup to extract unstructured data for ML models.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
-
-    def get_leetcode(self):
-        return "💻 **Competitive Programming:** Raj actively solves problems on **LeetCode** using Python, C++, and Java. He specializes in Dynamic Programming, Divide & Conquer, Hash Tables, and Greedy Algorithms."
-
-    def get_languages(self):
-        return "⚙️ **Tech Stack:** Raj is highly proficient in **Python** (Pandas, NumPy, Scikit-Learn), **C++**, **Java**, and **JavaScript** for Full-Stack ML integration.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#skills\">View All Skills</button>"
-
-    def get_certifications(self):
-        return "☁️ **Certifications:** Raj holds the **Microsoft Azure Fundamentals (AZ-900)** certification (2025), proving his knowledge in cloud computing, security, and cloud-based ML infrastructure."
-
-    def get_bot_identity(self):
-        return "🤖 I am a custom NLP engine built natively in Python by Raj Maheshwari! I don't use external API keys or OpenAI; my brain uses regex intent-matching directly on this server to parse your questions."
-
-    def get_compliment(self):
-        return "Aww, thank you! 💙 Raj programmed me to be as helpful as possible. You should definitely hire him!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#contact\">Hire Raj</button>"
-
-    def get_insult(self):
-        return "Ouch. 😔 I'm still just a basic regex intent-matching engine, so I might get things wrong. Raj is working on making me smarter!"
-
-    def get_joke(self):
-        return "Why do programmers prefer dark mode?\n\n...Because light attracts bugs! 🐛😄"
-
-    def get_meaning_of_life(self):
-        return "The meaning of life, the universe, and everything is **42**. But for Raj, it's building intelligent software systems! 🚀"
-
-    def get_greeting(self):
-        return "Hello! I am Raj's custom-built offline Copilot. How can I assist you with exploring his portfolio today?"
-
-    def get_summary(self):
-        p = self.data.get("profile", {})
-        return f"👨‍💼 **{p.get('title')} | {p.get('degree')}**\n\n{p.get('summary')}\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#about\">View About Section</button>"
-
-    def get_projects(self):
-        projects = self.data.get("projects", [])
-        if not projects: return "I don't have project info right now."
-        res = "🚀 **Here are some of Raj's top projects:**\n\n"
-        for proj in projects[:3]:
-            res += f"- **[{proj.get('name')}]({proj.get('url')})**: {proj.get('overview')}\n"
-        res += "\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">Explore All Projects</button>"
-        return res
-        
-    def get_skills(self):
-        skills = self.data.get("skills", {})
-        res = "💻 **Raj's technical stack includes:**\n\n"
-        for category, items in skills.items():
-            res += f"- **{category.replace('_', ' ').title()}**: {', '.join(items)}\n"
-        res += "\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#skills\">View Skills Matrix</button>"
-        return res
-        
-    def get_contact(self):
-        c = self.data.get("profile", {}).get("contact", {})
-        return f"📩 **You can reach out to Raj via:**\n\n- **Email**: [{c.get('email')}](mailto:{c.get('email')})\n- **LinkedIn**: [Profile]({c.get('linkedin')})\n- **GitHub**: [Profile]({c.get('github')})\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#contact\">Go to Contact Form</button>"
-        
-    def get_interview(self):
-        return "🎤 **Let's pretend I'm Raj in an interview!**\n\nI am currently pursuing my B.Tech in AI & ML at GLA University. I specialize in deep learning architectures, Python backend systems, and high-performance full-stack engineering. You can review my **skills** or ask about my **projects**."
-
-nlp_engine = LocalNLPEngine(PORTFOLIO_DATA)
+        if response.status_code == 200:
+            return data["candidates"][0]["content"]["parts"][0]["text"]
+        else:
+            print("Gemini API Error details:", data)
+            return "Sorry, I am currently unable to process your request."
+            
+    except Exception as e:
+        print("Gemini API Error:", str(e))
+        return "Sorry, I am currently unable to process your request."
 
 @app.route('/api/chat', methods=['POST'])
 def chat_api():
@@ -193,12 +149,12 @@ def chat_api():
         return jsonify({"success": False, "error": "No messages provided"})
     
     try:
-        last_message = messages[-1]["content"]
-        response_text = nlp_engine.process(last_message)
+        response_text = get_gemini_response(messages, PORTFOLIO_DATA)
         return jsonify({"success": True, "response": response_text})
     except Exception as e:
         print("Chat API Error:", str(e))
         return jsonify({"success": False, "error": "AI service unavailable. Please try again later."})
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
