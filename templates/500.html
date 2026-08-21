@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ config.name }} | 500 Server Error{% endblock %}
+{% block content %}
+<section class="chapter full-height flex-center">
+    <div class="container text-center">
+        <h1 class="massive-text gradient-emerald">500</h1>
+        <h2>Internal Server Error</h2>
+        <p class="mt-4">Something went wrong on our end while processing your request.<br>The system administrator has been notified.</p>
+        <a href="/" class="btn btn-primary mt-8">Return Home</a>
+    </div>
+</section>
+{% endblock %}

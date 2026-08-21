@@ -88,6 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const particles = new THREE.Points(geometry, material);
     waveGroup.add(particles);
 
+    // --- Interactive Mouse Physics ---
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - window.innerWidth / 2);
+        mouseY = (event.clientY - window.innerHeight / 2);
+    });
+
     // --- Mouse & Scroll Physics ---
     let scrollY = 0;
     let targetScrollY = 0;
@@ -111,32 +122,46 @@ document.addEventListener('DOMContentLoaded', () => {
     function animate() {
         requestAnimationFrame(animate);
         
-        // Smooth interpolation
-        scrollY += (targetScrollY - scrollY) * 0.05;
+
+        count += 0.05;
+        
+        // Smooth mouse interpolation
         mouseX += (targetMouseX - mouseX) * 0.05;
         mouseY += (targetMouseY - mouseY) * 0.05;
-
-        // Subtle camera movement based on scroll and mouse
-        camera.position.y = 10 - scrollY * 0.005 + (mouseY * 2);
-        camera.position.x = mouseX * 5;
-        camera.lookAt(0, 0, 0);
-
-        const posAttr = particles.geometry.attributes.position;
-        let i = 0;
         
-        // Liquid wave math
+        targetX = mouseX * 0.001;
+        targetY = mouseY * 0.001;
+
+        const positions = particles.geometry.attributes.position.array;
+
+        let i = 0;
         for (let ix = 0; ix < AMOUNTX; ix++) {
             for (let iy = 0; iy < AMOUNTY; iy++) {
-                // Generate fluid-like wave using combined sine waves
-                posAttr.array[i * 3 + 1] = (Math.sin((ix + count) * 0.3) * 2) +
-                                           (Math.sin((iy + count) * 0.5) * 2) + 
-                                           (Math.sin((ix + iy + count) * 0.2) * 1.5);
+                // Base wave calculation
+                let waveZ = (Math.sin((ix + count) * 0.3) * 2) +
+                           (Math.sin((iy + count) * 0.5) * 2);
+                           
+                // Add interactive mouse distortion
+                const distX = (ix - AMOUNTX/2) * SEPARATION - (mouseX * 0.05);
+                const distY = (iy - AMOUNTY/2) * SEPARATION + (mouseY * 0.05);
+                const dist = Math.sqrt(distX*distX + distY*distY);
+                
+                // If close to mouse, push the wave down/up
+                if (dist < 15) {
+                    waveZ -= (15 - dist) * 0.5;
+                }
+
+                positions[i * 3 + 1] = waveZ;
                 i++;
             }
         }
+
+        particles.geometry.attributes.position.needsUpdate = true;
         
-        posAttr.needsUpdate = true;
-        count += 0.03;
+        // Slight camera tilt based on mouse
+        camera.position.x += (mouseX * 0.01 - camera.position.x) * 0.05;
+        camera.position.y += (-mouseY * 0.01 + 15 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
 
         renderer.render(scene, camera);
     }

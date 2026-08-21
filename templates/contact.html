@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Chapter 10: Contact (Deep Dark, Professional) -->
+        <section id="contact" class="chapter theme-deep-dark px-lg py-32 text-center relative z-10">
+            <h2 class="section-title mb-4 scroll-fade-up">LET'S CONNECT</h2>
+            <h2 class="massive-text gradient-purple scroll-scale">OPEN TO</h2>
+            <h2 class="massive-text gradient-purple scroll-scale delay-1" id="contact-typewriter">OPPORTUNITIES.</h2>
+            
+            <p class="lead-text mt-12 mb-4 scroll-fade-up delay-2" style="max-width: 600px; margin-left: auto; margin-right: auto;">
+                I'm actively looking for internships, collaborations, and freelance projects in AI/ML, data engineering, and full-stack development.
+            </p>
+            <p class="text-muted mb-12 scroll-fade-up delay-3" style="font-size: 0.9rem;">
+                Based in Mathura, India • Available for remote work
+            </p>
+            
+            <div class="contact-actions scroll-fade-up delay-4">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ config.email }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="Email Me"><i class="ph ph-envelope"></i> EMAIL ME</a>
+                <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="GitHub"><i class="ph ph-github-logo"></i> GITHUB</a>
+                <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i> LINKEDIN</a>
+                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="LeetCode"><i class="ph ph-code"></i> LEETCODE</a>
+            </div>
+            
+            <footer class="mt-32 pt-12 border-t border-dark">
+                <h3 class="footer-title">RAJ MAHESHWARI</h3>
+                <p class="text-muted text-sm mt-2">AI / ML DEVELOPER • B.TECH AI/ML • GLA UNIVERSITY</p>
+                <div class="mt-8 text-xs text-muted">
+                    Built with Flask, Three.js & live API integrations<br><br>
+                    © 2026 Raj Maheshwari.
+                </div>
+            </footer>
+        </section>
+        
+    {% endblock %}

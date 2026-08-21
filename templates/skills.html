@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Chapter 4: Core Competencies (Light, Concrete) -->
+        <section class="chapter theme-light px-lg py-20">
+            <div class="content-wrapper">
+                <h2 class="section-title mb-4 scroll-fade-up">WHAT I BRING</h2>
+                <h2 class="massive-text gradient-emerald scroll-fade-up">CORE</h2>
+                <h2 class="massive-text gradient-emerald scroll-fade-up">COMPETENCIES.</h2>
+                
+                <div class="competency-grid mt-16">
+                    <div class="competency-item hover-glow glow-emerald scroll-fade-up">
+                        <div class="comp-num">01</div>
+                        <h3 class="comp-title">Machine Learning Engineering</h3>
+                        <p class="comp-desc">Build, train, and deploy ML models using TensorFlow, scikit-learn, and custom neural architectures (RNN, LSTM). Experience with classification, regression, and sequence prediction.</p>
+                    </div>
+                    <div class="competency-item hover-glow glow-emerald scroll-fade-up delay-1">
+                        <div class="comp-num">02</div>
+                        <h3 class="comp-title">Data Engineering & Analysis</h3>
+                        <p class="comp-desc">Data preprocessing, cleaning, and analysis with Pandas, NumPy, and SQL. Building ETL pipelines and extracting insights from raw datasets at scale.</p>
+                    </div>
+                    <div class="competency-item hover-glow glow-emerald scroll-fade-up delay-2">
+                        <div class="comp-num">03</div>
+                        <h3 class="comp-title">Backend Development</h3>
+                        <p class="comp-desc">Python-based backend systems with Flask, RESTful API design, database management (MySQL), and server-side architecture for ML model serving.</p>
+                    </div>
+                    <div class="competency-item hover-glow glow-emerald scroll-fade-up delay-3">
+                        <div class="comp-num">04</div>
+                        <h3 class="comp-title">Full-Stack Integration</h3>
+                        <p class="comp-desc">Connecting ML backends with web frontends using JavaScript, HTML/CSS, and API integrations. End-to-end deployment from data to user interface.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 5: Skills & Toolkit (Dark Tech) -->
+        <section id="skills" class="chapter theme-dark px-lg py-32 relative">
+            <div class="content-wrapper z-10 relative">
+                <h2 class="massive-text scroll-fade-up">MY</h2>
+                <h2 class="massive-text scroll-fade-up">TOOLKIT.</h2>
+                
+                <div class="skill-network mt-20 scroll-fade-up delay-2">
+                    <div class="skill-group" id="sg-python">
+                        <h4 class="world-title">PYTHON ECOSYSTEM</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="ml,data,backend">Python</span>
+                            <span class="skill-node" data-connect="python,data">Pandas</span>
+                            <span class="skill-node" data-connect="python,data">NumPy</span>
+                        </div>
+                    </div>
+                    <div class="skill-group" id="sg-data">
+                        <h4 class="world-title">DATA & ARCHITECTURE</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="backend,data">SQL</span>
+                            <span class="skill-node" data-connect="backend,data">MySQL</span>
+                            <span class="skill-node" data-connect="python,data">Data Analysis</span>
+                        </div>
+                    </div>
+                    <div class="skill-group" id="sg-ml">
+                        <h4 class="world-title">MACHINE LEARNING</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="python,ml">Scikit-Learn</span>
+                            <span class="skill-node" data-connect="python,ml">Data Preprocessing</span>
+                            <span class="skill-node" data-connect="python,ml">Regression / Classification</span>
+                        </div>
+                    </div>
+                    <div class="skill-group" id="sg-backend">
+                        <h4 class="world-title">SOFTWARE DEV</h4>
+                        <div class="skill-nodes">
+                            <span class="skill-node" data-connect="core">C++</span>
+                            <span class="skill-node" data-connect="core">Java</span>
+                            <span class="skill-node" data-connect="web">JavaScript</span>
+                            <span class="skill-node" data-connect="core">Git & GitHub</span>
+                            <span class="skill-node" data-connect="cloud">Azure (AZ-900)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-connection-line" id="skill-line"></div>
+            </div>
+        </section>
+
+        {% endblock %}

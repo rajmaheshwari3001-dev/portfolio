@@ -1,0 +1,60 @@
+{
+    "static_intents": {
+        "thanks": {
+            "patterns": ["thank", "thx", "awesome", "cool", "nice"],
+            "response": "You're very welcome! Let me know if you want to explore more of Raj's **projects** or **skills**."
+        },
+        "journey": {
+            "patterns": ["timeline", "journey", "education", "university", "study"],
+            "response": "🎓 **Raj's Journey & Education:**\n\nRaj is currently pursuing a B.Tech in AI & Machine Learning at GLA University (2024-2028). He's also Microsoft Azure Certified (AZ-900)!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#journey\">View Full Timeline</button>"
+        },
+        "trustlayer": {
+            "patterns": ["trustlayer", "trust layer"],
+            "response": "🛡️ **TrustLayer** is Raj's Deep AI Validation system that bridges the trust gap between freelancers and clients. It provides an intelligent escrow layer that evaluates code and releases payments securely using Multi-dimensional AI scoring.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
+        },
+        "automation_projects": {
+            "patterns": ["excel", "scraper", "data cleaning", "automation"],
+            "response": "📊 **Data Automation:** Raj has built an **Excel Data Cleaning Tool** using Pandas to safely handle missing values, as well as an **Automated Web Scraper** using BeautifulSoup to extract unstructured data for ML models.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
+        },
+        "leetcode": {
+            "patterns": ["leetcode", "competitive programming", "cp"],
+            "response": "💻 **Competitive Programming:** Raj actively solves problems on **LeetCode** using Python, C++, and Java. He specializes in Dynamic Programming, Divide & Conquer, Hash Tables, and Greedy Algorithms."
+        },
+        "languages": {
+            "patterns": ["python", "c\\+\\+", "java", "javascript", "pandas", "numpy"],
+            "response": "⚙️ **Tech Stack:** Raj is highly proficient in **Python** (Pandas, NumPy, Scikit-Learn), **C++**, **Java**, and **JavaScript** for Full-Stack ML integration.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#skills\">View All Skills</button>"
+        },
+        "certifications": {
+            "patterns": ["azure", "az-900", "certification"],
+            "response": "☁️ **Certifications:** Raj holds the **Microsoft Azure Fundamentals (AZ-900)** certification (2025), proving his knowledge in cloud computing, security, and cloud-based ML infrastructure."
+        },
+        "bot_identity": {
+            "patterns": ["bot", "who made you", "ai model"],
+            "response": "🤖 I am a custom NLP engine built natively in Python by Raj Maheshwari! I don't use external API keys or OpenAI; my brain uses regex intent-matching directly on this server to parse your questions."
+        },
+        "compliment": {
+            "patterns": ["good bot", "love you", "amazing", "great", "smart"],
+            "response": "Aww, thank you! 💙 Raj programmed me to be as helpful as possible. You should definitely hire him!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#contact\">Hire Raj</button>"
+        },
+        "insult": {
+            "patterns": ["bad bot", "stupid", "dumb", "hate", "idiot"],
+            "response": "Ouch. 😔 I'm still just a basic regex intent-matching engine, so I might get things wrong. Raj is working on making me smarter!"
+        },
+        "joke": {
+            "patterns": ["joke", "funny", "humor", "laugh"],
+            "response": "Why do programmers prefer dark mode?\n\n...Because light attracts bugs! 🐛😄"
+        },
+        "meaning_of_life": {
+            "patterns": ["meaning of life", "universe"],
+            "response": "The meaning of life, the universe, and everything is **42**. But for Raj, it's building intelligent software systems! 🚀"
+        },
+        "greeting": {
+            "patterns": ["hi", "hello", "hey", "greeting"],
+            "response": "Hello! I am Raj's custom-built offline Copilot. How can I assist you with exploring his portfolio today?"
+        },
+        "interview": {
+            "patterns": ["interview", "question", "experience", "intern"],
+            "response": "🎤 **Let's pretend I'm Raj in an interview!**\n\nI am currently pursuing my B.Tech in AI & ML at GLA University. I specialize in deep learning architectures, Python backend systems, and high-performance full-stack engineering. You can review my **skills** or ask about my **projects**."
+        }
+    }
+}

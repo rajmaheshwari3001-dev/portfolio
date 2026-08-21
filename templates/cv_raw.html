@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raj Maheshwari - AI & ML Student</title>
+    <meta name="description" content="Interactive digital CV of Raj Maheshwari.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cv/style.css') }}">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body class="light-theme">
+
+    <nav class="cv-controls" style="position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
+        <div class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+            <i data-feather="sun" class="icon-sun"></i>
+            <i data-feather="moon" class="icon-moon"></i>
+        </div>
+        <button class="theme-toggle" onclick="window.print()" title="Print to PDF" style="border: 1px solid var(--card-border); color: inherit;">
+            <i data-feather="printer"></i>
+        </button>
+    </nav>
+
+    <main class="container">
+        <!-- Header Section -->
+        <header class="fade-in">
+            <h1 class="name">Raj <span class="highlight">Maheshwari</span></h1>
+            <p class="role" style="font-size: 1.2rem; margin-bottom: 5px;">B.Tech Artificial Intelligence & Machine
+                Learning Student</p>
+            <p class="location">Mathura, Uttar Pradesh, India</p>
+
+            <div class="contact-links">
+                <a href="tel:+919760497925" class="contact-item"><i data-feather="phone"></i> +91 9760497925</a>
+                <a href="mailto:rajmaheshwari3001@gmail.com" class="contact-item"><i data-feather="mail"></i>
+                    rajmaheshwari3001@gmail.com</a>
+                <a href="https://portfolio-personal-c40e.vercel.app/" target="_blank" class="contact-item"><i
+                        data-feather="globe"></i> portfolio-personal-c40e.vercel.app</a>
+                <a href="https://github.com/rajmaheshwari3001-dev" target="_blank" class="contact-item"><i
+                        data-feather="github"></i> rajmaheshwari3001-dev</a>
+                <a href="https://www.linkedin.com/in/raj-maheshwari-6293683a4/" target="_blank" class="contact-item"><i
+                        data-feather="linkedin"></i> raj-maheshwari</a>
+            </div>
+        </header>
+
+        <!-- Projects -->
+        <section class="section fade-in" id="projects">
+            <h2 class="section-title">Pr<span class="highlight">o</span>jects</h2>
+            <div class="divider"></div>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>Trustlayer</h3>
+                        <a href="https://github.com/rajmaheshwari3001-dev/Trustlayer" class="project-link" target="_blank"><i data-feather="github"></i> Repository</a>
+                    </div>
+                    <div class="meta-info">
+                        <span class="tech-stack highlight">CSS, AI Integration</span>
+                    </div>
+                </div>
+                <ul class="achievements">
+                    <li>Developed an AI-powered freelance trust & validation system for Hacknovate 7.0.</li>
+                    <li>Engineered an automated pipeline to validate work quality and release payments securely.</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>AI-Assisted Resume Portfolio Generator</h3>
+                        <a href="https://github.com/rajmaheshwari3001-dev/resume-portfolio-generator" class="project-link" target="_blank"><i data-feather="github"></i> Repository</a>
+                    </div>
+                    <div class="meta-info">
+                        <span class="tech-stack highlight">Python, Google Gemini API, HTML, CSS, JS</span>
+                    </div>
+                </div>
+                <ul class="achievements">
+                    <li>Developed an AI application that converts unstructured resume information into structured professional profile data.</li>
+                    <li>Built a portfolio generation workflow utilizing Google Gemini AI to extract and organize JSON data.</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>Personal Portfolio App</h3>
+                        <a href="https://github.com/rajmaheshwari3001-dev/portfolio" class="project-link" target="_blank"><i data-feather="github"></i> Repository</a>
+                    </div>
+                    <div class="meta-info">
+                        <span class="tech-stack highlight">Python, Flask, JavaScript</span>
+                    </div>
+                </div>
+                <ul class="achievements">
+                    <li>Built a dynamic portfolio with a Flask backend to serve interactive data and showcase intelligent software projects.</li>
+                    <li>Implemented a responsive JavaScript frontend to interact seamlessly with backend APIs.</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>Data Pipeline & Web Scraper</h3>
+                        <a href="https://github.com/rajmaheshwari3001-dev/-web-scraper" class="project-link" target="_blank"><i data-feather="github"></i> Repository</a>
+                    </div>
+                    <div class="meta-info">
+                        <span class="tech-stack highlight">Python, BeautifulSoup, Pandas, MySQL</span>
+                    </div>
+                </div>
+                <ul class="achievements">
+                    <li>Engineered a robust web scraping tool using Python and BeautifulSoup to extract structured data from web sources.</li>
+                    <li>Integrated Pandas for data cleaning and MySQL for persistent storage and database normalization.</li>
+                </ul>
+            </article>
+        </section>
+
+        <!-- Technical Skills -->
+        <section class="section fade-in" id="skills">
+            <h2 class="section-title">Tec<span class="highlight">h</span>nical Skills</h2>
+            <div class="divider"></div>
+
+            <div class="skills-grid card">
+                <div class="skill-category">
+                    <span class="skill-name">Strongest Areas</span>
+                    <span class="skill-items">Python, Data Structures & Algorithms, OOP, SQL, Problem Solving</span>
+                </div>
+                <div class="skill-category">
+                    <span class="skill-name">Programming Languages</span>
+                    <span class="skill-items">Python, Java, C++, JavaScript, SQL</span>
+                </div>
+                <div class="skill-category">
+                    <span class="skill-name">Libraries/Frameworks</span>
+                    <span class="skill-items">Pandas, NumPy, Matplotlib, Flask, TensorFlow, MediaPipe</span>
+                </div>
+                <div class="skill-category">
+                    <span class="skill-name">Web Technologies</span>
+                    <span class="skill-items">HTML, CSS, JavaScript</span>
+                </div>
+                <div class="skill-category">
+                    <span class="skill-name">Cloud / Platforms</span>
+                    <span class="skill-items">Microsoft Azure, Google AI / Gemini API</span>
+                </div>
+                <div class="skill-category">
+                    <span class="skill-name">Machine Learning</span>
+                    <span class="skill-items">ML fundamentals, RNN, LSTM, TensorFlow</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="section fade-in" id="education">
+            <h2 class="section-title">Ed<span class="highlight">u</span>cation</h2>
+            <div class="divider"></div>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>GLA University</h3>
+                        <p class="role">B.Tech — Artificial Intelligence & Machine Learning</p>
+                    </div>
+                    <div class="meta-info">
+                        <span class="location">Mathura, India</span>
+                        <span class="date">2025 - 2029</span>
+                    </div>
+                </div>
+                <ul class="achievements" style="margin-top: 10px;">
+                    <li>Currently in 3rd Semester.</li>
+                    <li>Coursework: DSA, Python, Java, C++, DBMS, SQL, ML, Web Dev, Cloud.</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>Class XII — CBSE</h3>
+                        <p class="role">PCM / Computer-related studies</p>
+                        <p class="cgpa">85%</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>Class X — CBSE</h3>
+                        <p class="cgpa">85%</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- Academic Achievements & Certifications -->
+        <section class="section fade-in" id="achievements">
+            <h2 class="section-title">Achie<span class="highlight">v</span>ements & Certifications</h2>
+            <div class="divider"></div>
+
+            <div class="skills-grid card">
+                <div class="skill-category">
+                    <span class="skill-name">JEE Main</span>
+                    <span class="skill-items">97.77 Percentile</span>
+                </div>
+                <div class="skill-category">
+                    <span class="skill-name">Microsoft Azure</span>
+                    <span class="skill-items">Fundamentals (AZ-900) - In Progress</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <script src="{{ url_for('static', filename='cv/script.js') }}"></script>
+    <script>
+        feather.replace()
+    </script>
+</body>
+
+</html>

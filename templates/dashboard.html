@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}{{ config.name }} | Analytics Dashboard{% endblock %}
+
+{% block content %}
+<section id="dashboard" class="chapter theme-dark full-height px-lg py-32" style="background: var(--c-dark);">
+    <div class="content-wrapper" style="max-width: 1200px; margin: 0 auto; margin-top: 80px;">
+        <h2 class="massive-text gradient-blue mb-8">LIVE ANALYTICS.</h2>
+        <p class="mb-16" style="color: var(--c-light-muted); font-size: 1.2rem; max-width: 600px;">
+            Real-time API integrations fetching my coding statistics directly from GitHub and LeetCode.
+        </p>
+
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px; align-items: stretch;">
+            
+            <!-- GitHub Languages Chart -->
+            <div class="dashboard-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
+                <h3 style="color: #fff; margin-bottom: 24px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-github-logo" style="color: var(--c-accent-cyan);"></i> Language Distribution
+                </h3>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="githubLangChart"></canvas>
+                </div>
+            </div>
+
+            <!-- GitHub Commits Chart -->
+            <div class="dashboard-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
+                <h3 style="color: #fff; margin-bottom: 24px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-git-commit" style="color: var(--c-accent-blue);"></i> Recent Activity (Commits)
+                </h3>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="githubActivityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- LeetCode Stats Chart -->
+            <div class="dashboard-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
+                <h3 style="color: #fff; margin-bottom: 24px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-code" style="color: var(--c-amber);"></i> LeetCode Progress
+                </h3>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="leetcodeChart"></canvas>
+                </div>
+                <div id="leetcode-rank" style="margin-top: 16px; text-align: center; color: var(--c-light-muted); font-size: 0.9rem;"></div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Logic -->
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    // Set global Chart.js defaults for dark theme
+    Chart.defaults.color = 'rgba(255, 255, 255, 0.6)';
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    
+    try {
+        // Fetch GitHub Data
+        const ghRes = await fetch('/api/activity/github');
+        const ghData = await ghRes.json();
+        
+        if (ghData.success && ghData.data.languages) {
+            const langs = ghData.data.languages;
+            // Limit to top 5 languages
+            const labels = Object.keys(langs).slice(0, 5);
+            const data = Object.values(langs).slice(0, 5);
+            
+            new Chart(document.getElementById('githubLangChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(6, 182, 212, 0.8)',   // Cyan
+                            'rgba(37, 99, 235, 0.8)',   // Blue
+                            'rgba(245, 158, 11, 0.8)',  // Amber
+                            'rgba(225, 29, 72, 0.8)',   // Rose
+                            'rgba(16, 185, 129, 0.8)'   // Emerald
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right' }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+        
+        if (ghData.success && ghData.data.activity) {
+            // Aggregate pushes by day
+            const events = ghData.data.activity.filter(e => e.type === 'PUSH');
+            const dates = {};
+            events.forEach(e => {
+                const date = new Date(e.timestamp).toLocaleDateString();
+                dates[date] = (dates[date] || 0) + 1;
+            });
+            
+            const labels = Object.keys(dates).reverse();
+            const data = Object.values(dates).reverse();
+            
+            new Chart(document.getElementById('githubActivityChart'), {
+                type: 'line',
+                data: {
+                    labels: labels.length ? labels : ['No recent pushes'],
+                    datasets: [{
+                        label: 'Commits/Pushes',
+                        data: data.length ? data : [0],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+    } catch (e) {
+        console.error("Failed to load GitHub dashboard data", e);
+    }
+    
+    try {
+        // Fetch LeetCode Data
+        const lcRes = await fetch('/api/activity/leetcode');
+        const lcData = await lcRes.json();
+        
+        if (lcData.success && lcData.data.stats) {
+            const stats = lcData.data.stats;
+            
+            new Chart(document.getElementById('leetcodeChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Easy', 'Medium', 'Hard'],
+                    datasets: [{
+                        label: 'Problems Solved',
+                        data: [stats.easy, stats.medium, stats.hard],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)', // Emerald
+                            'rgba(245, 158, 11, 0.8)', // Amber
+                            'rgba(225, 29, 72, 0.8)'   // Rose
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+            
+            document.getElementById('leetcode-rank').innerHTML = `Global Ranking: <strong>${lcData.data.ranking.toLocaleString()}</strong>`;
+        }
+    } catch (e) {
+        console.error("Failed to load LeetCode dashboard data", e);
+    }
+    
+});
+</script>
+{% endblock %}

@@ -13,8 +13,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--c-amber), var(--c-rose));
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4), 0 0 40px rgba(225, 29, 72, 0.2);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(6, 182, 212, 0.8)); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.4), 0 0 40px rgba(6, 182, 212, 0.4);
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -25,7 +25,7 @@
 
 .copilot-orb:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(245, 158, 11, 0.6), 0 0 60px rgba(225, 29, 72, 0.4);
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.6), 0 0 60px rgba(6, 182, 212, 0.6);
 }
 
 .copilot-orb i {
@@ -57,10 +57,10 @@
 
 @keyframes orb-pulse {
     0% {
-        box-shadow: 0 0 20px rgba(245, 158, 11, 0.4), 0 0 40px rgba(225, 29, 72, 0.2);
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.4), 0 0 40px rgba(6, 182, 212, 0.4);
     }
     100% {
-        box-shadow: 0 0 30px rgba(245, 158, 11, 0.7), 0 0 60px rgba(225, 29, 72, 0.5);
+        box-shadow: 0 0 30px rgba(37, 99, 235, 0.7), 0 0 60px rgba(6, 182, 212, 0.7);
     }
 }
 
@@ -73,10 +73,10 @@
     max-width: calc(100vw - 40px);
     height: 600px;
     max-height: calc(100vh - 120px);
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(20px);
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(40px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
+    border-radius: 28px;
     z-index: 9998;
     display: flex;
     flex-direction: column;
@@ -112,14 +112,14 @@
     margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--c-light);
+    color: #ffffff;
     font-family: var(--font-heading);
     letter-spacing: 0.05em;
 }
 
 .copilot-title span {
     font-size: 0.75rem;
-    color: var(--c-amber);
+    color: #60a5fa;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -151,7 +151,7 @@
 }
 
 .copilot-close:hover {
-    color: var(--c-rose);
+    color: #60a5fa;
 }
 
 .copilot-body {
@@ -187,18 +187,18 @@
 
 .copilot-msg.ai {
     align-self: flex-start;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-bottom-left-radius: 4px;
-    color: var(--c-light);
+    color: #ffffff;
 }
 
 .copilot-msg.user {
     align-self: flex-end;
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(225, 29, 72, 0.2));
-    border: 1px solid rgba(245, 158, 11, 0.2);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(6, 182, 212, 0.4));
+    border: none;
     border-bottom-right-radius: 4px;
-    color: var(--c-light);
+    color: #ffffff;
 }
 
 .copilot-msg p {
@@ -221,7 +221,7 @@
 }
 
 .copilot-quick-btn {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--c-light-muted);
     padding: 6px 12px;
@@ -233,15 +233,15 @@
 }
 
 .copilot-quick-btn:hover {
-    background: rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.4);
-    color: var(--c-amber);
+    background: rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    color: #60a5fa;
 }
 
 /* Embedded Action Buttons (from AI) */
 .copilot-action {
     display: inline-block;
-    background: linear-gradient(135deg, var(--c-amber), var(--c-rose));
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(6, 182, 212, 0.8)); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
     border: none;
     padding: 6px 14px;
@@ -267,9 +267,9 @@
 
 .copilot-input {
     flex-grow: 1;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--c-light);
+    color: #ffffff;
     padding: 12px 16px;
     border-radius: 20px;
     font-size: 0.9rem;
@@ -279,7 +279,7 @@
 }
 
 .copilot-input:focus {
-    border-color: var(--c-amber);
+    border-color: #60a5fa;
 }
 
 .copilot-send {
@@ -305,7 +305,7 @@
 .copilot-typing {
     display: none;
     padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
     border-radius: 16px;
     border-bottom-left-radius: 4px;
     align-self: flex-start;

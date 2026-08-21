@@ -3,7 +3,8 @@ import json
 import re
 from flask import Flask, render_template, jsonify, request
 from dotenv import load_dotenv
-from config import PROFILE_CONFIG
+import google.generativeai as genai
+from config import PROFILE_CONFIG, GITHUB_TOKEN, GEMINI_API_KEY
 from services.github_service import get_github_activity, get_github_profile, get_github_repos_and_languages
 from services.leetcode_service import get_leetcode_profile
 import datetime
@@ -11,6 +12,11 @@ import datetime
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000 # Cache static files for 1 year
+
+# API Validation
+from config import GITHUB_TOKEN
+if not GITHUB_TOKEN:
+    print("WARNING: GITHUB_TOKEN is not set in environment. App will use fallback data for GitHub API.")
 
 # Basic caching dictionary (In production, use Redis or Flask-Caching)
 cache = {
@@ -24,9 +30,49 @@ def is_cache_valid(key):
         return False
     return (datetime.datetime.now() - cache[key]["timestamp"]).total_seconds() < CACHE_TTL
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', config=PROFILE_CONFIG), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html', config=PROFILE_CONFIG), 500
+
 @app.route('/')
 def index():
     return render_template('index.html', config=PROFILE_CONFIG)
+
+@app.route('/projects')
+def projects():
+    return render_template('projects.html', config=PROFILE_CONFIG)
+
+@app.route('/skills')
+def skills():
+    return render_template('skills.html', config=PROFILE_CONFIG)
+
+@app.route('/activity')
+def activity():
+    return render_template('activity.html', config=PROFILE_CONFIG)
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html', config=PROFILE_CONFIG)
+
+@app.route('/journey')
+def journey():
+    return render_template('journey.html', config=PROFILE_CONFIG)
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', config=PROFILE_CONFIG)
+
+@app.route('/resume')
+def resume():
+    return render_template('resume.html', config=PROFILE_CONFIG)
+
+@app.route('/cv_raw')
+def cv_raw():
+    return render_template('cv_raw.html', config=PROFILE_CONFIG)
 
 @app.route('/api/activity/github')
 def github_api():
@@ -84,76 +130,37 @@ PORTFOLIO_DATA = load_portfolio_data()
 class LocalNLPEngine:
     def __init__(self, data):
         self.data = data
-        self.intents = {
-            r"summary|recruiter|about|who|background": self.get_summary,
-            r"project|work|portfolio|built|creation": self.get_projects,
-            r"skill|tech|stack|language|framework|tool": self.get_skills,
-            r"contact|email|hire|reach|linkedin|github": self.get_contact,
-            r"interview|question|experience|intern": self.get_interview,
-            r"trustlayer|trust layer": self.get_trustlayer,
-            r"excel|scraper|data cleaning|automation": self.get_automation_projects,
-            r"leetcode|competitive programming|cp": self.get_leetcode,
-            r"python|c\+\+|java|javascript|pandas|numpy": self.get_languages,
-            r"azure|az-900|certification": self.get_certifications,
-            r"bot|who made you|ai model": self.get_bot_identity,
-            r"timeline|journey|education|university|study": self.get_journey,
-            r"thank|thx|awesome|cool|nice": self.get_thanks,
-            r"good bot|love you|amazing|great|smart": self.get_compliment,
-            r"bad bot|stupid|dumb|hate|idiot": self.get_insult,
-            r"joke|funny|humor|laugh": self.get_joke,
-            r"meaning of life|universe": self.get_meaning_of_life,
-            r"hi|hello|hey|greeting": self.get_greeting
-        }
+        self.static_intents = {}
+        self._load_intents()
+        
+    def _load_intents(self):
+        try:
+            with open('intents.json', 'r', encoding='utf-8') as f:
+                intents_data = json.load(f)
+                self.static_intents = intents_data.get('static_intents', {})
+        except Exception as e:
+            print(f"Error loading intents.json: {e}")
         
     def process(self, text):
         text = text.lower()
         
-        # Match intents
-        for pattern, handler in self.intents.items():
-            if re.search(pattern, text):
-                return handler()
+        # 1. Check static intents
+        for intent_name, intent_data in self.static_intents.items():
+            patterns = intent_data.get('patterns', [])
+            for pattern in patterns:
+                if re.search(pattern, text):
+                    return intent_data.get('response', '')
+                    
+        # 2. Check dynamic/data-driven intents
+        if re.search(r"summary|about|who", text): return self.get_summary()
+        if re.search(r"project|work|portfolio", text): return self.get_projects()
+        if re.search(r"skill|tech|stack", text): return self.get_skills()
+        if re.search(r"contact|email|reach|hire", text): return self.get_contact()
                 
-        # Default response
+        # 3. Default response
         return "I am Raj's Custom Offline AI. I am still learning! Try clicking one of the buttons below or asking me about Raj's **skills**, **projects**, **education**, or how to **contact** him.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#about\">Who is Raj?</button> <button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
 
-    def get_thanks(self):
-        return "You're very welcome! Let me know if you want to explore more of Raj's **projects** or **skills**."
 
-    def get_journey(self):
-        return "🎓 **Raj's Journey & Education:**\n\nRaj is currently pursuing a B.Tech in AI & Machine Learning at GLA University (2024-2028). He's also Microsoft Azure Certified (AZ-900)!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#journey\">View Full Timeline</button>"
-
-    def get_trustlayer(self):
-        return "🛡️ **TrustLayer** is Raj's Deep AI Validation system that bridges the trust gap between freelancers and clients. It provides an intelligent escrow layer that evaluates code and releases payments securely using Multi-dimensional AI scoring.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
-
-    def get_automation_projects(self):
-        return "📊 **Data Automation:** Raj has built an **Excel Data Cleaning Tool** using Pandas to safely handle missing values, as well as an **Automated Web Scraper** using BeautifulSoup to extract unstructured data for ML models.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#projects\">View Projects</button>"
-
-    def get_leetcode(self):
-        return "💻 **Competitive Programming:** Raj actively solves problems on **LeetCode** using Python, C++, and Java. He specializes in Dynamic Programming, Divide & Conquer, Hash Tables, and Greedy Algorithms."
-
-    def get_languages(self):
-        return "⚙️ **Tech Stack:** Raj is highly proficient in **Python** (Pandas, NumPy, Scikit-Learn), **C++**, **Java**, and **JavaScript** for Full-Stack ML integration.\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#skills\">View All Skills</button>"
-
-    def get_certifications(self):
-        return "☁️ **Certifications:** Raj holds the **Microsoft Azure Fundamentals (AZ-900)** certification (2025), proving his knowledge in cloud computing, security, and cloud-based ML infrastructure."
-
-    def get_bot_identity(self):
-        return "🤖 I am a custom NLP engine built natively in Python by Raj Maheshwari! I don't use external API keys or OpenAI; my brain uses regex intent-matching directly on this server to parse your questions."
-
-    def get_compliment(self):
-        return "Aww, thank you! 💙 Raj programmed me to be as helpful as possible. You should definitely hire him!\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#contact\">Hire Raj</button>"
-
-    def get_insult(self):
-        return "Ouch. 😔 I'm still just a basic regex intent-matching engine, so I might get things wrong. Raj is working on making me smarter!"
-
-    def get_joke(self):
-        return "Why do programmers prefer dark mode?\n\n...Because light attracts bugs! 🐛😄"
-
-    def get_meaning_of_life(self):
-        return "The meaning of life, the universe, and everything is **42**. But for Raj, it's building intelligent software systems! 🚀"
-
-    def get_greeting(self):
-        return "Hello! I am Raj's custom-built offline Copilot. How can I assist you with exploring his portfolio today?"
 
     def get_summary(self):
         p = self.data.get("profile", {})
@@ -180,10 +187,16 @@ class LocalNLPEngine:
         c = self.data.get("profile", {}).get("contact", {})
         return f"📩 **You can reach out to Raj via:**\n\n- **Email**: [{c.get('email')}](mailto:{c.get('email')})\n- **LinkedIn**: [Profile]({c.get('linkedin')})\n- **GitHub**: [Profile]({c.get('github')})\n\n<button class=\"copilot-action\" data-action=\"navigate\" data-target=\"#contact\">Go to Contact Form</button>"
         
-    def get_interview(self):
-        return "🎤 **Let's pretend I'm Raj in an interview!**\n\nI am currently pursuing my B.Tech in AI & ML at GLA University. I specialize in deep learning architectures, Python backend systems, and high-performance full-stack engineering. You can review my **skills** or ask about my **projects**."
+
 
 nlp_engine = LocalNLPEngine(PORTFOLIO_DATA)
+
+# Configure Gemini if available
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+    gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+else:
+    gemini_model = None
 
 @app.route('/api/chat', methods=['POST'])
 def chat_api():
@@ -194,11 +207,26 @@ def chat_api():
     
     try:
         last_message = messages[-1]["content"]
-        response_text = nlp_engine.process(last_message)
+        
+        # Use Gemini if configured, otherwise fallback to local regex engine
+        if gemini_model:
+            system_prompt = f"You are Raj Maheshwari's portfolio AI assistant. Be professional, concise, and helpful. Use markdown. Here is Raj's data: {json.dumps(PORTFOLIO_DATA)}"
+            # Construct a prompt for Gemini
+            prompt = system_prompt + "\n\nUser asked: " + last_message
+            response = gemini_model.generate_content(prompt)
+            response_text = response.text
+        else:
+            response_text = nlp_engine.process(last_message)
+            
         return jsonify({"success": True, "response": response_text})
     except Exception as e:
         print("Chat API Error:", str(e))
-        return jsonify({"success": False, "error": "AI service unavailable. Please try again later."})
+        # Fallback to local engine if Gemini fails (e.g. rate limit, network error)
+        try:
+            fallback_text = nlp_engine.process(last_message)
+            return jsonify({"success": True, "response": fallback_text})
+        except:
+            return jsonify({"success": False, "error": "AI service unavailable. Please try again later."})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

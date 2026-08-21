@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/components/ScrollIndicator.css"],"sourcesContent":[".scroll-cue {\n  position: absolute;\n  bottom: 28px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 3;\n  width: 30px;\n  height: 46px;\n  border-radius: 999px;\n  border: 1.5px solid rgba(255, 47, 76, 0.5);\n  background: rgba(10, 14, 24, 0.5);\n  backdrop-filter: blur(6px);\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 8px;\n  color: var(--red-400);\n  box-shadow: 0 0 20px -6px var(--red-glow);\n  transition: border-color 200ms ease, box-shadow 200ms ease;\n}\n\n.scroll-cue:hover {\n  border-color: var(--red-400);\n  box-shadow: 0 0 24px -4px var(--red-glow);\n}\n\n.scroll-cue__track {\n  display: flex;\n  animation: scroll-bob 2s ease-in-out infinite;\n}\n\n@keyframes scroll-bob {\n  0%, 100% { transform: translateY(0); opacity: 0.6; }\n  50% { transform: translateY(6px); opacity: 1; }\n}\n\n@media (max-width: 720px) {\n  .scroll-cue {\n    display: none;\n  }\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;;;;;AAqBA;;;;;AAKA;;;;;AAKA;;;;;;;;;;;;AAKA;EACE"}}]
+}

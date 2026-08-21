@@ -21,66 +21,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Loading Sequence ---
     const loader = document.getElementById('loader');
     const typingText = document.getElementById('loader-typing');
-    const texts = ["INITIALIZING RAJ.M", "AI / ML DEVELOPER", "PYTHON", "DATA", "SYSTEM READY"];
-    let textIndex = 0;
     
-    function typeText() {
-        if (textIndex >= texts.length) {
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 1000);
-            }, 500);
-            return;
+    if (sessionStorage.getItem('hasLoadedBefore')) {
+        loader.style.display = 'none';
+    } else {
+        const texts = ["INITIALIZING RAJ.M", "AI / ML DEVELOPER", "PYTHON", "DATA", "SYSTEM READY"];
+        let textIndex = 0;
+        
+        function typeText() {
+            if (textIndex >= texts.length) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        sessionStorage.setItem('hasLoadedBefore', 'true');
+                    }, 1000);
+                }, 500);
+                return;
+            }
+            
+            typingText.innerText = texts[textIndex];
+            textIndex++;
+            setTimeout(typeText, 600);
         }
         
-        typingText.innerText = texts[textIndex];
-        textIndex++;
-        setTimeout(typeText, 600);
-    }
-    
-    // Start loader
-    setTimeout(typeText, 300);
-
-    // --- Custom Cursor ---
-    const cursor = document.getElementById('custom-cursor');
-    if (cursor && window.innerWidth > 1024) {
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function updateCursor() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            cursor.style.transform = `translate3d(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%), 0)`;
-            requestAnimationFrame(updateCursor);
-        }
-        requestAnimationFrame(updateCursor);
-        
-        const interactables = document.querySelectorAll('a, button, .node-circle, .proj-visual');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-        });
+        // Start loader
+        setTimeout(typeText, 300);
     }
 
-    // --- Hover Glow Effect for Bento Boxes ---
-    const glowElements = document.querySelectorAll('.hover-glow');
-    glowElements.forEach(el => {
-        el.addEventListener('mousemove', (e) => {
-            // Use requestAnimationFrame to prevent layout thrashing on fast mouse movements
-            window.requestAnimationFrame(() => {
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                el.style.setProperty('--mouse-x', `${x}px`);
-                el.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-    });
+    // --- Custom Cursor Removed ---
+
+    // --- Hover Glow Effect for Bento Boxes (Optimized - CSS Only) ---
+    // JavaScript tracking removed for performance
 
     // --- Hero Typewriter Effect ---
     const heroTypewriter = document.getElementById('hero-typewriter');
@@ -1004,3 +976,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+    // --- Dynamic Nav Theme based on Section ---
+    const topNav = document.getElementById('desktop-top-nav');
+    const bottomNav = document.getElementById('mobile-bottom-nav');
+    const themeSections = document.querySelectorAll('section');
+    
+    if (topNav || bottomNav) {
+        let lastTheme = null;
+        window.addEventListener('scroll', () => {
+            // Check what element is directly under the top nav (or bottom nav on mobile)
+            const isMobile = window.innerWidth <= 768;
+            const checkY = isMobile ? window.innerHeight - 35 : 35;
+            const elementUnderNav = document.elementFromPoint(window.innerWidth / 2, checkY);
+            
+            if (!elementUnderNav) return;
+            
+            // Traverse up to find if it's inside a theme-light section
+            const section = elementUnderNav.closest('section');
+            const isLight = section && section.classList.contains('theme-light');
+            
+            if (isLight !== lastTheme) {
+                lastTheme = isLight;
+                if (isLight) {
+                    if (topNav) topNav.classList.add('nav-light-theme');
+                    if (bottomNav) bottomNav.classList.add('nav-light-theme');
+                } else {
+                    if (topNav) topNav.classList.remove('nav-light-theme');
+                    if (bottomNav) bottomNav.classList.remove('nav-light-theme');
+                }
+            }
+        }, { passive: true });
+    }
+
+
+// Initialize Swup for page transitions
+if (typeof Swup !== 'undefined') {
+    const swup = new Swup();
+}

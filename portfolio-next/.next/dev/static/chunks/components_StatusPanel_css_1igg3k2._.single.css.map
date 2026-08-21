@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/components/StatusPanel.css"],"sourcesContent":[".status-panel {\n  position: absolute;\n  top: clamp(24px, 6vh, 64px);\n  right: var(--edge-pad);\n  z-index: 2;\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n}\n\n.status-panel .status-pill {\n  align-items: flex-start;\n  min-width: 200px;\n  animation: panel-rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both;\n}\n\n.status-panel .status-pill:nth-child(1) { animation-delay: 120ms; }\n.status-panel .status-pill:nth-child(2) { animation-delay: 220ms; }\n.status-panel .status-pill:nth-child(3) { animation-delay: 320ms; }\n\n@keyframes panel-rise {\n  from { opacity: 0; transform: translateX(16px); }\n  to { opacity: 1; transform: translateX(0); }\n}\n\n@media (max-width: 960px) {\n  .status-panel {\n    position: relative;\n    top: auto;\n    right: auto;\n    flex-direction: row;\n    flex-wrap: wrap;\n    margin: 40px var(--edge-pad) 0;\n  }\n}\n\n@media (max-width: 720px) {\n  .status-panel {\n    margin: 32px 20px 0;\n  }\n\n  .status-panel .status-pill {\n    min-width: 0;\n    flex: 1 1 150px;\n  }\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;;AAUA;;;;;;AAMA;;;;AACA;;;;AACA;;;;AAEA;;;;;;;;;;;;AAKA;EACE;;;;;;;;;AAUF;EACE;;;;EAIA"}}]
+}

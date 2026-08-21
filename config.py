@@ -11,3 +11,4 @@ PROFILE_CONFIG = {
 
 # In production, these should come from os.environ.get()
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", None)
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", None)

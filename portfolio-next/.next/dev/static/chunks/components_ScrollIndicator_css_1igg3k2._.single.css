@@ -1,0 +1,52 @@
+/* [project]/components/ScrollIndicator.css [app-client] (css) */
+.scroll-cue {
+  z-index: 3;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  width: 30px;
+  height: 46px;
+  color: var(--red-400);
+  box-shadow: 0 0 20px -6px var(--red-glow);
+  background: #0a0e1880;
+  border: 1.5px solid #ff2f4c80;
+  border-radius: 999px;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 8px;
+  transition: border-color .2s, box-shadow .2s;
+  display: flex;
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.scroll-cue:hover {
+  border-color: var(--red-400);
+  box-shadow: 0 0 24px -4px var(--red-glow);
+}
+
+.scroll-cue__track {
+  animation: 2s ease-in-out infinite scroll-bob;
+  display: flex;
+}
+
+@keyframes scroll-bob {
+  0%, 100% {
+    opacity: .6;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 720px) {
+  .scroll-cue {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=components_ScrollIndicator_css_1igg3k2._.single.css.map*/

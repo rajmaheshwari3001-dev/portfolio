@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ config.name }} | AI/ML Developer & Software Builder{% endblock %}</title>
+    <meta name="description" content="Portfolio of Raj Maheshwari, an AI/ML developer building intelligent systems.">
+    <meta name="keywords" content="Raj Maheshwari, AI, ML, Machine Learning, Python, Developer, Portfolio, GLA University">
+    <meta name="author" content="Raj Maheshwari">
+    <meta property="og:title" content="{{ config.name }} | AI/ML Developer">
+    <meta property="og:description" content="Portfolio of Raj Maheshwari, an AI/ML developer building intelligent systems.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#050505">
+    <link rel="canonical" href="https://portfolio-lilac-delta-c1kxu40gza.vercel.app/">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/copilot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teleport.css') }}">
+
+    <!-- Preconnect for external resources -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Libraries: Three.js for 3D Background, Phosphor Icons for UI, GSAP for Animations, Chart.js for Dashboard -->
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="smooth-wrapper">
+    
+    <!-- Custom Cursor Removed for Performance -->
+    
+    <!-- Cinematic Loader -->
+    <div id="loader" aria-hidden="true">
+        <div class="loader-text-container">
+            <div id="loader-typing" style="font-family: var(--font-heading); font-size: 1rem; color: #fff; letter-spacing: 0.2em;"></div>
+        </div>
+    </div>
+
+    <!-- 3D Canvas fixed in background -->
+    <canvas id="neural-canvas" aria-hidden="true"></canvas>
+
+    <!-- Mobile Top Nav -->
+    <nav id="mobile-nav">
+        <div class="logo">RM<span>.</span></div>
+        <div class="mobile-top-socials">
+            <a href="{{ config.github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="ph ph-github-logo"></i></a>
+            <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+        </div>
+    </nav>
+
+    <!-- Floating Mobile Bottom Nav (Premium Pill Style) -->
+    <nav id="mobile-bottom-nav">
+        <div class="nav-indicator"></div>
+        <a href="#hero" class="bottom-nav-link active" aria-label="Home">
+            <i class="ph ph-house"></i>
+        </a>
+        <a href="{{ url_for('activity') }}" class="bottom-nav-link {% if request.endpoint == 'activity' %}active{% endif %}" aria-label="Activity">
+            <i class="ph ph-activity"></i>
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="bottom-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" aria-label="Dashboard">
+            <i class="ph ph-chart-pie-slice"></i>
+        </a>
+        <a href="#projects" class="bottom-nav-link" aria-label="Work">
+            <i class="ph ph-briefcase"></i>
+        </a>
+        <a href="#contact" class="bottom-nav-link" aria-label="Contact">
+            <i class="ph ph-envelope"></i>
+        </a>
+        <a href="/resume" class="bottom-nav-link" aria-label="Resume">
+            <i class="ph ph-file-pdf"></i>
+        </a>
+    </nav>
+
+    <!-- Fixed Desktop Top Nav -->
+    <nav id="desktop-top-nav">
+        <div class="nav-logo">RM<span>.</span></div>
+        <ul class="top-nav-links">
+            <li><a href="/" class="nav-link"><i class="ph ph-house"></i> HOME</a></li>
+            <li><a href="/resume" class="nav-link"><i class="ph ph-file-pdf"></i> RESUME</a></li>
+            <li><a href="/projects" class="nav-link"><i class="ph ph-briefcase"></i> WORK</a></li>
+            <li><a href="/skills" class="nav-link"><i class="ph ph-lightning"></i> SKILLS</a></li>
+            <li><a href="/activity" class="nav-link"><i class="ph ph-activity"></i> ACTIVITY</a></li>
+            <li><a href="/journey" class="nav-link"><i class="ph ph-map-trifold"></i> JOURNEY</a></li>
+            <li><a href="/contact" class="nav-link"><i class="ph ph-envelope"></i> CONTACT</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Scrolling Content -->
+    <main id="main-content">
+    <main id="swup" class="transition-fade">
+        {% block content %}{% endblock %}
+    </main>
+    </main>
+    </div><!-- /smooth-wrapper -->
+
+    <!-- Custom Scripts -->
+    <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=17"></script>
+    <script defer src="{{ url_for('static', filename='js/teleportEngine.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=8"></script>
+    <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
+
+    <!-- Portfolio Copilot AI Orb -->
+    <div class="copilot-orb-container" id="copilot-orb-container">
+        <div class="copilot-tooltip" id="copilot-tooltip" role="tooltip">Ask my Portfolio</div>
+        <button class="copilot-orb hover-glow glow-blue" id="copilot-orb" aria-label="Open Portfolio Copilot Chat" aria-haspopup="dialog" aria-expanded="false" aria-controls="copilot-window">
+            <div class="orb-core"></div>
+            <div class="orb-ring"></div>
+            <i class="ph ph-robot" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <!-- Portfolio Copilot Chat Window -->
+    <div class="copilot-window" id="copilot-window" role="dialog" aria-label="Portfolio Copilot Chat Window" aria-modal="false" aria-hidden="true" data-lenis-prevent>
+        <div class="copilot-header">
+            <div class="copilot-title">
+                <h3 id="copilot-dialog-title">PORTFOLIO COPILOT</h3>
+                <span aria-live="polite"><div class="copilot-status-dot" aria-hidden="true"></div> AI Assistant Online</span>
+            </div>
+            <button class="copilot-close" id="copilot-close" aria-label="Close Chat Window">
+                <i class="ph ph-x" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="copilot-body" id="copilot-body" role="log" aria-live="polite" aria-atomic="false" data-lenis-prevent>
+            <div class="copilot-msg ai" tabindex="0">
+                <p>👋 Hi! I'm Portfolio Copilot.</p>
+                <p>I can help you explore Raj's projects, skills, AI/ML work, and experience.</p>
+                <p>What would you like to know?</p>
+                <div class="copilot-quick-actions" role="group" aria-label="Quick action prompts">
+                    <button class="copilot-quick-btn" data-prompt="👨‍💼 Give me a recruiter summary">👨‍💼 Recruiter Summary</button>
+                    <button class="copilot-quick-btn" data-prompt="🚀 Show me your best projects">🚀 Best Projects</button>
+                    <button class="copilot-quick-btn" data-prompt="💻 What are your technical skills?">💻 Technical Skills</button>
+                    <button class="copilot-quick-btn" data-prompt="🎤 Let's start a technical interview">🎤 Start Interview</button>
+                    <button class="copilot-quick-btn" data-prompt="📩 How can I contact you?">📩 Contact Me</button>
+                </div>
+            </div>
+            <div class="copilot-typing" id="copilot-typing" aria-hidden="true">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="copilot-input-area">
+            <label for="copilot-input" class="visually-hidden">Ask a question</label>
+            <input type="text" id="copilot-input" class="copilot-input" placeholder="Ask me anything..." aria-label="Type your question for the AI assistant" autocomplete="off">
+            <button class="copilot-send" id="copilot-send" aria-label="Send message">
+                <i class="ph ph-paper-plane-right" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    
+    <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
+
+</body>
+</html>

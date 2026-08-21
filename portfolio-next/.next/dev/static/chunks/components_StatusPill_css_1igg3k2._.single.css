@@ -1,0 +1,75 @@
+/* [project]/components/StatusPill.css [app-client] (css) */
+.status-pill {
+  background: var(--bg-panel-soft);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  border: 1px solid #0000;
+  border-radius: 12px;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 168px;
+  padding: 12px 18px;
+  transition: transform .2s, box-shadow .2s;
+  display: inline-flex;
+}
+
+.status-pill:hover {
+  transform: translateY(-2px);
+}
+
+.status-pill--blue {
+  box-shadow: 0 0 24px -8px var(--blue-glow);
+  border-color: #2f7dff73;
+}
+
+.status-pill--red {
+  box-shadow: 0 0 24px -8px var(--red-glow);
+  border-color: #ff2f4c73;
+}
+
+.status-pill__label {
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  font-size: 11px;
+}
+
+.status-pill__value {
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-100);
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+}
+
+.status-pill--red .status-pill__value {
+  color: var(--red-400);
+}
+
+.status-pill__dot {
+  background: var(--blue-400);
+  width: 7px;
+  height: 7px;
+  box-shadow: 0 0 8px var(--blue-glow);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: 1.8s ease-in-out infinite pill-pulse;
+}
+
+@keyframes pill-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .4;
+    transform: scale(.75);
+  }
+}
+
+/*# sourceMappingURL=components_StatusPill_css_1igg3k2._.single.css.map*/

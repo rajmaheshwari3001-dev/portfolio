@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/components/MatrixRain.css"],"sourcesContent":[".matrix-rain {\n  position: absolute;\n  inset: -10% -5%;\n  z-index: 0;\n  pointer-events: none;\n  overflow: hidden;\n}\n\n.matrix-rain__glyph {\n  position: absolute;\n  font-family: var(--font-mono);\n  font-weight: 500;\n  animation: glyph-flicker 5s ease-in-out infinite;\n  user-select: none;\n}\n\n.matrix-rain__glyph--red {\n  color: var(--red-400);\n}\n\n.matrix-rain__glyph--blue {\n  color: var(--blue-400);\n}\n\n@keyframes glyph-flicker {\n  0%, 100% { opacity: var(--o, 0.15); transform: translateY(0); }\n  50% { opacity: calc(var(--o, 0.15) * 1.8); transform: translateY(3px); }\n}\n\n@media (max-width: 720px) {\n  .matrix-rain {\n    display: none;\n  }\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;AAQA;;;;;;;;;AAQA;;;;AAIA;;;;AAIA;;;;;;;;;;;;AAKA;EACE"}}]
+}
