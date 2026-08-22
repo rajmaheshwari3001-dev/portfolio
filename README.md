@@ -5,7 +5,10 @@
 
 <br/>
 
-<img src="https://raw.githubusercontent.com/rajmaheshwari3001-dev/portfolio/main/static/images/mockup_placeholder.png" onerror="this.src='https://via.placeholder.com/1000x500/0F172A/00F0FF?text=Raj+Maheshwari+Portfolio+v2.0'" alt="Portfolio Mockup" width="1000" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+<p align="center">
+  <img src="static/images/mockup.jpg" alt="Desktop Mockup" width="600" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin-right: 20px;">
+  <img src="static/images/mockup_mobile.jpg" alt="Mobile Mockup" width="300" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+</p>
 
 <br/><br/>
 
