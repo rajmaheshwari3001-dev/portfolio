@@ -5,10 +5,7 @@
 
 <br/>
 
-<p align="center">
-  <img src="static/images/mockup.jpg" alt="Desktop Mockup" width="600" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin-right: 20px;">
-  <img src="static/images/mockup_mobile.jpg" alt="Mobile Mockup" width="300" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
-</p>
+<img src="static/images/mockup_placeholder.png" alt="Portfolio Mockup" width="1000" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
 
 <br/><br/>
 
