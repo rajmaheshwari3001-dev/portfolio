@@ -1,11 +1,11 @@
 <div align="center">
 
-# Portfolio Website - v2.0
+# ✦ Portfolio Website - v2.0 ✦
 <h3><a href="https://portfolio-lilac-delta-c1kxu40gza.vercel.app">portfolio.rajmaheshwari.tech</a></h3>
 
 <br/>
 
-<img src="https://raw.githubusercontent.com/rajmaheshwari3001-dev/portfolio/main/static/images/mockup_placeholder.png" onerror="this.src='https://via.placeholder.com/800x450.png?text=Add+Laptop/Mobile+Mockup+Here'" alt="Portfolio Mockup" width="800">
+<img src="https://raw.githubusercontent.com/rajmaheshwari3001-dev/portfolio/main/static/images/mockup_placeholder.png" onerror="this.src='https://via.placeholder.com/1000x500/0F172A/00F0FF?text=Raj+Maheshwari+Portfolio+v2.0'" alt="Portfolio Mockup" width="1000" style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
 
 <br/><br/>
 
@@ -19,20 +19,21 @@
 
 <p align="center">
   <a href="https://github.com/rajmaheshwari3001-dev/portfolio/issues"><b>🔷 Report Bug</b></a>
-  &nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/rajmaheshwari3001-dev/portfolio/issues"><b>🔷 Request Feature</b></a>
 </p>
 
 </div>
 
-## TL;DR
+---
+
+## ⚡ TL;DR
+
+Welcome to the source code of my personal developer portfolio. This isn't just a static webpage; it's a **high-performance, luxury-themed web application** designed to demonstrate my capabilities in backend engineering, API integration, interactive UNIX terminal simulation, and premium frontend design.
 
 You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [rajmaheshwari3001-dev](https://github.com/rajmaheshwari3001-dev). Thanks!
 
 ---
-
-
-Welcome to the source code of my personal developer portfolio. This isn't just a static webpage; it's a **high-performance, luxury-themed web application** designed to demonstrate my capabilities in backend engineering, API integration, interactive UNIX terminal simulation, and premium frontend design.
 
 ## 🏗️ System Architecture
 
@@ -72,14 +73,13 @@ graph TD
 
 ## ✨ Engineering Highlights
 
-- **Portfolio Copilot (AI Assistant):** A fully integrated, context-aware digital representation of myself. Powered by Google Gemini, visitors can ask questions, get dynamic project recommendations, and be automatically scrolled to relevant sections. It features a custom knowledge-base designed to completely eliminate hallucination.
-- **Cinematic Teleportation Navigation:** A completely bespoke, state-machine-controlled transition engine. When navigating via the terminal, users experience a superhero-style cinematic arrival featuring procedural SVG lightning, screen shake, and high-contrast energy flashes before arriving at their destination.
-- **Interactive AI Neural Interface:** A custom-built, interactive sentiment inference widget right in the UI. Type any sentence to simulate real-time tensor processing and receive a live Positive/Negative/Neutral classification with confidence metrics.
-- **Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
-- **Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device, from massive 4K monitors to mobile phones.
-- **Intelligent API Caching (Backend):** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
-- **Premium Glassmorphic Design:** Avoids heavy CSS frameworks in favor of hand-written, ultra-performant custom CSS. Features deep 24px frosted glass, premium metallic gradients (Gold, Champagne, Silver), and luxurious obsidian hover-glows.
-- **Dynamic Mobile Navigation:** Features a highly responsive, custom-built mobile pill navigation. Integrated with the Lenis smooth scrolling engine and a custom IntersectionObserver ScrollSpy, it dynamically slides a colored background pill to the active section with flawless 60FPS CSS transitions.
+- **🧠 Portfolio Copilot (AI Assistant):** A fully integrated, context-aware digital representation of myself. Powered by Google Gemini, visitors can ask questions, get dynamic project recommendations, and be automatically scrolled to relevant sections. It features a custom knowledge-base designed to completely eliminate hallucination.
+- **🎬 Cinematic Teleportation Navigation:** A completely bespoke, state-machine-controlled transition engine. When navigating via the terminal, users experience a superhero-style cinematic arrival featuring procedural SVG lightning, screen shake, and high-contrast energy flashes.
+- **⚙️ Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
+- **📱 Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device. Fully optimized for a mobile-first premium experience.
+- **⚡ Intelligent API Caching:** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
+- **🔍 SEO & Accessibility Mastery:** 100% accessible via keyboard navigation, screen-reader optimized using dynamic `aria-hidden` tags, and architected with an SEO-first semantic layout featuring precise `meta` tags.
+- **🌗 Seamless Dark/Light Engine:** Real-time CSS variable toggling combined with persistent `localStorage` saving, dynamically altering colors and glassmorphic card densities without a page refresh.
 
 <details>
 <summary><b>💻 View Tech Stack</b></summary>
