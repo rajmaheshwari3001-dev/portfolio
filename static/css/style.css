@@ -184,8 +184,23 @@ body {
     backdrop-filter: blur(5px);
     color: var(--c-light-text);
 }
+.theme-light h2, .theme-light h3, .theme-light h4, .theme-light h5, .theme-light .section-title { color: var(--c-light-text) !important; }
 .theme-light .text-muted { color: var(--c-light-muted); }
 .theme-light .text-outline { -webkit-text-stroke: 1px var(--c-light-text); color: transparent; }
+.theme-light .massive-text {
+    --text-gradient: linear-gradient(135deg, #111 0%, #333 100%) !important;
+    --text-glow: rgba(0,0,0,0.05) !important;
+}
+.theme-light .gradient-emerald, .theme-light .gradient-silver, .theme-light .gradient-amber, .theme-light .gradient-gold, .theme-light .gradient-obsidian, .theme-light .gradient-rose, .theme-light .gradient-purple {
+    --text-gradient: linear-gradient(135deg, #111 0%, #444 100%) !important;
+    --text-glow: rgba(0,0,0,0.1) !important;
+}
+.theme-light .view-btn { color: var(--c-light-text) !important; background: rgba(0,0,0,0.05) !important; border: 1px solid rgba(0,0,0,0.15) !important; }
+.theme-light .view-btn:hover { background: rgba(0,0,0,0.1) !important; color: #000 !important; }
+.theme-light .sub-label { color: var(--c-light-text) !important; font-weight: 600; }
+.theme-light .bento-stat-label { color: var(--c-light-text) !important; font-weight: 600; }
+.theme-light .animated-counter { color: var(--c-light-text) !important; }
+.theme-light .comp-num { color: rgba(37,99,235,0.4) !important; }
 
 .theme-dark {
     background-color: rgba(15, 17, 21, 0.85);
@@ -1282,4 +1297,43 @@ p, .text-muted, .lead-text, .nav-links a, .hero-subtitle {
 html.is-animating .transition-fade {
     opacity: 0;
     transform: translateY(20px);
+}
+
+/* =========================================
+   Accessibility & Focus Styles
+========================================= */
+:focus-visible {
+    outline: 2px solid var(--c-accent-blue);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* =========================================
+   Responsiveness & Mobile Enhancements
+========================================= */
+@media (max-width: 768px) {
+    /* Ensure content clears the mobile bottom nav */
+    #main-content {
+        padding-bottom: 110px;
+    }
+    
+    /* Fluid typography for mobile */
+    .hero-name {
+        font-size: clamp(2.5rem, 8vw, 5rem) !important;
+    }
+    
+    .chapter-title {
+        font-size: clamp(1.8rem, 5vw, 3rem) !important;
+    }
+    
+    /* Force grids to single column on mobile */
+    .skills-grid,
+    .projects-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Make cards fit nicely */
+    .card, .glass-card {
+        padding: 1.5rem !important;
+    }
 }

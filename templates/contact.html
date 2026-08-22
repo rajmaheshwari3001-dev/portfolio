@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% block title %}{{ config.name }} | Contact{% endblock %}
+{% block meta_description %}Get in touch with Raj Maheshwari for freelance work, internships, or AI/ML software collaborations.{% endblock %}
 {% block content %}
 <!-- Chapter 10: Contact (Deep Dark, Professional) -->
         <section id="contact" class="chapter theme-deep-dark px-lg py-32 text-center relative z-10">
@@ -14,10 +16,10 @@
             </p>
             
             <div class="contact-actions scroll-fade-up delay-4">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ config.email }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="Email Me"><i class="ph ph-envelope"></i> EMAIL ME</a>
-                <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="GitHub"><i class="ph ph-github-logo"></i> GITHUB</a>
-                <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i> LINKEDIN</a>
-                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="LeetCode"><i class="ph ph-code"></i> LEETCODE</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ config.email }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="Email Me"><i aria-hidden="true" class="ph ph-envelope"></i> EMAIL ME</a>
+                <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="GitHub"><i aria-hidden="true" class="ph ph-github-logo"></i> GITHUB</a>
+                <a href="{{ config.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="LinkedIn"><i aria-hidden="true" class="ph ph-linkedin-logo"></i> LINKEDIN</a>
+                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white" aria-label="LeetCode"><i aria-hidden="true" class="ph ph-code"></i> LEETCODE</a>
             </div>
             
             <footer class="mt-32 pt-12 border-t border-dark">

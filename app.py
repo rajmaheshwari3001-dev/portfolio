@@ -119,7 +119,8 @@ load_dotenv()
 
 def load_portfolio_data():
     try:
-        with open("portfolio_data.json", "r") as f:
+        data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "portfolio_data.json")
+        with open(data_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print("Error loading portfolio data:", str(e))
@@ -135,7 +136,8 @@ class LocalNLPEngine:
         
     def _load_intents(self):
         try:
-            with open('intents.json', 'r', encoding='utf-8') as f:
+            intents_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'intents.json')
+            with open(intents_path, 'r', encoding='utf-8') as f:
                 intents_data = json.load(f)
                 self.static_intents = intents_data.get('static_intents', {})
         except Exception as e:

@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(waveGroup);
 
     const SEPARATION = 1.2;
-    const AMOUNTX = 60;
-    const AMOUNTY = 60;
+    const AMOUNTX = 40;
+    const AMOUNTY = 40;
     const numParticles = AMOUNTX * AMOUNTY;
 
     const geometry = new THREE.BufferGeometry();
@@ -102,8 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Mouse & Scroll Physics ---
     let scrollY = 0;
     let targetScrollY = 0;
-    let mouseX = 0;
-    let mouseY = 0;
     let targetMouseX = 0;
     let targetMouseY = 0;
 
@@ -144,11 +142,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Add interactive mouse distortion
                 const distX = (ix - AMOUNTX/2) * SEPARATION - (mouseX * 0.05);
                 const distY = (iy - AMOUNTY/2) * SEPARATION + (mouseY * 0.05);
-                const dist = Math.sqrt(distX*distX + distY*distY);
-                
                 // If close to mouse, push the wave down/up
-                if (dist < 15) {
-                    waveZ -= (15 - dist) * 0.5;
+                const distSq = distX*distX + distY*distY;
+                if (distSq < 225) { // 15*15
+                    waveZ -= (15 - Math.sqrt(distSq)) * 0.5;
                 }
 
                 positions[i * 3 + 1] = waveZ;

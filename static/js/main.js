@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initMainScripts() {
     // --- Smooth Scroll (Lenis) ---
     window.lenis = new Lenis({
         duration: 1.2,
@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Fetch Data ---
     fetchGithubData();
     fetchLeetcodeData();
-});
+}
 
 function fetchGithubData() {
     fetch('/api/activity/github')
@@ -441,68 +441,77 @@ function fetchGithubData() {
                 const p = data.data.profile || {};
                 
                 // Profile
-                document.getElementById('gh-avatar').src = p.avatar_url;
-                document.getElementById('gh-name').innerText = p.login;
-                animateValue(document.getElementById('gh-repos'), 0, p.public_repos, 1500);
-                animateValue(document.getElementById('gh-followers'), 0, p.followers, 1500);
+                const ghAvatar = document.getElementById('gh-avatar');
+                if (ghAvatar) {
+                    ghAvatar.src = p.avatar_url;
+                    document.getElementById('gh-name').innerText = p.login;
+                    animateValue(document.getElementById('gh-repos'), 0, p.public_repos, 1500);
+                    animateValue(document.getElementById('gh-followers'), 0, p.followers, 1500);
+                }
                 
                 // Language Analytics (LED Bars)
                 const langContainer = document.getElementById('gh-lang-container');
-                langContainer.innerHTML = '';
-                Object.keys(data.data.languages).forEach((lang, idx) => {
-                    const pct = data.data.languages[lang];
-                    langContainer.innerHTML += `
-                        <div class="led-row">
-                            <div class="led-header">
-                                <span>${lang}</span>
-                                <span>${pct}%</span>
+                if (langContainer) {
+                    langContainer.innerHTML = '';
+                    Object.keys(data.data.languages).forEach((lang, idx) => {
+                        const pct = data.data.languages[lang];
+                        langContainer.innerHTML += `
+                            <div class="led-row">
+                                <div class="led-header">
+                                    <span>${lang}</span>
+                                    <span>${pct}%</span>
+                                </div>
+                                <div class="led-track">
+                                    <div class="led-segment" style="width: 0%; transition-delay: ${idx * 200}ms;" data-width="${pct}%"></div>
+                                </div>
                             </div>
-                            <div class="led-track">
-                                <div class="led-segment" style="width: 0%; transition-delay: ${idx * 200}ms;" data-width="${pct}%"></div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                // Trigger LED animation after short delay
-                setTimeout(() => {
-                    document.querySelectorAll('.led-segment').forEach(seg => {
-                        seg.style.width = seg.getAttribute('data-width');
+                        `;
                     });
-                }, 500);
+                    
+                    // Trigger LED animation after short delay
+                    setTimeout(() => {
+                        document.querySelectorAll('.led-segment').forEach(seg => {
+                            seg.style.width = seg.getAttribute('data-width');
+                        });
+                    }, 500);
+                }
                 
                 // Top Repos (Glass Cards)
                 const repoContainer = document.getElementById('gh-repo-list');
-                repoContainer.innerHTML = '';
-                data.data.repos.slice(0,4).forEach(repo => {
-                    repoContainer.innerHTML += `
-                        <a href="${repo.url}" target="_blank" class="repo-card">
-                            <span class="repo-name">${repo.name}</span>
-                            <span class="repo-stat">★ ${repo.stars} | ${repo.language || 'Code'}</span>
-                        </a>
-                    `;
-                });
+                if (repoContainer) {
+                    repoContainer.innerHTML = '';
+                    data.data.repos.slice(0,4).forEach(repo => {
+                        repoContainer.innerHTML += `
+                            <a href="${repo.url}" target="_blank" class="repo-card">
+                                <span class="repo-name">${repo.name}</span>
+                                <span class="repo-stat">★ ${repo.stars} | ${repo.language || 'Code'}</span>
+                            </a>
+                        `;
+                    });
+                }
                 
                 // Recent Events (Terminal Stream)
                 const activityContainer = document.getElementById('gh-activity-list');
-                activityContainer.innerHTML = '';
-                const events = data.data.activity.slice(0, 10);
-                let eIdx = 0;
-                
-                function streamEvent() {
-                    if (eIdx < events.length) {
-                        const act = events[eIdx];
-                        const div = document.createElement('div');
-                        div.className = 'term-line';
-                        div.innerHTML = `<span class="term-type">[${act.type}]</span> ${act.title}`;
-                        activityContainer.appendChild(div);
-                        
-                        activityContainer.scrollTop = activityContainer.scrollHeight;
-                        eIdx++;
-                        setTimeout(streamEvent, Math.random() * 800 + 400);
+                if (activityContainer) {
+                    activityContainer.innerHTML = '';
+                    const events = data.data.activity.slice(0, 10);
+                    let eIdx = 0;
+                    
+                    function streamEvent() {
+                        if (eIdx < events.length) {
+                            const act = events[eIdx];
+                            const div = document.createElement('div');
+                            div.className = 'term-line';
+                            div.innerHTML = `<span class="term-type">[${act.type}]</span> ${act.title}`;
+                            activityContainer.appendChild(div);
+                            
+                            activityContainer.scrollTop = activityContainer.scrollHeight;
+                            eIdx++;
+                            setTimeout(streamEvent, Math.random() * 800 + 400);
+                        }
                     }
+                    setTimeout(streamEvent, 1000);
                 }
-                setTimeout(streamEvent, 1000);
             }
         })
         .catch(err => console.error('[GitHub API Error]', err));
@@ -710,7 +719,7 @@ function getTimeAgo(date) {
 }
 
 // --- GSAP Animations & Magnetic Buttons ---
-document.addEventListener('DOMContentLoaded', () => {
+function initGsapScripts() {
     // 1. Magnetic Buttons
     const magnets = document.querySelectorAll('.nav-link, .sidebar-socials a, .cyber-btn');
     magnets.forEach((magnet) => {
@@ -760,10 +769,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+}
 
 // --- Luxury AI Sentiment Inference ---
-document.addEventListener('DOMContentLoaded', () => {
+function initLuxuryAi() {
     const input = document.getElementById('ai-sentiment-input');
     const label = document.getElementById('ai-prediction-label');
     const bar = document.getElementById('ai-confidence-bar');
@@ -827,10 +836,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }, 600); // 600ms fake processing delay
     });
-});
+}
 
 // --- Hero Video GSAP Scroll Animation ---
-document.addEventListener('DOMContentLoaded', () => {
+function initHeroVideo() {
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
         
@@ -850,7 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-});
+}
 
 // --- Page Load & Scroll Handling ---
 // Force scroll to top before unload and on load
@@ -864,7 +873,7 @@ if (window.location.hash) {
 }
 
 // --- Desktop Sidebar Toggle & Auto-Collapse ---
-document.addEventListener('DOMContentLoaded', () => {
+function initSidebarAndTerminal() {
     // 1. Force scroll to top on load (smoothly)
     if (history.scrollRestoration) {
         history.scrollRestoration = 'manual';
@@ -975,43 +984,80 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+}
 
 
-    // --- Dynamic Nav Theme based on Section ---
+function checkNavTheme() {
     const topNav = document.getElementById('desktop-top-nav');
     const bottomNav = document.getElementById('mobile-bottom-nav');
-    const themeSections = document.querySelectorAll('section');
+    if (!topNav && !bottomNav) return;
     
-    if (topNav || bottomNav) {
-        let lastTheme = null;
-        window.addEventListener('scroll', () => {
-            // Check what element is directly under the top nav (or bottom nav on mobile)
-            const isMobile = window.innerWidth <= 768;
-            const checkY = isMobile ? window.innerHeight - 35 : 35;
-            const elementUnderNav = document.elementFromPoint(window.innerWidth / 2, checkY);
-            
-            if (!elementUnderNav) return;
-            
-            // Traverse up to find if it's inside a theme-light section
-            const section = elementUnderNav.closest('section');
-            const isLight = section && section.classList.contains('theme-light');
-            
-            if (isLight !== lastTheme) {
-                lastTheme = isLight;
-                if (isLight) {
-                    if (topNav) topNav.classList.add('nav-light-theme');
-                    if (bottomNav) bottomNav.classList.add('nav-light-theme');
-                } else {
-                    if (topNav) topNav.classList.remove('nav-light-theme');
-                    if (bottomNav) bottomNav.classList.remove('nav-light-theme');
-                }
-            }
-        }, { passive: true });
+    const isMobile = window.innerWidth <= 768;
+    const checkY = isMobile ? window.innerHeight - 100 : 75;
+    const elementUnderNav = document.elementFromPoint(window.innerWidth / 2, checkY);
+    
+    if (!elementUnderNav) return;
+    
+    const section = elementUnderNav.closest('section');
+    const isLight = section && section.classList.contains('theme-light');
+    
+    if (isLight) {
+        if (topNav) topNav.classList.add('nav-light-theme');
+        if (bottomNav) bottomNav.classList.add('nav-light-theme');
+    } else {
+        if (topNav) topNav.classList.remove('nav-light-theme');
+        if (bottomNav) bottomNav.classList.remove('nav-light-theme');
     }
+}
 
+let isCheckingTheme = false;
+function initScrollTheme() {
+    window.addEventListener('scroll', () => {
+        if (!isCheckingTheme) {
+            window.requestAnimationFrame(() => {
+                checkNavTheme();
+                isCheckingTheme = false;
+            });
+            isCheckingTheme = true;
+        }
+    }, { passive: true });
+    // Check initially
+    checkNavTheme();
+    requestAnimationFrame(checkNavTheme);
+}
+
+function initAllPages() {
+    initMainScripts();
+    initGsapScripts();
+    if (typeof initLuxuryAi === 'function') initLuxuryAi();
+    if (typeof initHeroVideo === 'function') initHeroVideo();
+    initSidebarAndTerminal();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initAllPages();
+    initScrollTheme();
+});
 
 // Initialize Swup for page transitions
 if (typeof Swup !== 'undefined') {
     const swup = new Swup();
+    swup.hooks.on('page:view', () => {
+        initAllPages();
+        updateActiveNavLinks();
+        checkNavTheme();
+        requestAnimationFrame(checkNavTheme);
+    });
+}
+
+function updateActiveNavLinks() {
+    const path = window.location.pathname;
+    document.querySelectorAll('.bottom-nav-link, .nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === path || href === path + window.location.hash) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
 }

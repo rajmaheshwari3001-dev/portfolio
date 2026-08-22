@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}{{ config.name }} | Analytics Dashboard{% endblock %}
+{% block meta_description %}Interactive analytics dashboard displaying Raj Maheshwari's coding statistics, languages, and performance metrics.{% endblock %}
 
 {% block content %}
-<section id="dashboard" class="chapter theme-dark full-height px-lg py-32" style="background: var(--c-dark);">
+<section id="dashboard" class="chapter theme-dark full-height px-lg py-32" style="background: var(--c-dark-bg);">
     <div class="content-wrapper" style="max-width: 1200px; margin: 0 auto; margin-top: 80px;">
         <h2 class="massive-text gradient-blue mb-8">LIVE ANALYTICS.</h2>
         <p class="mb-16" style="color: var(--c-light-muted); font-size: 1.2rem; max-width: 600px;">
@@ -14,7 +15,7 @@
             <!-- GitHub Languages Chart -->
             <div class="dashboard-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
                 <h3 style="color: #fff; margin-bottom: 24px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
-                    <i class="ph ph-github-logo" style="color: var(--c-accent-cyan);"></i> Language Distribution
+                    <i aria-hidden="true" class="ph ph-github-logo" style="color: var(--c-accent-cyan);"></i> Language Distribution
                 </h3>
                 <div style="position: relative; height: 300px; width: 100%;">
                     <canvas id="githubLangChart"></canvas>
@@ -24,7 +25,7 @@
             <!-- GitHub Commits Chart -->
             <div class="dashboard-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
                 <h3 style="color: #fff; margin-bottom: 24px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
-                    <i class="ph ph-git-commit" style="color: var(--c-accent-blue);"></i> Recent Activity (Commits)
+                    <i aria-hidden="true" class="ph ph-git-commit" style="color: var(--c-accent-blue);"></i> Recent Activity (Commits)
                 </h3>
                 <div style="position: relative; height: 300px; width: 100%;">
                     <canvas id="githubActivityChart"></canvas>
@@ -34,7 +35,7 @@
             <!-- LeetCode Stats Chart -->
             <div class="dashboard-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
                 <h3 style="color: #fff; margin-bottom: 24px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
-                    <i class="ph ph-code" style="color: var(--c-amber);"></i> LeetCode Progress
+                    <i aria-hidden="true" class="ph ph-code" style="color: #f59e0b;"></i> LeetCode Progress
                 </h3>
                 <div style="position: relative; height: 300px; width: 100%;">
                     <canvas id="leetcodeChart"></canvas>
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     labels: ['Easy', 'Medium', 'Hard'],
                     datasets: [{
                         label: 'Problems Solved',
-                        data: [stats.easy, stats.medium, stats.hard],
+                        data: [stats.Easy, stats.Medium, stats.Hard],
                         backgroundColor: [
                             'rgba(16, 185, 129, 0.8)', // Emerald
                             'rgba(245, 158, 11, 0.8)', // Amber
