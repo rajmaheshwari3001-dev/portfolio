@@ -31,21 +31,58 @@ document.addEventListener('DOMContentLoaded', () => {
     copilotOrb.addEventListener('click', toggleChat);
     copilotClose.addEventListener('click', toggleChat);
 
-    // Simple markdown parser
+    function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Lightweight Markdown -> HTML for chat replies. Supports bold, italic,
+    // links, bullet lists, inline `code`, and fenced ```code``` blocks.
+    // Code spans are HTML-escaped; the AI's <button> navigation HTML is left
+    // intact (same trusted-channel assumption the widget already relied on).
     function parseMarkdown(text) {
-        let html = text;
-        // Bold
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // Italic
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        // Links
-        html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: var(--c-amber); text-decoration: underline;">$1</a>');
-        // Newlines
-        html = html.replace(/\n\n/g, '</p><p>');
-        html = html.replace(/\n/g, '<br>');
-        // Lists (very basic)
-        html = html.replace(/- (.*?)<br>/g, '<li>$1</li>');
-        return `<p>${html}</p>`.replace(/<p><\/p>/g, '');
+        const codeBlocks = [];
+        const inlineCode = [];
+        const OPEN = '', CLOSE = ''; // sentinels that never appear in model output
+
+        // 1) Pull out fenced code blocks first (escaped) so nothing below touches them.
+        let src = text.replace(/```[ \t]*[\w+-]*\n?([\s\S]*?)```/g, (m, code) => {
+            const i = codeBlocks.length;
+            codeBlocks.push('<pre class="copilot-code"><code>' + escapeHtml(code.replace(/\n+$/, '')) + '</code></pre>');
+            return OPEN + 'B' + i + CLOSE;
+        });
+
+        // 2) Pull out inline code (escaped).
+        src = src.replace(/`([^`\n]+)`/g, (m, code) => {
+            const i = inlineCode.length;
+            inlineCode.push('<code class="copilot-inline-code">' + escapeHtml(code) + '</code>');
+            return OPEN + 'I' + i + CLOSE;
+        });
+
+        // 3) Block layout: paragraphs, bullet lists, and standalone code blocks.
+        const lines = src.split('\n');
+        let html = '', inList = false, para = [];
+        const flushPara = () => { if (para.length) { html += '<p>' + para.join('<br>') + '</p>'; para = []; } };
+        const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+        const blockRe = new RegExp('^\\s*' + OPEN + 'B\\d+' + CLOSE + '\\s*$');
+        for (const line of lines) {
+            if (blockRe.test(line)) { flushPara(); closeList(); html += line.trim(); continue; }
+            const li = line.match(/^\s*[-*]\s+(.*)$/);
+            if (li) { flushPara(); if (!inList) { html += '<ul>'; inList = true; } html += '<li>' + li[1] + '</li>'; }
+            else if (line.trim() === '') { flushPara(); closeList(); }
+            else { closeList(); para.push(line); }
+        }
+        flushPara(); closeList();
+
+        // 4) Inline formatting (bold before italic; links).
+        html = html
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+            .replace(/\[([^\]]*?)\]\(([^)]*?)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: var(--c-amber); text-decoration: underline;">$1</a>');
+
+        // 5) Restore code (inline first, then blocks) after formatting is done.
+        html = html.replace(new RegExp(OPEN + 'I(\\d+)' + CLOSE, 'g'), (m, i) => inlineCode[+i]);
+        html = html.replace(new RegExp(OPEN + 'B(\\d+)' + CLOSE, 'g'), (m, i) => codeBlocks[+i]);
+        return html;
     }
 
     function addMessage(role, content) {
@@ -66,23 +103,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if (role === 'ai') {
             const navButtons = msgDiv.querySelectorAll('.copilot-action[data-action="navigate"]');
             navButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const target = e.target.getAttribute('data-target');
-                    if (target) {
-                        const targetEl = document.querySelector(target);
-                        if (targetEl) {
-                            // Automatically close chat window when teleporting on mobile
-                            if (window.innerWidth <= 768) {
-                                toggleChat();
-                            }
-                            
-                            // Trigger Cinematic Teleportation if available
-                            if (typeof TeleportTransition !== 'undefined') {
-                                TeleportTransition.go(target, typeof lenis !== 'undefined' ? lenis : null);
-                            } else {
-                                targetEl.scrollIntoView({ behavior: 'smooth' });
-                            }
+                btn.addEventListener('click', () => {
+                    const target = btn.getAttribute('data-target');
+                    if (!target) return;
+
+                    // Close the chat window on mobile so the destination is visible.
+                    if (window.innerWidth <= 768) {
+                        toggleChat();
+                    }
+
+                    const targetEl = document.querySelector(target);
+                    if (targetEl) {
+                        // Section is on the current page — cinematic in-page scroll.
+                        if (typeof TeleportTransition !== 'undefined') {
+                            TeleportTransition.go(target, window.lenis || null);
+                        } else {
+                            targetEl.scrollIntoView({ behavior: 'smooth' });
                         }
+                        return;
+                    }
+
+                    // Section lives on another page (this is a multi-page site):
+                    // map the anchor to its route and navigate there. #about is on
+                    // the home page ("/"); the rest are their own routes.
+                    const route = target === '#about' ? '/' : target.replace('#', '/');
+                    if (window.swup) {
+                        window.swup.navigate(route);
+                    } else {
+                        window.location.href = route;
                     }
                 });
             });

@@ -21,7 +21,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/copilot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/copilot.css') }}?v=2">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/teleport.css') }}">
     <link rel="prefetch" href="/cv_raw">
 
@@ -110,8 +110,8 @@
     <!-- Custom Scripts -->
     <script defer src="{{ url_for('static', filename='js/three-scene.js') }}?v=17"></script>
     <script defer src="{{ url_for('static', filename='js/teleportEngine.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=8"></script>
-    <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}?v=9"></script>
+    <script defer src="{{ url_for('static', filename='js/copilot.js') }}?v=2"></script>
 
     <!-- Portfolio Copilot AI Orb -->
     <div class="copilot-orb-container" id="copilot-orb-container">
@@ -161,8 +161,6 @@
             </button>
         </div>
     </div>
-    
-    <script defer src="{{ url_for('static', filename='js/copilot.js') }}"></script>
 
 </body>
 </html>

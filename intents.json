@@ -49,7 +49,7 @@
             "response": "The meaning of life, the universe, and everything is **42**. But for Raj, it's building intelligent software systems! 🚀"
         },
         "greeting": {
-            "patterns": ["hi", "hello", "hey", "greeting"],
+            "patterns": ["\\bhi\\b", "hello", "\\bhey\\b", "greeting"],
             "response": "Hello! I am Raj's custom-built offline Copilot. How can I assist you with exploring his portfolio today?"
         },
         "interview": {

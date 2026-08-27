@@ -1042,6 +1042,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize Swup for page transitions
 if (typeof Swup !== 'undefined') {
     const swup = new Swup();
+    window.swup = swup; // expose for programmatic navigation (e.g. copilot buttons)
     swup.hooks.on('page:view', () => {
         initAllPages();
         updateActiveNavLinks();

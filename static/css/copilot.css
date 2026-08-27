@@ -212,6 +212,36 @@
     margin-bottom: 8px;
 }
 
+/* Inline `code` and fenced code blocks from the AI */
+.copilot-msg .copilot-inline-code {
+    font-family: var(--font-mono, 'SFMono-Regular', 'Consolas', 'Courier New', monospace);
+    font-size: 0.85em;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1px 6px;
+    border-radius: 5px;
+    color: var(--c-amber, #f59e0b);
+    word-break: break-word;
+}
+.copilot-msg .copilot-code {
+    margin: 8px 0;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow-x: auto;
+}
+.copilot-msg .copilot-code code {
+    font-family: var(--font-mono, 'SFMono-Regular', 'Consolas', 'Courier New', monospace);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    white-space: pre;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
 /* Quick Actions */
 .copilot-quick-actions {
     display: flex;
