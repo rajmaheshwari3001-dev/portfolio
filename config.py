@@ -66,5 +66,5 @@ CHAT_TIMEOUT_SECONDS = float(os.environ.get("CHAT_TIMEOUT_SECONDS", "20"))
 
 # Shown in the footer and in developer diagnostics so it is always obvious
 # which build someone is looking at.
-BUILD_VERSION = os.environ.get("BUILD_VERSION", "3.2")
+BUILD_VERSION = os.environ.get("BUILD_VERSION", "3.3")
 BUILD_DATE = os.environ.get("BUILD_DATE", "2026.09")

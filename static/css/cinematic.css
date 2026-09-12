@@ -615,9 +615,9 @@ html.is-booted #loader { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
 /* Reduced motion must never leave gradient text invisible: the GSAP scrub in
-   motion.js starts these transparent, so pin them opaque when motion is off. */
-:root[data-motion="off"] .massive-text,
-:root[data-motion="reduced"] .massive-text {
+   motion.js starts these transparent, so pin them opaque when motion is off.
+   Note: data-motion="reduced" preserves gradients — it only disables animations. */
+:root[data-motion="off"] .massive-text {
     color: var(--text-primary) !important;
     -webkit-text-fill-color: currentColor !important;
     background-image: none !important;
