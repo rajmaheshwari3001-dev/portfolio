@@ -1,164 +1,157 @@
 {% extends 'base.html' %}
 {% block title %}{{ config.name }} | Activity & Contributions{% endblock %}
 {% block meta_description %}Real-time activity and contributions of Raj Maheshwari on GitHub and LeetCode, showcasing problem-solving and open source work.{% endblock %}
+
 {% block content %}
-<!-- Chapter 8: Developer Signal (Light Editorial) -->
-        <section id="activity" class="chapter theme-light px-lg py-32">
-            <h2 class="massive-text scroll-slide-up">WHAT I</h2>
-            <h2 class="massive-text scroll-slide-up delay-1">ACTUALLY DO.</h2>
-            <p class="editorial-text-small text-muted mt-6 mb-20 scroll-fade-up">
-                Projects show what I build. GitHub shows what I code. LeetCode shows how I solve.
-            </p>
-            
-            <!-- GitHub Section -->
-            <div class="signal-section scroll-fade-up">
-                <div class="signal-header">
-                    <h2 class="section-title">GITHUB <span class="live-badge">● LIVE API</span></h2>
-                    <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer" class="view-btn">VIEW PROFILE</a>
-                </div>
-                
-                <div class="gh-advanced-grid mt-12">
-                    <!-- Left: Profile & Langs -->
-                    <div class="gh-col">
-                        <div class="gh-profile-card hover-glow">
-                            <img id="gh-avatar" src="" alt="GitHub" class="gh-avatar">
+<!-- Chapter 8: Developer Signal. Every number on this page is fetched, never estimated. -->
+<section id="activity" class="chapter theme-light px-lg py-32">
+    <div class="content-wrapper">
+        <p class="eyebrow scroll-fade-up">DEVELOPER SIGNAL / LIVE SOURCES</p>
+        <h2 class="massive-text scroll-slide-up">WHAT I</h2>
+        <h2 class="massive-text scroll-slide-up delay-1">ACTUALLY DO.</h2>
+        <p class="editorial-text-small text-muted mt-6 mb-20 scroll-fade-up">
+            Projects show what I build. GitHub shows what I code. LeetCode shows how I solve.
+        </p>
+
+        <!-- GitHub -->
+        <div class="signal-section scroll-fade-up">
+            <div class="signal-header">
+                <h3 class="section-title">GITHUB <span class="live-badge" data-badge="github" data-state="loading">SYNCING</span></h3>
+                <a href="https://github.com/{{ config.github_username }}" target="_blank" rel="noopener noreferrer"
+                   class="view-btn" data-external>VIEW PROFILE</a>
+            </div>
+
+            <div class="gh-advanced-grid mt-12">
+                <div class="gh-col">
+                    <div data-state-region="gh-profile">
+                        <div class="gh-profile-card hover-glow state-content">
+                            <!-- No src attribute: an empty src would request this page. -->
+                            <img id="gh-avatar" class="gh-avatar" alt="" decoding="async">
                             <div class="gh-info">
-                                <h3 id="gh-name" class="gh-name">--</h3>
+                                <h4 id="gh-name" class="gh-name">&mdash;</h4>
                                 <div class="gh-metrics">
-                                    <span><span id="gh-repos" class="num">--</span> REPOS</span>
-                                    <span><span id="gh-followers" class="num">--</span> FOLLOWERS</span>
+                                    <span><span id="gh-repos" class="num">&mdash;</span> REPOS</span>
+                                    <span><span id="gh-followers" class="num">&mdash;</span> FOLLOWERS</span>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="gh-langs mt-12">
-                            <h5 class="sub-label mb-4">LANGUAGE ARCHITECTURE</h5>
-                            <div id="gh-lang-container" class="led-container">
-                                <!-- JS Injected LED Bars -->
-                            </div>
-                        </div>
                     </div>
-                    
-                    <!-- Right: Repos & Activity -->
-                    <div class="gh-col">
-                        <h5 class="sub-label mb-4">DEPLOYED ASSETS</h5>
-                        <div id="gh-repo-list" class="repo-grid">
-                            <!-- JS Injected Repo Cards -->
-                        </div>
-                        
-                        <h5 class="sub-label mt-12 mb-4">LIVE EVENT STREAM</h5>
-                        <div id="gh-activity-list" class="activity-terminal">
-                            <!-- JS Injected Terminal Activity -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Leetcode Section -->
-            <div class="signal-section mt-32 scroll-fade-up">
-                <div class="signal-header">
-                    <h2 class="section-title">HOW I SOLVE (LEETCODE) <span class="live-badge">● LIVE API</span></h2>
-                    <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer" class="view-btn">VIEW PROFILE</a>
-                </div>
-                
-                <div class="lc-advanced-grid mt-12">
-                    <div class="lc-visual-col">
-                        <div class="neural-rings-container" style="position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center;">
-                            <canvas id="lcDoughnutChart"></canvas>
-                            <div class="ring-center" style="position: absolute;">
-                                <span class="ring-label">SOLVED</span>
-                                <h2 id="lc-total" class="ring-total glitch-text animated-counter" data-target="0" data-text="0">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="lc-stats-col">
-                        <div class="lc-stat-box hover-glow glow-emerald box-easy">
-                            <span class="stat-glow"></span>
-                            <div class="stat-header">EASY <span class="stat-pct" id="lc-pct-easy">0%</span></div>
-                            <div class="stat-val glitch-text animated-counter" id="lc-easy" data-target="0" data-text="0">0</div>
-                        </div>
-                        <div class="lc-stat-box hover-glow glow-amber box-med">
-                            <span class="stat-glow"></span>
-                            <div class="stat-header">MEDIUM <span class="stat-pct" id="lc-pct-med">0%</span></div>
-                            <div class="stat-val glitch-text animated-counter" id="lc-med" data-target="0" data-text="0">0</div>
-                        </div>
-                        <div class="lc-stat-box hover-glow glow-rose box-hard">
-                            <span class="stat-glow"></span>
-                            <div class="stat-header">HARD <span class="stat-pct" id="lc-pct-hard">0%</span></div>
-                            <div class="stat-val glitch-text animated-counter" id="lc-hard" data-target="0" data-text="0">0</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Bottom Bento Row: Rank + Languages + Skills + Recent -->
-                <div class="lc-bento-row mt-12 scroll-fade-up">
-                    <!-- Rank & Acceptance -->
-                    <div class="lc-bento-card">
-                        <h5 class="sub-label mb-4">PROFILE STATS</h5>
-                        <div class="bento-stat-grid">
-                            <div class="bento-stat">
-                                <span class="bento-stat-label">GLOBAL RANK</span>
-                                <span class="bento-stat-value" id="lc-rank">--</span>
-                            </div>
-                            <div class="bento-stat">
-                                <span class="bento-stat-label">ACCEPTANCE</span>
-                                <span class="bento-stat-value" id="lc-acceptance">--%</span>
-                            </div>
-                            <div class="bento-stat">
-                                <span class="bento-stat-label">TOTAL SUBS</span>
-                                <span class="bento-stat-value" id="lc-total-subs">--</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Languages -->
-                    <div class="lc-bento-card">
-                        <h5 class="sub-label mb-4">LANGUAGES</h5>
-                        <div id="lc-lang-list" class="lc-lang-list">
-                            <!-- JS injected -->
-                        </div>
-                    </div>
-                    
-                    <!-- Skills -->
-                    <div class="lc-bento-card" style="display: flex; flex-direction: column;">
-                        <h5 class="sub-label mb-4">SKILL MATRIX (RADAR)</h5>
-                        <div style="flex-grow: 1; position: relative; min-height: 200px;">
-                            <canvas id="lcRadarChart"></canvas>
-                        </div>
-                    </div>
-                    
-                    <!-- Recent AC -->
-                    <div class="lc-bento-card">
-                        <h5 class="sub-label mb-4">RECENT SOLVES</h5>
-                        <div id="lc-recent-list" class="lc-recent-list">
-                            <!-- JS injected -->
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Heatmap -->
-                <div class="heatmap-section mt-12 scroll-fade-up">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                        <h5 class="sub-label mb-4">SUBMISSION ACTIVITY</h5>
-                    </div>
-                    <div id="lc-heatmap" class="heatmap-grid"></div>
-                    <div class="heatmap-legend mt-4" style="display:flex; gap:4px; align-items:center; justify-content:flex-end;">
-                        <span class="text-muted" style="font-size: 0.7rem; margin-right:4px;">Less</span>
-                        <div class="heat-cell lvl-0" style="width:12px; height:12px; border-radius:2px;"></div>
-                        <div class="heat-cell lvl-1" style="width:12px; height:12px; border-radius:2px;"></div>
-                        <div class="heat-cell lvl-2" style="width:12px; height:12px; border-radius:2px;"></div>
-                        <div class="heat-cell lvl-3" style="width:12px; height:12px; border-radius:2px;"></div>
-                        <div class="heat-cell lvl-4" style="width:12px; height:12px; border-radius:2px;"></div>
-                        <span class="text-muted" style="font-size: 0.7rem; margin-left:4px;">More</span>
-                    </div>
-                </div>
-                
-                <div class="timestamp-indicator mt-8 text-center scroll-fade-up">
-                    <p id="api-timestamp" style="font-family: monospace; font-size: 0.7rem; color: var(--c-light-muted);">Live profile data • Updating...</p>
-                </div>
-            </div>
-            
-        </section>
 
-        {% endblock %}
+                    <div class="gh-langs mt-12" data-state-region="gh-langs">
+                        <h5 class="sub-label mb-4">LANGUAGE ARCHITECTURE</h5>
+                        <div id="gh-lang-container" class="led-container state-content"></div>
+                    </div>
+                </div>
+
+                <div class="gh-col">
+                    <div data-state-region="gh-repos">
+                        <h5 class="sub-label mb-4">DEPLOYED ASSETS</h5>
+                        <div id="gh-repo-list" class="repo-grid state-content"></div>
+                    </div>
+
+                    <div class="mt-12" data-state-region="gh-stream">
+                        <h5 class="sub-label mb-4">LIVE EVENT STREAM</h5>
+                        <ul id="gh-activity-list" class="activity-terminal state-content"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LeetCode -->
+        <div class="signal-section mt-32 scroll-fade-up">
+            <div class="signal-header">
+                <h3 class="section-title">HOW I SOLVE (LEETCODE) <span class="live-badge" data-badge="leetcode" data-state="loading">SYNCING</span></h3>
+                <a href="https://leetcode.com/u/{{ config.leetcode_username }}/" target="_blank" rel="noopener noreferrer"
+                   class="view-btn" data-external>VIEW PROFILE</a>
+            </div>
+
+            <div class="lc-advanced-grid mt-12" data-state-region="lc-overview">
+                <div class="lc-visual-col state-content">
+                    <div class="neural-rings-container">
+                        <div class="chart-frame chart-frame--ring">
+                            <canvas id="lcDoughnutChart"></canvas>
+                        </div>
+                        <div class="ring-center">
+                            <span class="ring-label">SOLVED</span>
+                            <p id="lc-total" class="ring-total glitch-text animated-counter" data-target="0" data-text="0">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lc-stats-col state-content">
+                    <div class="lc-stat-box hover-glow glow-emerald box-easy">
+                        <span class="stat-glow" aria-hidden="true"></span>
+                        <div class="stat-header">EASY <span class="stat-pct" id="lc-pct-easy">&mdash;</span></div>
+                        <div class="stat-val glitch-text animated-counter" id="lc-easy" data-target="0" data-text="0">0</div>
+                    </div>
+                    <div class="lc-stat-box hover-glow glow-amber box-med">
+                        <span class="stat-glow" aria-hidden="true"></span>
+                        <div class="stat-header">MEDIUM <span class="stat-pct" id="lc-pct-med">&mdash;</span></div>
+                        <div class="stat-val glitch-text animated-counter" id="lc-med" data-target="0" data-text="0">0</div>
+                    </div>
+                    <div class="lc-stat-box hover-glow glow-rose box-hard">
+                        <span class="stat-glow" aria-hidden="true"></span>
+                        <div class="stat-header">HARD <span class="stat-pct" id="lc-pct-hard">&mdash;</span></div>
+                        <div class="stat-val glitch-text animated-counter" id="lc-hard" data-target="0" data-text="0">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lc-bento-row mt-12 scroll-fade-up" data-state-region="lc-bento">
+                <div class="lc-bento-card state-content">
+                    <h5 class="sub-label mb-4">PROFILE STATS</h5>
+                    <div class="bento-stat-grid">
+                        <div class="bento-stat">
+                            <span class="bento-stat-label">GLOBAL RANK</span>
+                            <span class="bento-stat-value" id="lc-rank">&mdash;</span>
+                        </div>
+                        <div class="bento-stat">
+                            <span class="bento-stat-label">ACCEPTANCE</span>
+                            <span class="bento-stat-value" id="lc-acceptance">&mdash;</span>
+                        </div>
+                        <div class="bento-stat">
+                            <span class="bento-stat-label">TOTAL SUBS</span>
+                            <span class="bento-stat-value" id="lc-total-subs">&mdash;</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lc-bento-card state-content">
+                    <h5 class="sub-label mb-4">LANGUAGES</h5>
+                    <ul id="lc-lang-list" class="lc-lang-list"></ul>
+                </div>
+
+                <div class="lc-bento-card state-content">
+                    <h5 class="sub-label mb-4">SKILL MATRIX (RADAR)</h5>
+                    <div class="chart-frame chart-frame--radar">
+                        <canvas id="lcRadarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="lc-bento-card state-content">
+                    <h5 class="sub-label mb-4">RECENT SOLVES</h5>
+                    <ul id="lc-recent-list" class="lc-recent-list"></ul>
+                </div>
+            </div>
+
+            <div class="heatmap-section mt-12 scroll-fade-up" data-state-region="lc-heatmap">
+                <h5 class="sub-label mb-4 state-content">SUBMISSION ACTIVITY</h5>
+                <div id="lc-heatmap" class="heatmap-grid state-content"></div>
+                <div class="heatmap-legend mt-4 state-content" aria-hidden="true">
+                    <span>Less</span>
+                    <div class="heat-cell lvl-0"></div>
+                    <div class="heat-cell lvl-1"></div>
+                    <div class="heat-cell lvl-2"></div>
+                    <div class="heat-cell lvl-3"></div>
+                    <div class="heat-cell lvl-4"></div>
+                    <span>More</span>
+                </div>
+            </div>
+
+            <div class="timestamp-indicator mt-8 text-center scroll-fade-up">
+                <p id="api-timestamp">Live profile data</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

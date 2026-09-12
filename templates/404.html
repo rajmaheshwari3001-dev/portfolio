@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}{{ config.name }} | 404 Not Found{% endblock %}
+{% block title %}{{ config.name }} | 404 — System Not Found{% endblock %}
+{% block meta_description %}The page you're looking for doesn't exist or has been moved.{% endblock %}
 {% block content %}
-<section class="chapter full-height flex-center">
+<section class="chapter full-height flex-center theme-deep-dark">
     <div class="container text-center">
-        <h1 class="massive-text gradient-blue">404</h1>
-        <h2>Page Not Found</h2>
-        <p class="mt-4">Oops! It looks like you've wandered into the unknown.<br>The page you're looking for doesn't exist or has been moved.</p>
-        <a href="/" class="btn btn-primary mt-8">Return Home</a>
+        <h1 class="massive-text gradient-rose scroll-scale">SYSTEM</h1>
+        <h2 class="massive-text text-outline scroll-scale delay-1">NOT FOUND</h2>
+        <p class="lead-text mt-8 mb-12 scroll-fade-up delay-2">
+            The page you're looking for doesn't exist or has been moved.
+        </p>
+        <p class="text-muted scroll-fade-up delay-3">
+            Error 404 — Requested resource not available.
+        </p>
+        <a href="/" class="cyber-btn mt-16 scroll-fade-up delay-4">
+            RETURN TO HOME BASE <span class="arrow">→</span>
+        </a>
     </div>
 </section>
 {% endblock %}

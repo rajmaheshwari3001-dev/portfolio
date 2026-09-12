@@ -371,7 +371,8 @@ body {
 #neural-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; opacity: 0.4; mix-blend-mode: screen;}
 
 /* Loader */
-#loader { position: fixed; inset: 0; background: var(--c-deep-dark-bg); z-index: 999; display: flex; justify-content: center; align-items: center; transition: opacity 1s; }
+#loader { position: fixed; inset: 0; background: var(--c-deep-dark-bg); z-index: 999; display: flex; justify-content: center; align-items: center; transition: opacity 1s, visibility 1s; }
+#loader[style*="display: none"], #loader[style*="opacity: 0"] { pointer-events: none !important; }
 .loader-text-container { font-family: var(--font-heading); font-size: 1rem; color: #fff; letter-spacing: 0.2em; }
 .loader-text-container::after { content: '|'; animation: blink 1s infinite; }
 
@@ -801,6 +802,7 @@ html.lenis { height: auto; }
     body { cursor: auto; }
     .custom-cursor { display: none; }
     #sidebar { transform: translateX(-100%); }
+    #desktop-top-nav { display: none !important; }
     #mobile-nav { display: flex; }
     #mobile-bottom-nav { display: flex; }
     #main-content { margin-left: 0; margin-top: 60px; padding-bottom: 75px; }

@@ -1,33 +1,118 @@
 import os
 import json
 import re
+import logging
+import datetime
+from collections import defaultdict, deque
+from functools import lru_cache
+from urllib.parse import urljoin
+
 from flask import Flask, render_template, jsonify, request
-import google.generativeai as genai
-from config import PROFILE_CONFIG, GITHUB_TOKEN, GEMINI_API_KEY, GEMINI_MODEL
+from google import genai
+from google.genai import types
+from config import (
+    PROFILE_CONFIG,
+    GITHUB_TOKEN,
+    GEMINI_API_KEY,
+    GEMINI_MODEL,
+    GEMINI_FALLBACK_MODELS,
+    SITE_URL,
+    BUILD_VERSION,
+    BUILD_DATE,
+    CHAT_RATE_LIMIT_REQUESTS,
+    CHAT_RATE_LIMIT_WINDOW,
+    CHAT_MAX_MESSAGES,
+    CHAT_MAX_MESSAGE_CHARS,
+    CHAT_TIMEOUT_SECONDS,
+)
 from services.github_service import get_github_activity, get_github_profile, get_github_repos_and_languages
 from services.leetcode_service import get_leetcode_profile
-import datetime
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+log = logging.getLogger("portfolio")
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000 # Cache static files for 1 year
+# Immutable caching in production. The dev server should be started with
+# STATIC_MAX_AGE_SECONDS=0 or every stylesheet edit hides behind a year of cache.
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = int(os.environ.get('STATIC_MAX_AGE_SECONDS', '31536000'))
 
 # API Validation
-from config import GITHUB_TOKEN
 if not GITHUB_TOKEN:
-    print("WARNING: GITHUB_TOKEN is not set in environment. App will use fallback data for GitHub API.")
+    log.warning("GITHUB_TOKEN is not set in environment. App will use fallback data for GitHub API.")
 
 # Basic caching dictionary (In production, use Redis or Flask-Caching)
 cache = {
     "github": {"data": None, "timestamp": None},
     "leetcode": {"data": None, "timestamp": None},
 }
-CACHE_TTL = 1800 # 30 minutes
+CACHE_TTL = 60 # 1 minute - keep data fresh while protecting against rate limits
 
 def is_cache_valid(key):
     if cache[key]["data"] is None or cache[key]["timestamp"] is None:
         return False
     return (datetime.datetime.now() - cache[key]["timestamp"]).total_seconds() < CACHE_TTL
+
+
+# ---------------------------------------------------------------------------
+# Consistent API envelopes
+# ---------------------------------------------------------------------------
+# Every endpoint returns the same shape so the frontend never has to guess what
+# a given service handed back. Failures log the real exception internally and
+# return a stable error_code plus a human message — internal details such as
+# stack strings and upstream URLs are never shown to a visitor.
+def api_envelope(data, cached=False, key=None):
+    return {
+        "status": "success",
+        "success": True,   # legacy field, still read by the current frontend
+        "data": data,
+        "updated_at": cache_timestamp(key),
+        "cached": bool(cached),
+    }
+
+
+def cache_timestamp(key):
+    entry = cache.get(key) if key else None
+    ts = entry["timestamp"] if entry and entry.get("timestamp") else datetime.datetime.now()
+    return ts.isoformat(timespec="seconds")
+
+
+def api_error(error_code, message, http_status=200, cached=False, key=None):
+    """Safe, predictable failure envelope. Details go to the log, not the wire."""
+    return jsonify({
+        "status": "error",
+        "success": False,
+        "data": None,
+        "error_code": error_code,
+        "message": message,
+        "updated_at": cache_timestamp(key),
+        "cached": bool(cached),
+    }), http_status
+
+
+@app.context_processor
+def inject_seo_globals():
+    """Canonical URL + build metadata, available to every template.
+
+    With SITE_URL configured the canonical is stable across environments.
+    Without it we derive from the request, so a preview deployment advertises
+    itself instead of a hardcoded hostname that may already be dead.
+    """
+    def absolute_url(path=""):
+        base = SITE_URL or request.host_url.rstrip("/")
+        return urljoin(base + "/", (path or "").lstrip("/"))
+
+    def canonical_url():
+        return absolute_url(request.path if request.path != "/" else "")
+
+    return {
+        "site_url": SITE_URL or request.host_url.rstrip("/"),
+        "absolute_url": absolute_url,
+        "canonical_url": canonical_url,
+        "build_version": BUILD_VERSION,
+        "build_date": BUILD_DATE,
+        "current_path": request.path,
+    }
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -76,43 +161,108 @@ def cv_raw():
 @app.route('/api/activity/github')
 def github_api():
     if is_cache_valid("github"):
-        return jsonify({"success": True, "data": cache["github"]["data"]})
-        
+        return jsonify(api_envelope(cache["github"]["data"], cached=True, key="github"))
+
     try:
         profile = get_github_profile(PROFILE_CONFIG['github_username'])
+        if not profile:
+            raise ValueError("github profile unavailable")
+
         activity = get_github_activity(PROFILE_CONFIG['github_username'])
         repos_langs = get_github_repos_and_languages(PROFILE_CONFIG['github_username'])
-        
+
         data = {
             "profile": profile,
             "activity": activity,
             "repos": repos_langs["repos"],
             "languages": repos_langs["languages"],
-            "status": "connected" if profile else "unavailable"
+            "status": "connected"
         }
-        
+
+        # Only a real payload is worth caching — caching an outage would pin
+        # the failure for the whole TTL.
         cache["github"] = {
             "data": data,
             "timestamp": datetime.datetime.now()
         }
-        return jsonify({"success": True, "data": data})
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e), "status": "unavailable"})
+        return jsonify(api_envelope(data, cached=False, key="github"))
+    except Exception:
+        log.exception("GitHub activity fetch failed")
+        return stale_or_error(
+            "github",
+            "GITHUB_UPSTREAM_ERROR",
+            "Live GitHub data is temporarily unavailable.",
+        )
 
 @app.route('/api/activity/leetcode')
 def leetcode_api():
     if is_cache_valid("leetcode"):
-        return jsonify({"success": True, "data": cache["leetcode"]["data"]})
-        
+        return jsonify(api_envelope(cache["leetcode"]["data"], cached=True, key="leetcode"))
+
     try:
-        data = get_leetcode_profile(PROFILE_CONFIG['leetcode_username'])
+        raw = get_leetcode_profile(PROFILE_CONFIG['leetcode_username'])
+        data = normalize_leetcode(raw)
+        if data.get("status") != "connected":
+            log.warning("LeetCode upstream unavailable: %s", (raw or {}).get("reason"))
+            raise ValueError("leetcode profile unavailable")
+
         cache["leetcode"] = {
             "data": data,
             "timestamp": datetime.datetime.now()
         }
-        return jsonify({"success": True, "data": data})
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e), "status": "unavailable"})
+        return jsonify(api_envelope(data, cached=False, key="leetcode"))
+    except Exception:
+        log.exception("LeetCode profile fetch failed")
+        return stale_or_error(
+            "leetcode",
+            "LEETCODE_UPSTREAM_ERROR",
+            "Live LeetCode data is temporarily unavailable.",
+        )
+
+
+def stale_or_error(key, error_code, message):
+    """Degrade to the last real payload, labelled stale; else fail honestly."""
+    stale = cache[key]["data"]
+    if stale:
+        payload = api_envelope(stale, cached=True, key=key)
+        payload["status"] = "stale"
+        return jsonify(payload)
+    return api_error(error_code, message, key=key)
+
+
+def normalize_leetcode(raw):
+    """Presentational shape, decoupled from the provider's field names.
+
+    The frontend should consume activity/statistics/languages/problems and not
+    care what the upstream service happened to call them, so a provider rename
+    cannot silently break the page.
+    """
+    if not isinstance(raw, dict):
+        return {"status": "unavailable"}
+
+    stats = raw.get("stats") or {}
+    total = stats.get("All") or 0
+    breakdown = {
+        "easy": stats.get("Easy") or 0,
+        "medium": stats.get("Medium") or 0,
+        "hard": stats.get("Hard") or 0,
+    }
+
+    normalized = dict(raw)  # keep legacy keys so the existing UI keeps working
+    normalized.update({
+        "status": raw.get("status") or ("connected" if total else "unavailable"),
+        "statistics": {
+            "total": total,
+            **breakdown,
+            "percentages": {
+                k: round(v / total * 100) if total else 0
+                for k, v in breakdown.items()
+            },
+        },
+        "problems": raw.get("recent") or [],
+        "languages": raw.get("languages") or [],
+    })
+    return normalized
 
 def load_portfolio_data():
     try:
@@ -215,27 +365,35 @@ nlp_engine = LocalNLPEngine(PORTFOLIO_DATA)
 # backstop only. Older pinned versions (gemini-2.5-flash, gemini-1.5-flash) now
 # 404 for new keys and have been dropped.
 _GEMINI_CANDIDATES = []
-for _m in [GEMINI_MODEL, "gemini-flash-lite-latest", "gemini-3.5-flash-lite",
-           "gemini-flash-latest"]:
+for _m in [GEMINI_MODEL, *GEMINI_FALLBACK_MODELS]:
     if _m and _m not in _GEMINI_CANDIDATES:
         _GEMINI_CANDIDATES.append(_m)
 
 _gemini_ready = False
+_gemini_client = None
 _working_model = None  # cache the first candidate that responds successfully
 
 if GEMINI_API_KEY:
     try:
-        genai.configure(api_key=GEMINI_API_KEY)
+        # GA SDK: one persistent client, real HTTP timeout so a hung upstream
+        # can't pin a Flask worker. HttpOptions.timeout is milliseconds.
+        _gemini_client = genai.Client(
+            api_key=GEMINI_API_KEY,
+            http_options=types.HttpOptions(
+                timeout=int(CHAT_TIMEOUT_SECONDS * 1000)
+            ),
+        )
         _gemini_ready = True
-        print(f"Gemini configured. Model preference: {_GEMINI_CANDIDATES}")
+        log.info("Gemini configured. Model preference: %s", _GEMINI_CANDIDATES)
     except Exception as e:
-        print(f"WARNING: Gemini configuration failed ({e}). Using offline engine.")
+        log.warning("Gemini configuration failed (%s). Using offline engine.", e)
 else:
-    print("WARNING: GEMINI_API_KEY not set. Chatbot will run in offline mode.")
+    log.warning("GEMINI_API_KEY not set. Chatbot will run in offline mode.")
 
 MAX_HISTORY_TURNS = 12  # how many recent messages to send for context
 
 
+@lru_cache(maxsize=1)
 def build_system_prompt():
     """Persona + grounding data + response rules for the assistant."""
     return (
@@ -271,7 +429,9 @@ def _to_gemini_contents(messages):
         if not text:
             continue
         role = "user" if m.get("role") == "user" else "model"
-        contents.append({"role": role, "parts": [text]})
+        # GA SDK validates strictly: a part must be {"text": ...}, not a bare
+        # string (the legacy SDK coerced it silently).
+        contents.append({"role": role, "parts": [{"text": text}]})
     # Gemini requires the first turn to be from the user.
     while contents and contents[0]["role"] != "user":
         contents.pop(0)
@@ -281,10 +441,9 @@ def _to_gemini_contents(messages):
 def _extract_text(response):
     """Safely pull text out of a Gemini response.
 
-    `response.text` is a convenience *property that raises* (not a missing
-    attribute) when a candidate was blocked or a 'thinking' model returned no
-    visible text part — so getattr(..., "") would not swallow it. We try the
-    accessor, then fall back to walking candidates -> content -> parts.
+    `response.text` comes back empty when a candidate was blocked or a
+    'thinking' model emitted no visible text part, so we fall back to walking
+    candidates -> content -> parts before giving up on the model.
     """
     try:
         text = (response.text or "").strip()
@@ -315,7 +474,11 @@ def generate_gemini_reply(messages):
         return None, "no_user_message"
 
     system_prompt = build_system_prompt()
-    generation_config = {"temperature": 0.7, "max_output_tokens": 800}
+    config = types.GenerateContentConfig(
+        system_instruction=system_prompt,
+        temperature=0.7,
+        max_output_tokens=800,
+    )
 
     # Try the known-good model first, then the rest of the candidates.
     order = ([_working_model] if _working_model else [])
@@ -324,30 +487,136 @@ def generate_gemini_reply(messages):
     last_err = "unknown_error"
     for model_name in order:
         try:
-            model = genai.GenerativeModel(
-                model_name, system_instruction=system_prompt
-            )
-            response = model.generate_content(
-                contents, generation_config=generation_config
+            response = _gemini_client.models.generate_content(
+                model=model_name,
+                contents=contents,
+                config=config,
             )
             text = _extract_text(response)
             if text:
                 if _working_model != model_name:
                     _working_model = model_name
-                    print(f"Gemini active model: {model_name}")
+                    log.info("Gemini active model: %s", model_name)
                 return text, None
             last_err = "empty_response"
         except Exception as e:
-            last_err = str(e)
-            print(f"Gemini model '{model_name}' failed: {e}")
+            last_err = type(e).__name__
+            log.warning("Gemini model '%s' failed: %s", model_name, e)
             continue
     return None, last_err
 
 
+# Navigation the Copilot may offer. The model proposes intent; this whitelist
+# plus the frontend router decide execution, so a prompt-injection attempt
+# cannot invent a destination.
+NAVIGATION_TARGETS = {"#about", "#projects", "#skills", "#journey", "#contact"}
+
+_ACTION_RE = re.compile(
+    r'<button\b[^>]*\bdata-action\s*=\s*"navigate"[^>]*\bdata-target\s*=\s*"([^"]*)"[^>]*>(.*?)</button>'
+    r'|<button\b[^>]*\bdata-target\s*=\s*"([^"]*)"[^>]*\bdata-action\s*=\s*"navigate"[^>]*>(.*?)</button>',
+    re.IGNORECASE | re.DOTALL,
+)
+_TAG_RE = re.compile(r"<[^>]*>")
+
+
+def extract_actions(text):
+    """Pull navigation buttons out of model output into structured actions.
+
+    The AI no longer ships HTML that the browser inserts. It returns text plus
+    a validated action list; the frontend builds the buttons itself.
+    """
+    if not text:
+        return "", []
+
+    actions = []
+
+    def _replace(match):
+        target = (match.group(1) or match.group(3) or "").strip()
+        label = (match.group(2) or match.group(4) or "").strip()
+        label = _TAG_RE.sub("", label).strip()
+        if len(actions) < 1 and target in NAVIGATION_TARGETS and label:
+            actions.append({"type": "navigate", "target": target, "label": label[:80]})
+        return ""
+
+    clean = _ACTION_RE.sub(_replace, text)
+    return clean.strip(), actions
+
+
+# ---------------------------------------------------------------------------
+# Abuse protection for the public chat endpoint
+# ---------------------------------------------------------------------------
+# Honest limitation: on a serverless host each function instance keeps its own
+# window, so this is a per-instance ceiling rather than a global one. It still
+# bounds what any single client can cost, which is the point for a portfolio.
+_chat_hits = defaultdict(deque)
+
+
+def _client_key():
+    forwarded = request.headers.get("X-Forwarded-For", "")
+    ip = forwarded.split(",")[0].strip() if forwarded else (request.remote_addr or "unknown")
+    return ip[:64]
+
+
+def rate_limited(key):
+    """Sliding window. Returns (is_limited, retry_after_seconds)."""
+    now = datetime.datetime.now().timestamp()
+    window_start = now - CHAT_RATE_LIMIT_WINDOW
+
+    hits = _chat_hits[key]
+    while hits and hits[0] < window_start:
+        hits.popleft()
+
+    if len(hits) >= CHAT_RATE_LIMIT_REQUESTS:
+        return True, max(1, int(CHAT_RATE_LIMIT_WINDOW - (now - hits[0])) + 1)
+
+    hits.append(now)
+
+    # Keep the map from growing without bound across many one-off visitors.
+    if len(_chat_hits) > 2000:
+        for stale in [k for k, v in _chat_hits.items() if not v or v[-1] < window_start]:
+            _chat_hits.pop(stale, None)
+
+    return False, 0
+
+
+def sanitize_messages(messages):
+    """Bound the input before it ever reaches the model."""
+    bounded = []
+    for m in messages[-CHAT_MAX_MESSAGES:]:
+        if not isinstance(m, dict):
+            continue
+        content = m.get("content")
+        if not isinstance(content, str):
+            continue
+        role = "user" if m.get("role") == "user" else "model"
+        bounded.append({"role": role, "content": content[:CHAT_MAX_MESSAGE_CHARS]})
+    return bounded
+
+
+# Observed behaviour, not configured intent. `/api/status` must report which
+# engine actually served the last reply — a configured key that keeps failing
+# is "degraded", never "gemini".
+_copilot_state = {"last_engine": None, "llm_failures": 0}
+
+
 @app.route('/api/chat', methods=['POST'])
 def chat_api():
+    limited, retry_after = rate_limited(_client_key())
+    if limited:
+        response = api_error(
+            "RATE_LIMITED",
+            "That's a lot of questions — give the Copilot a moment and try again.",
+            http_status=429,
+        )
+        response[0].headers["Retry-After"] = str(retry_after)
+        return response
+
     data = request.get_json(silent=True) or {}
-    messages = data.get("messages", [])
+    raw_messages = data.get("messages", [])
+    if not isinstance(raw_messages, list):
+        raw_messages = []
+
+    messages = sanitize_messages(raw_messages)
     if not messages:
         return jsonify({"success": False, "error": "No messages provided"}), 400
 
@@ -363,11 +632,60 @@ def chat_api():
     if _gemini_ready:
         text, err = generate_gemini_reply(messages)
         if text:
-            return jsonify({"success": True, "response": text, "engine": "gemini"})
-        print(f"Gemini unavailable ({err}); serving offline response.")
+            clean, actions = extract_actions(text)
+            _copilot_state.update(last_engine="gemini", llm_failures=0)
+            return jsonify({
+                "success": True,
+                "status": "success",
+                "response": clean,
+                "actions": actions,
+                "engine": "gemini",
+                "model": _working_model,
+            })
+        _copilot_state["llm_failures"] += 1
+        log.warning("Gemini unavailable (%s); serving offline response.", err)
 
-    response_text = nlp_engine.process(last_user_message)
-    return jsonify({"success": True, "response": response_text, "engine": "offline"})
+    clean, actions = extract_actions(nlp_engine.process(last_user_message))
+    _copilot_state["last_engine"] = "offline"
+    return jsonify({
+        "success": True,
+        "status": "success",
+        "response": clean,
+        "actions": actions,
+        "engine": "offline",
+        "model": None,
+    })
+
+
+@app.route('/api/status')
+def status_api():
+    """Truthful system state for the Copilot badge and developer diagnostics.
+
+    Reports what was observed, not what was configured. Only what is useful
+    publicly: no keys, no model internals, no stack detail.
+    """
+    if not _gemini_ready:
+        llm_state = "not_configured"
+    elif _copilot_state["llm_failures"]:
+        llm_state = "degraded"
+    elif _copilot_state["last_engine"] is None:
+        llm_state = "untested"
+    else:
+        llm_state = "ready"
+
+    return jsonify({
+        "status": "success",
+        "data": {
+            # The widget always answers — via the LLM or the offline engine.
+            "copilot": "online",
+            "llm": llm_state,
+            "engine": _copilot_state["last_engine"] or "untested",
+            "model": _working_model,
+            "github": "cached" if is_cache_valid("github") else "unknown",
+            "leetcode": "cached" if is_cache_valid("leetcode") else "unknown",
+            "build": f"v{BUILD_VERSION} ({BUILD_DATE})",
+        },
+    })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5002)

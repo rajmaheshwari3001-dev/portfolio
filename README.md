@@ -78,7 +78,7 @@ graph TD
 - **⚙️ Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
 - **📱 Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device. Fully optimized for a mobile-first premium experience.
 - **⚡ Intelligent API Caching:** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
-- **🔍 SEO & Accessibility Mastery:** 100% accessible via keyboard navigation, screen-reader optimized using dynamic `aria-hidden` tags, and architected with an SEO-first semantic layout featuring precise `meta` tags.
+- **🔍 SEO & Accessibility Foundation:** Semantic HTML with proper heading hierarchy, ARIA labels for interactive elements, keyboard-navigable interface, screen-reader friendly markup, and SEO-optimized meta tags with Schema.org structured data.
 - **🌗 Seamless Dark/Light Engine:** Real-time CSS variable toggling combined with persistent `localStorage` saving, dynamically altering colors and glassmorphic card densities without a page refresh.
 
 <details>

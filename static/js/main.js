@@ -22,31 +22,41 @@ function initMainScripts() {
     const loader = document.getElementById('loader');
     const typingText = document.getElementById('loader-typing');
     
-    if (sessionStorage.getItem('hasLoadedBefore')) {
-        loader.style.display = 'none';
-    } else {
-        const texts = ["INITIALIZING RAJ.M", "AI / ML DEVELOPER", "PYTHON", "DATA", "SYSTEM READY"];
-        let textIndex = 0;
-        
-        function typeText() {
-            if (textIndex >= texts.length) {
-                setTimeout(() => {
-                    loader.style.opacity = '0';
+    let hasLoaded = false;
+    try {
+        hasLoaded = !!sessionStorage.getItem('hasLoadedBefore');
+    } catch (e) {}
+
+    if (loader) {
+        if (hasLoaded) {
+            loader.style.opacity = '0';
+            loader.style.pointerEvents = 'none';
+            loader.style.display = 'none';
+        } else {
+            const texts = ["INITIALIZING RAJ.M", "AI / ML DEVELOPER", "PYTHON", "DATA", "SYSTEM READY"];
+            let textIndex = 0;
+            
+            function typeText() {
+                if (textIndex >= texts.length) {
                     setTimeout(() => {
-                        loader.style.display = 'none';
-                        sessionStorage.setItem('hasLoadedBefore', 'true');
-                    }, 1000);
-                }, 500);
-                return;
+                        loader.style.opacity = '0';
+                        loader.style.pointerEvents = 'none';
+                        setTimeout(() => {
+                            loader.style.display = 'none';
+                            try { sessionStorage.setItem('hasLoadedBefore', 'true'); } catch (e) {}
+                        }, 1000);
+                    }, 500);
+                    return;
+                }
+                
+                if (typingText) typingText.innerText = texts[textIndex];
+                textIndex++;
+                setTimeout(typeText, 600);
             }
             
-            typingText.innerText = texts[textIndex];
-            textIndex++;
-            setTimeout(typeText, 600);
+            // Start loader
+            setTimeout(typeText, 300);
         }
-        
-        // Start loader
-        setTimeout(typeText, 300);
     }
 
     // --- Custom Cursor Removed ---
@@ -136,13 +146,15 @@ function initMainScripts() {
             setTimeout(cycleContactText, typeSpeed);
         }
         
-        const contactObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                setTimeout(cycleContactText, 1000);
-                contactObserver.disconnect();
-            }
-        });
-        contactObserver.observe(contactTypewriter.parentElement);
+        if (contactTypewriter.parentElement) {
+            const contactObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    setTimeout(cycleContactText, 1000);
+                    contactObserver.disconnect();
+                }
+            });
+            contactObserver.observe(contactTypewriter.parentElement);
+        }
     }
 
     // --- Interactive Playable Terminal ---
@@ -443,15 +455,24 @@ function fetchGithubData() {
                 // Profile
                 const ghAvatar = document.getElementById('gh-avatar');
                 if (ghAvatar) {
-                    ghAvatar.src = p.avatar_url;
-                    document.getElementById('gh-name').innerText = p.login;
-                    animateValue(document.getElementById('gh-repos'), 0, p.public_repos, 1500);
-                    animateValue(document.getElementById('gh-followers'), 0, p.followers, 1500);
+                    ghAvatar.src = p.avatar_url || '';
+                }
+                const ghName = document.getElementById('gh-name');
+                if (ghName) {
+                    ghName.innerText = p.login || '';
+                }
+                const ghRepos = document.getElementById('gh-repos');
+                if (ghRepos) {
+                    animateValue(ghRepos, 0, p.public_repos || 0, 1500);
+                }
+                const ghFollowers = document.getElementById('gh-followers');
+                if (ghFollowers) {
+                    animateValue(ghFollowers, 0, p.followers || 0, 1500);
                 }
                 
                 // Language Analytics (LED Bars)
                 const langContainer = document.getElementById('gh-lang-container');
-                if (langContainer) {
+                if (langContainer && data.data.languages) {
                     langContainer.innerHTML = '';
                     Object.keys(data.data.languages).forEach((lang, idx) => {
                         const pct = data.data.languages[lang];
@@ -478,7 +499,7 @@ function fetchGithubData() {
                 
                 // Top Repos (Glass Cards)
                 const repoContainer = document.getElementById('gh-repo-list');
-                if (repoContainer) {
+                if (repoContainer && data.data.repos) {
                     repoContainer.innerHTML = '';
                     data.data.repos.slice(0,4).forEach(repo => {
                         repoContainer.innerHTML += `
@@ -492,12 +513,13 @@ function fetchGithubData() {
                 
                 // Recent Events (Terminal Stream)
                 const activityContainer = document.getElementById('gh-activity-list');
-                if (activityContainer) {
+                if (activityContainer && data.data.activity) {
                     activityContainer.innerHTML = '';
                     const events = data.data.activity.slice(0, 10);
                     let eIdx = 0;
                     
                     function streamEvent() {
+                        if (!activityContainer) return;
                         if (eIdx < events.length) {
                             const act = events[eIdx];
                             const div = document.createElement('div');
@@ -518,6 +540,7 @@ function fetchGithubData() {
 }
 
 function animateValue(obj, start, end, duration, callback = null) {
+    if (!obj) return;
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;

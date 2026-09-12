@@ -1,6 +1,8 @@
 import requests
 import time
-import random
+import logging
+
+log = logging.getLogger(__name__)
 
 def get_leetcode_profile(username):
     if not username:
@@ -103,8 +105,10 @@ def get_leetcode_profile(username):
                     "timestamp": sub.get("timestamp")
                 })
             
-            # Heatmap (mock — LeetCode blocks calendar via public GraphQL)
-            calendar = [random.randint(0, 4) for _ in range(50)]
+            # LeetCode does not expose a public submission calendar through
+            # GraphQL. Returning random noise here would render as real
+            # activity, so the frontend gets an honest "unavailable" signal.
+            calendar = []
                     
             return {
                 "status": "connected",
@@ -118,11 +122,15 @@ def get_leetcode_profile(username):
                 "skills": skills,
                 "recent": recent,
                 "calendar": calendar,
+                "calendar_available": False,
                 "url": f"https://leetcode.com/u/{username}/",
                 "last_updated": time.time()
             }
             
-        return {"status": "unavailable", "message": f"API error: {response.status_code}"}
-    except Exception as e:
-        return {"status": "unavailable", "message": f"Connection error: {str(e)}"}
+        log.warning("LeetCode profile fetch returned HTTP %s", response.status_code)
+        return {"status": "unavailable", "reason": "upstream_http_error"}
+    except Exception:
+        # The real detail belongs in the server log, never on the wire.
+        log.exception("LeetCode profile fetch failed")
+        return {"status": "unavailable", "reason": "upstream_unreachable"}
 

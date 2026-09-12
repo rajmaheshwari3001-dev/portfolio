@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": ["app.py"],
+      "port": 5000
+    },
+    {
+      "name": "portfolio-live",
+      "url": "http://localhost:5000"
+    }
+  ]
+}

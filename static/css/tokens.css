@@ -1,0 +1,241 @@
+/* ==========================================================================
+   CINEMATIC OS — DESIGN TOKENS
+   Single source of truth. No component rules live in this file.
+   Loaded before style.css; cinematic.css maps the legacy palette onto these.
+
+   Contrast (WCAG 2.2 AA) verified against every surface below, not assumed:
+     text-primary   #F4F5F7  -> 17.4:1 / 16.3:1 / 15.2:1  (obsidian/graphite/raised)
+     text-secondary #B4BBC4  -> 10.3:1 /  9.7:1 /  9.0:1
+     text-meta      #7C8794  ->  5.5:1 /  5.2:1 /  4.8:1   AA for normal text
+     accent-cyan    #62E6E8  -> 13.3:1 / 12.6:1 / 11.7:1
+     accent-gold    #D6AE68  ->  9.6:1 /  9.0:1 /  8.4:1
+   Glow and shadows never count toward these ratios.
+   ========================================================================== */
+
+:root {
+    /* -- Surfaces: three depth planes ------------------------------------ */
+    --surface-obsidian:   #07090C;  /* plane 1 — page background            */
+    --surface-graphite:   #0D1117;  /* plane 2 — cards, secondary surfaces  */
+    --surface-raised:     #151B22;  /* plane 3 — dialogs, nav, active state */
+    --surface-sunken:     #04060A;  /* wells, insets, terminal body         */
+    --surface-overlay:    rgba(7, 9, 12, 0.78);
+
+    /* -- Text ------------------------------------------------------------- */
+    --text-primary:   #F4F5F7;
+    --text-secondary: #B4BBC4;
+    --text-meta:      #7C8794;
+    --text-inverse:   #07090C;
+    --text-disabled:  #525C68;
+
+    /* -- Accent: cyan is technology, gold is achievement and stays rare --- */
+    --accent-cyan:        #62E6E8;
+    --accent-cyan-dim:    #3FB9BC;
+    --accent-cyan-deep:   #1C6E73;
+    --accent-gold:        #D6AE68;
+    --accent-gold-dim:    #A9844F;
+    --accent-gold-bright: #FFF0C2;
+
+    /* -- Status: semantic only, never decorative -------------------------- */
+    --status-success: #51D88A;
+    --status-warning: #FFB45E;
+    --status-error:   #FF6978;
+    --status-info:    #4D9FFF;
+    --status-live:    #51D88A;
+    --status-cached:  #FFB45E;
+
+    /* -- Light: gradients are directional light sources, not decoration --- */
+    --gradient-aurora:     linear-gradient(110deg, #62E6E8 0%, #4D9FFF 55%, #7B61FF 100%);
+    --gradient-champagne:  linear-gradient(120deg, #A9844F 0%, #E2C27D 52%, #FFF0C2 100%);
+    --gradient-cyan-fade:  linear-gradient(180deg, rgba(98, 230, 232, 0.16) 0%, rgba(98, 230, 232, 0) 100%);
+    --gradient-sheen:      linear-gradient(100deg, transparent 20%, rgba(244, 245, 247, 0.10) 45%, rgba(98, 230, 232, 0.14) 55%, transparent 80%);
+    --gradient-vignette:   radial-gradient(120% 90% at 50% 0%, rgba(98, 230, 232, 0.07) 0%, transparent 58%);
+    --gradient-hairline:   linear-gradient(90deg, transparent, rgba(180, 187, 196, 0.28) 18%, rgba(98, 230, 232, 0.42) 50%, rgba(180, 187, 196, 0.28) 82%, transparent);
+
+    /* -- Lines ------------------------------------------------------------ */
+    --line-hairline: rgba(180, 187, 196, 0.10);
+    --line-subtle:   rgba(180, 187, 196, 0.16);
+    --line-strong:   rgba(180, 187, 196, 0.28);
+    --line-accent:   rgba(98, 230, 232, 0.42);
+    --line-gold:     rgba(214, 174, 104, 0.34);
+
+    /* -- Elevation: shadow + a single hairline light from above ----------- */
+    --elev-0: none;
+    --elev-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --elev-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --elev-3: 0 20px 48px rgba(0, 0, 0, 0.55);
+    --elev-4: 0 32px 80px rgba(0, 0, 0, 0.62);
+    --glow-cyan-s: 0 0 0 1px rgba(98, 230, 232, 0.22), 0 0 18px rgba(98, 230, 232, 0.10);
+    --glow-cyan-m: 0 0 0 1px rgba(98, 230, 232, 0.34), 0 0 34px rgba(98, 230, 232, 0.18);
+    --glow-cyan-l: 0 0 0 1px rgba(98, 230, 232, 0.44), 0 0 64px rgba(98, 230, 232, 0.24);
+    --glow-gold-s: 0 0 0 1px rgba(214, 174, 104, 0.26), 0 0 22px rgba(214, 174, 104, 0.12);
+    --glow-gold-m: 0 0 0 1px rgba(214, 174, 104, 0.38), 0 0 40px rgba(214, 174, 104, 0.18);
+
+    /* -- Spacing scale: 4 -> 160, nothing off-scale ------------------------ */
+    --space-1:  4px;
+    --space-2:  8px;
+    --space-3:  12px;
+    --space-4:  16px;
+    --space-5:  24px;
+    --space-6:  32px;
+    --space-7:  48px;
+    --space-8:  64px;
+    --space-9:  96px;
+    --space-10: 128px;
+    --space-11: 160px;
+    /* Section rhythm: silence between scenes is part of the design. */
+    --section-gap: clamp(96px, 12vw, 180px);
+    --block-gap:   clamp(48px, 6vw, 96px);
+
+    /* -- Layout ----------------------------------------------------------- */
+    --content-max:  1320px;
+    --content-narrow: 760px;
+    --gutter:       clamp(20px, 5vw, 64px);
+    --nav-height:   72px;
+    --nav-height-mobile: 60px;
+    --bottom-nav-height: 64px;
+    --radius-xs: 4px;
+    --radius-s:  8px;
+    --radius-m:  12px;
+    --radius-l:  18px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+    /* -- Type: Space Grotesk display, Inter body -------------------------- */
+    --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:    ui-monospace, 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+    /* Fluid scale — continuous, never jumping between arbitrary breakpoints. */
+    --text-hero:      clamp(2.75rem, 12vw, 9rem);
+    --text-display:   clamp(2.5rem, 5vw, 6rem);
+    --text-h2:        clamp(1.875rem, 3.2vw, 3.25rem);
+    --text-h3:        clamp(1.375rem, 2.2vw, 2rem);
+    --text-h4:        clamp(1.125rem, 1.5vw, 1.375rem);
+    --text-lead:      clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem);
+    --text-body:      clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+    --text-small:     0.875rem;
+    /* --fs-, not --text-: --text-meta is already the metadata COLOUR above.
+       Reusing the name here made every color: var(--text-meta) invalid. */
+    --fs-meta:        0.75rem;
+    --text-eyebrow:   0.6875rem;
+
+    --tracking-tightest: -0.035em;
+    --tracking-tight:    -0.02em;
+    --tracking-normal:   0;
+    --tracking-wide:     0.06em;
+    --tracking-widest:   0.18em;
+    --tracking-label:    0.22em;
+
+    --leading-none:   1;
+    --leading-tight:  1.06;
+    --leading-snug:   1.28;
+    --leading-normal: 1.6;
+    --leading-loose:  1.75;
+
+    /* -- Motion: every duration is a named decision ------------------------ */
+    --motion-instant:   90ms;
+    --motion-fast:      180ms;
+    --motion-ui:        320ms;
+    --motion-reveal:    650ms;
+    --motion-cinematic: 900ms;   /* page transitions live in 650-900ms, never longer */
+    --motion-ambient:   9s;      /* breathing light, drifting grain */
+    --motion-slow:      18s;
+
+    --ease-ui:         cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-cinematic:  cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-soft:   cubic-bezier(0.33, 1, 0.68, 1);
+    --ease-in-out:     cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);  /* settle: 2% overshoot */
+
+    /* Stagger step for choreographed reveals */
+    --stagger: 90ms;
+
+    /* -- Depth planes: each moves at a different rate --------------------- */
+    --parallax-bg:    0.12;
+    --parallax-mid:   0.06;
+    --plane-bg:  0;
+    --plane-content: 1;
+    --plane-ui:   2;
+
+    /* -- Z-index: one scale, no invented values --------------------------- */
+    --z-canvas:     0;
+    --z-bg:         1;
+    --z-content:    10;
+    --z-grain:      20;
+    --z-sticky:     40;
+    --z-nav:        100;
+    --z-transition: 200;
+    --z-copilot:    300;
+    --z-palette:    400;
+    --z-tooltip:    500;
+    --z-overlay:    800;
+    --z-loader:     999;
+
+    /* -- Film grain + atmosphere ------------------------------------------ */
+    --grain-opacity: 0.032;
+    --aurora-opacity: 0.5;
+    --hairline-opacity: 0.5;
+
+    /* -- Capability tier, set by core.js: full | reduced | static ---------
+       Drives particle density, blur budgets and whether WebGL runs at all. */
+    --tier-particles: 1;
+    --tier-blur: 1;
+
+    color-scheme: dark;
+}
+
+/* ==========================================================================
+   MOTION PREFERENCE — a product setting, not just a media query.
+   core.js writes data-motion="full|reduced|off" on <html>; the media query
+   below is the floor so the site is safe before any JS runs.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --motion-instant: 0ms;
+        --motion-fast: 0ms;
+        --motion-ui: 0ms;
+        --motion-reveal: 0ms;
+        --motion-cinematic: 0ms;
+        --motion-ambient: 0ms;
+        --motion-slow: 0ms;
+        --stagger: 0ms;
+        --grain-opacity: 0;
+        --tier-particles: 0;
+    }
+}
+
+:root[data-motion="reduced"] {
+    --motion-ambient: 0ms;
+    --motion-slow: 0ms;
+    --motion-cinematic: 240ms;
+    --motion-reveal: 200ms;
+    --grain-opacity: 0;
+    --tier-particles: 0.25;
+}
+
+:root[data-motion="off"] {
+    --motion-instant: 0ms;
+    --motion-fast: 0ms;
+    --motion-ui: 0ms;
+    --motion-reveal: 0ms;
+    --motion-cinematic: 0ms;
+    --motion-ambient: 0ms;
+    --motion-slow: 0ms;
+    --stagger: 0ms;
+    --grain-opacity: 0;
+    --tier-particles: 0;
+}
+
+/* Low-power / constrained devices get the reduced tier automatically. */
+@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+    :root { --tier-blur: 0.5; }
+}
+
+/* ==========================================================================
+   LEGACY PALETTE REMAP
+   style.css (loaded after this file) drives every template through these
+   variable names. cinematic.css re-points them at the tokens above, which is
+   what turns all seven templates from light/dark patchwork into one obsidian
+   system without editing a single template. Kept here so the mapping is
+   documented next to the tokens it maps from.
+   ========================================================================== */

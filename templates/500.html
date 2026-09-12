@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}{{ config.name }} | 500 Server Error{% endblock %}
+{% block title %}{{ config.name }} | 500 — System Error{% endblock %}
+{% block meta_description %}Something went wrong on our end. Please try again later.{% endblock %}
 {% block content %}
-<section class="chapter full-height flex-center">
+<section class="chapter full-height flex-center theme-deep-dark">
     <div class="container text-center">
-        <h1 class="massive-text gradient-emerald">500</h1>
-        <h2>Internal Server Error</h2>
-        <p class="mt-4">Something went wrong on our end while processing your request.<br>The system administrator has been notified.</p>
-        <a href="/" class="btn btn-primary mt-8">Return Home</a>
+        <h1 class="massive-text gradient-amber scroll-scale">SYSTEM</h1>
+        <h2 class="massive-text text-outline scroll-scale delay-1">ERROR</h2>
+        <p class="lead-text mt-8 mb-12 scroll-fade-up delay-2">
+            Something went wrong while processing your request.
+        </p>
+        <p class="text-muted scroll-fade-up delay-3">
+            Error 500 — Internal server error. The issue has been logged and will be investigated.
+        </p>
+        <a href="/" class="cyber-btn mt-16 scroll-fade-up delay-4">
+            RETURN TO HOME BASE <span class="arrow">→</span>
+        </a>
     </div>
 </section>
 {% endblock %}

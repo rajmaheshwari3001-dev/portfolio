@@ -14,16 +14,11 @@ def get_github_profile(username):
         res = requests.get(url, headers=get_headers(), timeout=5)
         if res.status_code == 200:
             return res.json()
-        elif res.status_code == 403 or res.status_code == 429: # Rate limited
-            return {
-                "login": username,
-                "avatar_url": "https://avatars.githubusercontent.com/rajmaheshwari3001-dev",
-                "public_repos": 4,
-                "followers": 0,
-                "name": "Raj Maheshwari"
-            }
+        # 403/429 = rate limited. Inventing a profile here would be shown to
+        # visitors as live data, so the caller degrades to cache or an honest
+        # error state instead.
         return None
-    except:
+    except Exception:
         return None
 
 def get_github_activity(username):
@@ -56,16 +51,10 @@ def get_github_activity(username):
                     "url": f"https://github.com/{repo_name}"
                 })
             return formatted
-        elif res.status_code == 403 or res.status_code == 429:
-            return [
-                {"platform": "github", "type": "PUSH", "title": "Pushed to aiml-bootcamp-2026", "timestamp": "2026-08-08T10:00:00Z", "url": "https://github.com/rajmaheshwari3001-dev/aiml-bootcamp-2026"},
-                {"platform": "github", "type": "CREATE", "title": "Created repository Excel-Data-Cleaning-Tool", "timestamp": "2026-08-07T14:30:00Z", "url": "https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool"},
-                {"platform": "github", "type": "PUSH", "title": "Pushed to Trustlayer", "timestamp": "2026-08-06T09:15:00Z", "url": "https://github.com/rajmaheshwari3001-dev/Trustlayer"},
-                {"platform": "github", "type": "CREATE", "title": "Created repository -web-scraper", "timestamp": "2026-08-05T18:20:00Z", "url": "https://github.com/rajmaheshwari3001-dev/-web-scraper"},
-                {"platform": "github", "type": "PUSH", "title": "Pushed to aiml-bootcamp-2026", "timestamp": "2026-08-04T11:45:00Z", "url": "https://github.com/rajmaheshwari3001-dev/aiml-bootcamp-2026"}
-            ]
+        # Rate limited or unreachable: no invented events. The UI shows an
+        # honest state rather than a fabricated commit history.
         return []
-    except:
+    except Exception:
         return []
 
 def get_github_repos_and_languages(username):
@@ -110,16 +99,7 @@ def get_github_repos_and_languages(username):
             lang_pct = dict(sorted(lang_pct.items(), key=lambda item: item[1], reverse=True)[:5])
             
             return {"repos": top_repos, "languages": lang_pct}
-        elif res.status_code == 403 or res.status_code == 429:
-            return {
-                "repos": [
-                    {"name": "aiml-bootcamp-2026", "url": "https://github.com/rajmaheshwari3001-dev/aiml-bootcamp-2026", "stars": 0, "language": "Jupyter Notebook"},
-                    {"name": "Excel-Data-Cleaning-Tool", "url": "https://github.com/rajmaheshwari3001-dev/Excel-Data-Cleaning-Tool", "stars": 0, "language": "Python"},
-                    {"name": "Trustlayer", "url": "https://github.com/rajmaheshwari3001-dev/Trustlayer", "stars": 0, "language": "Python"},
-                    {"name": "-web-scraper", "url": "https://github.com/rajmaheshwari3001-dev/-web-scraper", "stars": 0, "language": "Python"}
-                ],
-                "languages": {"Python": 75, "Jupyter Notebook": 25}
-            }
+        # Rate limited: no invented repos or language shares.
         return {"repos": [], "languages": {}}
-    except:
+    except Exception:
         return {"repos": [], "languages": {}}
