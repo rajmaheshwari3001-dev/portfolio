@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✦ Portfolio Website - v2.0 ✦
+# ✦ Portfolio Website - v3.0 ✦
 <h3><a href="https://portfolio-lilac-delta-c1kxu40gza.vercel.app">portfolio.rajmaheshwari.tech</a></h3>
 
 <br/>
@@ -75,6 +75,8 @@ graph TD
 
 - **🧠 Portfolio Copilot (AI Assistant):** A fully integrated, context-aware digital representation of myself. Powered by Google Gemini, visitors can ask questions, get dynamic project recommendations, and be automatically scrolled to relevant sections. It features a custom knowledge-base designed to completely eliminate hallucination.
 - **🎬 Cinematic Teleportation Navigation:** A completely bespoke, state-machine-controlled transition engine. When navigating via the terminal, users experience a superhero-style cinematic arrival featuring procedural SVG lightning, screen shake, and high-contrast energy flashes.
+- **📊 Interactive Data Visualization:** Real-time GitHub and LeetCode analytics rendered with Chart.js featuring ultra-vibrant neon color schemes (#00FF88, #FFD700, #FF1744) for maximum visibility. Includes doughnut charts, bar charts, and radar charts with interactive tooltips, smooth animations, and hover effects that bring the data to life.
+- **⚡ Fully Functional Terminal:** A complete UNIX-style terminal emulator with command history (arrow keys), multiple commands (help, whoami, skills, ls, cat, clear), and seamless navigation integration. The terminal executes commands instantly and provides rich, formatted output.
 - **⚙️ Generative WebGL Architecture:** Features a stunning, fluid particle wave background rendered with Three.js that reacts dynamically to mouse and scroll physics, simulating liquid obsidian and gold.
 - **📱 Tech Luxury UI & Fluid Typography:** Utilizes mathematical `clamp()` functions to ensure typography acts like water—scaling perfectly on every device. Fully optimized for a mobile-first premium experience.
 - **⚡ Intelligent API Caching:** To prevent hitting the severe rate limits of the LeetCode and GitHub APIs, the Flask backend implements a custom Time-To-Live (TTL) cache. It safely stores the fetched payloads for 30 minutes, ensuring ultra-fast load times.
@@ -157,14 +159,35 @@ portfolio/
 ├── services/               # API interaction logic (GitHub/LeetCode)
 │   ├── github_service.py
 │   └── leetcode_service.py
-├── static/                 # Static assets (CSS, JS, 3D Models)
-├── templates/              # Flask Jinja2 HTML templates
-│   └── index.html
-├── app.py                  # Main Flask application & Caching Router
-├── config.py               # Application configurations & secrets mapping
-├── portfolio_data.json     # Structured Knowledge Base for Portfolio Copilot
-├── requirements.txt        # Python dependency manifest
-└── README.md               # You are here
+├── static/
+│   ├── css/               # Modular CSS architecture
+│   │   ├── tokens.css     # Design tokens (colors, spacing, typography)
+│   │   ├── style.css      # Base styles
+│   │   ├── cinematic.css  # Cinematic art direction
+│   │   ├── copilot.css    # AI chat interface
+│   │   └── teleport.css   # Navigation transitions
+│   ├── js/                # Modular JavaScript
+│   │   ├── core.js        # Core utilities and DOM helpers
+│   │   ├── data.js        # API fetching and Chart.js visualizations
+│   │   ├── features.js    # Terminal, command palette, copilot
+│   │   ├── hero.js        # Hero section animations
+│   │   ├── motion.js      # GSAP scroll animations
+│   │   ├── router.js      # Swup page transitions
+│   │   ├── scroll.js      # Lenis smooth scrolling
+│   │   └── three-scene.js # WebGL particle background
+│   └── images/            # Favicons and OG images
+├── templates/             # Flask Jinja2 HTML templates
+│   ├── base.html         # Base template with all assets
+│   ├── index.html        # Home page
+│   ├── activity.html     # GitHub + LeetCode live data
+│   ├── dashboard.html    # Analytics dashboard
+│   ├── projects.html     # Projects with terminal
+│   └── ...
+├── app.py                 # Main Flask application & Caching Router
+├── config.py              # Application configurations & secrets mapping
+├── portfolio_data.json    # Structured Knowledge Base for Portfolio Copilot
+├── requirements.txt       # Python dependency manifest
+└── README.md              # You are here
 ```
 
 ## 📬 Let's Connect
